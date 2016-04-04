@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_primary">
+
+    <ImageView
+        android:id="@+id/iv_drawer_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_top_image_height"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/drawer_top_image"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_drawer_recycler"
+        android:background="@android:color/transparent"
+        android:scrollbars="none"
+        android:layout_below="@id/iv_drawer_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

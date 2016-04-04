@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Dota2Helper</string>
+
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
+
+    <string name="news">资讯</string>
+    <string name="update">更新</string>
+    <string name="strategy">攻略</string>
+    <string name="video">视频</string>
+    <string name="wallpaper">壁纸</string>
 </resources>
