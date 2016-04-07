@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_news"
         android:gravity="center"
         android:text="news"
         android:layout_width="match_parent"

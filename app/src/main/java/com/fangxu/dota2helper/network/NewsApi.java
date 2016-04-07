@@ -1,8 +1,10 @@
 package com.fangxu.dota2helper.network;
 
-import com.fangxu.dota2helper.bean.NewsEntity;
+import com.fangxu.dota2helper.bean.NewsList;
 
-import retrofit2.http.GET;
+import java.util.List;
+
+import retrofit.http.GET;
 import rx.Observable;
 
 /**
@@ -10,5 +12,5 @@ import rx.Observable;
  */
 public interface NewsApi {
     @GET("/api/v1.0/news/update")
-    Observable<NewsEntity> updateNews();
+    Observable<NewsList> updateNews();
 }
