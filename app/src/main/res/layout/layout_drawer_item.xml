@@ -9,7 +9,7 @@
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:textSize="@dimen/drawer_item_text_size"
-        android:textColor="@color/text_color"
+        android:textColor="@color/drawer_text_color"
         android:layout_marginLeft="@dimen/base_margin"
         android:textStyle="bold"
         android:layout_height="@dimen/drawer_item_height" />

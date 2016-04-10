@@ -1,21 +1,27 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
-import android.util.Log;
-
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.network.AppNetWork;
+import com.fangxu.dota2helper.presenter.INewsView;
+import com.fangxu.dota2helper.presenter.NewsPresenter;
+import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 
-import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import java.util.List;
+
+import butterknife.Bind;
 
 /**
  * Created by Xuf on 2016/4/3.
  */
-public class NewsFragment extends BaseFragment {
-    public static final String TAG = NewsFragment.class.getName();
+public class NewsFragment extends BaseFragment implements INewsView{
+    @Bind(R.id.swipe_target)
+    RecyclerView mRecyclerView;
+
+    private NewsAdapter mAdapter;
+
+    private NewsPresenter mPresenter;
 
     public static NewsFragment newInstance() {
         return new NewsFragment();
@@ -27,25 +33,41 @@ public class NewsFragment extends BaseFragment {
     }
 
     @Override
-    public void initView() {
-
+    public void init() {
+        mPresenter = new NewsPresenter(this);
     }
 
-    @OnClick(R.id.tv_news)
-    public void requestData() {
-        AppNetWork.INSTANCE.getNewsApi().updateNews()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<NewsList>() {
-                    @Override
-                    public void call(NewsList newsList) {
-                        Log.i(TAG, newsList.getNews().get(0).getTitle());
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.i(TAG, "error!!");
-                    }
-                });
+    @Override
+    public void initView() {
+        mAdapter = new NewsAdapter(getActivity());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.doRefresh();
+    }
+
+    @Override
+    public void onLoadMore() {
+        mPresenter.doLoadMore();
+    }
+
+    @Override
+    public void setNewsList(List<NewsList.NewsEntity> newsEntityList) {
+        mSwipeRefresh.setRefreshing(false);
+        mAdapter.updateData(newsEntityList);
+    }
+
+    @Override
+    public void setRefreshFailed() {
+        mSwipeRefresh.setRefreshing(false);
     }
 }

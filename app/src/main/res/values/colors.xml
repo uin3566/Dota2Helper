@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#383f41</color>
+    <color name="color_primary">#18171C</color>
 
-    <color name="text_color">#ffffff</color>
+    <color name="drawer_text_color">#ffffff</color>
+
+    <color name="title_text">#212121</color>
+    <color name="content_text">#727272</color>
+
+    <color name="grey">#eeeeee</color>
 </resources>

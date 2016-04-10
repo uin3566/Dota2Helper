@@ -17,7 +17,22 @@ public class StrategyFragment extends BaseFragment {
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void initView() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
 
     }
 }
