@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -22,15 +23,18 @@ import butterknife.ButterKnife;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private List<NewsList.NewsEntity> mNewsEntityList;
+    private List<NewsList.NewsEntity> mNewsEntityList = new ArrayList<>();
     private Context mContext;
 
     public NewsAdapter(Context context) {
         mContext = context;
     }
 
-    public void updateData(List<NewsList.NewsEntity> newsEntityList) {
-        mNewsEntityList = newsEntityList;
+    public void updateData(List<NewsList.NewsEntity> newsEntityList, boolean append) {
+        if (!append) {
+            mNewsEntityList.clear();
+        }
+        mNewsEntityList.addAll(newsEntityList);
         notifyDataSetChanged();
     }
 

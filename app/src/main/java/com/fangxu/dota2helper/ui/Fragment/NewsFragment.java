@@ -61,9 +61,13 @@ public class NewsFragment extends BaseFragment implements INewsView{
     }
 
     @Override
-    public void setNewsList(List<NewsList.NewsEntity> newsEntityList) {
-        mSwipeRefresh.setRefreshing(false);
-        mAdapter.updateData(newsEntityList);
+    public void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append) {
+        if (append) {
+            mSwipeRefresh.setLoadingMore(false);
+        } else {
+            mSwipeRefresh.setRefreshing(false);
+        }
+        mAdapter.updateData(newsEntityList, append);
     }
 
     @Override

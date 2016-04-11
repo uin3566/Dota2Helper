@@ -17,6 +17,8 @@
     <dimen name="dimen_2dp">2dp</dimen>
     <dimen name="dimen_5dp">5dp</dimen>
     <dimen name="dimen_10dp">10dp</dimen>
+    
+    <dimen name="smart_tab_layout_height">40dp</dimen>
 
     <!-- drawer -->
     <dimen name="drawer_width">260dp</dimen>

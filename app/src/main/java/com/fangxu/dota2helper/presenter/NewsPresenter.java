@@ -51,7 +51,7 @@ public class NewsPresenter implements NewsCallback{
     }
 
     @Override
-    public void onRefreshSuccessed(List<NewsList.NewsEntity> newsEntityList) {
-        mCallback.setNewsList(newsEntityList);
+    public void onRefreshSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore) {
+        mCallback.setNewsList(newsEntityList, loadmore);
     }
 }
