@@ -1,7 +1,5 @@
 package com.fangxu.dota2helper.interactor;
 
-import android.util.Log;
-
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.network.AppNetWork;
 
@@ -17,20 +15,20 @@ import rx.schedulers.Schedulers;
  */
 public class NewsInteractor {
     private NewsCallback mCallback;
-    private static final String REFRESH = "refresh";
-    private static final String LOAD_MORE = "loadmore";
+    private int mNextNewsListId;
 
     public NewsInteractor(NewsCallback callback) {
         mCallback = callback;
     }
 
     public void queryNews() {
-        AppNetWork.INSTANCE.getNewsApi().updateNews(REFRESH)
+        AppNetWork.INSTANCE.getNewsApi().refreshNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
+                        mNextNewsListId = newsList.getNext_list_id();
                         mCallback.onRefreshSuccessed(newsList.getNews(), false);
                     }
                 }, new Action1<Throwable>() {
@@ -42,12 +40,13 @@ public class NewsInteractor {
     }
 
     public void queryMoreNews() {
-        AppNetWork.INSTANCE.getNewsApi().updateNews(LOAD_MORE)
+        AppNetWork.INSTANCE.getNewsApi().loadMoreNews(mNextNewsListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
+                        mNextNewsListId = newsList.getNext_list_id();
                         mCallback.onRefreshSuccessed(newsList.getNews(), true);
                     }
                 }, new Action1<Throwable>() {

@@ -9,6 +9,16 @@ public class NewsList {
 
     private List<NewsEntity> news;
 
+    private int next_list_id;
+
+    public int getNext_list_id() {
+        return next_list_id;
+    }
+
+    public void setNext_list_id(int next_list_id) {
+        this.next_list_id = next_list_id;
+    }
+
     public List<NewsEntity> getNews() {
         return news;
     }

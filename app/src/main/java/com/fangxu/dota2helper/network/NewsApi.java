@@ -12,6 +12,8 @@ import rx.Observable;
  * Created by Xuf on 2016/4/6.
  */
 public interface NewsApi {
-    @GET("/api/v1.0/news/{type}/update")
-    Observable<NewsList> updateNews(@Path("type") String type);
+    @GET("/api/v1.0/news/refresh")
+    Observable<NewsList> refreshNews();
+    @GET("/api/v1.0/news/loadmore/{list_id}")
+    Observable<NewsList> loadMoreNews(@Path(("list_id")) int list_id);
 }
