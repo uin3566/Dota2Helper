@@ -26,8 +26,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private List<NewsList.NewsEntity> mNewsEntityList = new ArrayList<>();
     private Context mContext;
 
-    public NewsAdapter(Context context) {
+    private ItemClickListener mItemClickListener = null;
+
+    public interface ItemClickListener{
+        void onItemClick(String url);
+    }
+
+    public NewsAdapter(Context context, ItemClickListener itemClickListener) {
         mContext = context;
+        mItemClickListener = itemClickListener;
     }
 
     public void updateData(List<NewsList.NewsEntity> newsEntityList, boolean append) {
@@ -40,12 +47,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NewsViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_news, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_news, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick((String)view.getTag());
+                }
+            }
+        });
+        return new NewsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
-        holder.fillView(mNewsEntityList.get(position));
+        NewsList.NewsEntity newsEntity = mNewsEntityList.get(position);
+        holder.itemView.setTag(newsEntity.getUrl());
+        holder.fillView(newsEntity);
     }
 
     @Override

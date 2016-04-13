@@ -4,6 +4,8 @@
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
 
+    <string name="load_fail">加载失败</string>
+
     <string name="news">资讯</string>
     <string name="update">更新</string>
     <string name="strategy">攻略</string>

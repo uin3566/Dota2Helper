@@ -1,5 +1,6 @@
-package com.fangxu.dota2helper;
+package com.fangxu.dota2helper.util;
 
+import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
 import com.fangxu.dota2helper.ui.Fragment.StrategyFragment;
 import com.fangxu.dota2helper.ui.Fragment.UpdateFragment;

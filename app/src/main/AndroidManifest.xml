@@ -20,6 +20,9 @@
 
         </activity>
 
+        <activity android:name=".ui.Activity.NewsDetailActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

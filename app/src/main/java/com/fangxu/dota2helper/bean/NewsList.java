@@ -9,14 +9,14 @@ public class NewsList {
 
     private List<NewsEntity> news;
 
-    private int next_list_id;
+    private int nextListId;
 
-    public int getNext_list_id() {
-        return next_list_id;
+    public int getNextListId() {
+        return nextListId;
     }
 
-    public void setNext_list_id(int next_list_id) {
-        this.next_list_id = next_list_id;
+    public void setNextListId(int next_list_id) {
+        this.nextListId = next_list_id;
     }
 
     public List<NewsEntity> getNews() {

@@ -16,4 +16,6 @@ public interface NewsApi {
     Observable<NewsList> refreshNews();
     @GET("/api/v1.0/news/loadmore/{list_id}")
     Observable<NewsList> loadMoreNews(@Path(("list_id")) int list_id);
+    @GET("/api/v1.0/newsdetail/{url}")
+    Observable<String> getNewsDetail(@Path("url") String url);
 }

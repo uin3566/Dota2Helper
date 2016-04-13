@@ -16,7 +16,7 @@ import butterknife.Bind;
 /**
  * Created by Xuf on 2016/4/4.
  */
-public class UpdateFragment extends BaseFragment implements INewsView{
+public class UpdateFragment extends BaseFragment implements INewsView, NewsAdapter.ItemClickListener{
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -39,7 +39,7 @@ public class UpdateFragment extends BaseFragment implements INewsView{
 
     @Override
     public void initView() {
-        mAdapter = new NewsAdapter(getActivity());
+        mAdapter = new NewsAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefresh.post(new Runnable() {
@@ -67,7 +67,12 @@ public class UpdateFragment extends BaseFragment implements INewsView{
     }
 
     @Override
-    public void setRefreshFailed() {
+    public void setRefreshFailed(boolean loadMore) {
         mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onItemClick(String url) {
+
     }
 }

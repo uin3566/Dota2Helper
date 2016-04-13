@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.fangxu.dota2helper.NavUtil;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.NavUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

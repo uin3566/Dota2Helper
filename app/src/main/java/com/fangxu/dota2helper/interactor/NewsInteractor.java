@@ -28,13 +28,13 @@ public class NewsInteractor {
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextNewsListId = newsList.getNext_list_id();
-                        mCallback.onRefreshSuccessed(newsList.getNews(), false);
+                        mNextNewsListId = newsList.getNextListId();
+                        mCallback.onUpdateSuccessed(newsList.getNews(), false);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        mCallback.onRefreshFailed();
+                        mCallback.onUpdateFailed(false);
                     }
                 });
     }
@@ -46,13 +46,13 @@ public class NewsInteractor {
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextNewsListId = newsList.getNext_list_id();
-                        mCallback.onRefreshSuccessed(newsList.getNews(), true);
+                        mNextNewsListId = newsList.getNextListId();
+                        mCallback.onUpdateSuccessed(newsList.getNews(), true);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        mCallback.onRefreshFailed();
+                        mCallback.onUpdateFailed(true);
                     }
                 });
     }
@@ -68,7 +68,7 @@ public class NewsInteractor {
             entity.setUrl("http://www.dota2.com.cn/article/details/20160401/183541.html");
             list.add(entity);
         }
-        mCallback.onRefreshSuccessed(list, false);
+        mCallback.onUpdateSuccessed(list, false);
     }
 
     public void queryMoreUpdates() {

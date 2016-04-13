@@ -7,11 +7,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.fangxu.dota2helper.NavUtil;
+import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.Fragment.BaseFragment;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
@@ -19,7 +16,6 @@ import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import butterknife.Bind;
 

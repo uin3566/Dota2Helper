@@ -1,0 +1,49 @@
+package com.fangxu.dota2helper.ui.Activity;
+
+import android.webkit.WebView;
+
+import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.network.AppNetWork;
+import com.fangxu.dota2helper.util.ToastUtil;
+
+import butterknife.Bind;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
+/**
+ * Created by lenov0 on 2016/4/13.
+ */
+public class NewsDetailActivity extends BaseActivity {
+    public static final String NEWS_URL = "news_url";
+
+    @Bind(R.id.wv_news_detail)
+    WebView mWebView;
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.activity_news_detail;
+    }
+
+    @Override
+    public void init() {
+        String url = getIntent().getStringExtra(NEWS_URL);
+        AppNetWork.INSTANCE.getNewsApi().getNewsDetail(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        String assStyle = "<style>* {font-size:%spx;line-height:28px;}p {color:%s;}</style>";
+                        String html = "<html><head>" + assStyle + "</head><body>"
+                                + s + "</body></html>";
+                        mWebView.loadDataWithBaseURL(null, s, "text/html", "UTF-8", null);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.showToast(NewsDetailActivity.this, "error");
+                    }
+                });
+    }
+}

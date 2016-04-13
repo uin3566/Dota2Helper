@@ -8,6 +8,6 @@ import java.util.List;
  * Created by lenov0 on 2016/4/9.
  */
 public interface NewsCallback {
-    void onRefreshSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore);
-    void onRefreshFailed();
+    void onUpdateSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore);
+    void onUpdateFailed(boolean loadmore);
 }
