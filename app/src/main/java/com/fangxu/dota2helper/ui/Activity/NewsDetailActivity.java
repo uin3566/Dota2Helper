@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.fangxu.dota2helper.R;
@@ -15,7 +16,8 @@ import rx.schedulers.Schedulers;
  * Created by lenov0 on 2016/4/13.
  */
 public class NewsDetailActivity extends BaseActivity {
-    public static final String NEWS_URL = "news_url";
+    public static final String NEWS_DATE = "news_date";
+    public static final String NEWS_NID = "news_nid";
 
     @Bind(R.id.wv_news_detail)
     WebView mWebView;
@@ -27,17 +29,29 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     public void init() {
-        String url = getIntent().getStringExtra(NEWS_URL);
-        AppNetWork.INSTANCE.getNewsApi().getNewsDetail(url)
+        WebSettings settings = mWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        loadDetail();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mWebView.destroy();
+        super.onDestroy();
+    }
+
+    private void loadDetail() {
+        String date = getIntent().getStringExtra(NEWS_DATE);
+        String nid = getIntent().getStringExtra(NEWS_NID);
+        AppNetWork.INSTANCE.getNewsDetailApi().getNewsDetail(date, nid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        String assStyle = "<style>* {font-size:%spx;line-height:28px;}p {color:%s;}</style>";
-                        String html = "<html><head>" + assStyle + "</head><body>"
-                                + s + "</body></html>";
-                        mWebView.loadDataWithBaseURL(null, s, "text/html", "UTF-8", null);
+                        String assStyle = "<style>img{max-width:100%;height:auto;}</style>";
+                        String html = "<html><head>" + assStyle + "</head>" + s + "</html>";
+                        mWebView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
                     }
                 }, new Action1<Throwable>() {
                     @Override

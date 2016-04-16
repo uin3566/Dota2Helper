@@ -28,11 +28,12 @@ public class NewsList {
     }
 
     public static class NewsEntity{
-        private String url;
         private String time;
         private String description;
         private String background;
         private String title;
+        private String date;
+        private String nid;
 
         public String getTitle() {
             return title;
@@ -42,12 +43,20 @@ public class NewsList {
             this.title = title;
         }
 
-        public String getUrl() {
-            return url;
+        public String getDate() {
+            return date;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getNid() {
+            return nid;
+        }
+
+        public void setNid(String nid) {
+            this.nid = nid;
         }
 
         public String getTime() {

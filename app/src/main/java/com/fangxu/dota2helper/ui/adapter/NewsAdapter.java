@@ -22,14 +22,13 @@ import butterknife.ButterKnife;
  * Created by lenov0 on 2016/4/9.
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-
     private List<NewsList.NewsEntity> mNewsEntityList = new ArrayList<>();
     private Context mContext;
 
     private ItemClickListener mItemClickListener = null;
 
     public interface ItemClickListener{
-        void onItemClick(String url);
+        void onItemClick(String date, String nid);
     }
 
     public NewsAdapter(Context context, ItemClickListener itemClickListener) {
@@ -52,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View view) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag());
+                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_news_date), (String)view.getTag(R.id.tag_news_nid));
                 }
             }
         });
@@ -62,7 +61,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
         NewsList.NewsEntity newsEntity = mNewsEntityList.get(position);
-        holder.itemView.setTag(newsEntity.getUrl());
+        holder.itemView.setTag(R.id.tag_news_date, newsEntity.getDate());
+        holder.itemView.setTag(R.id.tag_news_nid, newsEntity.getNid());
         holder.fillView(newsEntity);
     }
 

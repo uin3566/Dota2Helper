@@ -4,8 +4,9 @@ import com.fangxu.dota2helper.bean.NewsList;
 
 import java.util.List;
 
-import retrofit.http.GET;
-import retrofit.http.Path;
+
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -16,6 +17,4 @@ public interface NewsApi {
     Observable<NewsList> refreshNews();
     @GET("/api/v1.0/news/loadmore/{list_id}")
     Observable<NewsList> loadMoreNews(@Path(("list_id")) int list_id);
-    @GET("/api/v1.0/newsdetail/{url}")
-    Observable<String> getNewsDetail(@Path("url") String url);
 }

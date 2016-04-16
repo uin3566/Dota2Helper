@@ -84,9 +84,10 @@ public class NewsFragment extends BaseFragment implements INewsView, NewsAdapter
     }
 
     @Override
-    public void onItemClick(String url) {
+    public void onItemClick(String date, String nid) {
         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-        intent.putExtra(NewsDetailActivity.NEWS_URL, url);
+        intent.putExtra(NewsDetailActivity.NEWS_DATE, date);
+        intent.putExtra(NewsDetailActivity.NEWS_NID, nid);
         startActivity(intent);
     }
 }

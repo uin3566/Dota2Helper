@@ -72,7 +72,7 @@ public class UpdateFragment extends BaseFragment implements INewsView, NewsAdapt
     }
 
     @Override
-    public void onItemClick(String url) {
+    public void onItemClick(String date, String nid) {
 
     }
 }
