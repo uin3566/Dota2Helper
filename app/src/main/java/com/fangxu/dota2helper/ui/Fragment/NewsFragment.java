@@ -3,6 +3,9 @@ package com.fangxu.dota2helper.ui.Fragment;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.presenter.INewsView;
@@ -18,7 +21,7 @@ import butterknife.Bind;
 /**
  * Created by Xuf on 2016/4/3.
  */
-public class NewsFragment extends BaseFragment implements INewsView, NewsAdapter.ItemClickListener{
+public class NewsFragment extends RefreshBaseFragment implements INewsView, NewsAdapter.ItemClickListener{
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -32,16 +35,17 @@ public class NewsFragment extends BaseFragment implements INewsView, NewsAdapter
 
     @Override
     public int getResourceId() {
-        return R.layout.fragment_news;
+        return R.layout.fragment_swipe_to_load;
     }
 
     @Override
     public void init() {
         mPresenter = new NewsPresenter(this);
+        setRetainInstance(true);
     }
 
     @Override
-    public void initView() {
+    public void initView(View view) {
         mAdapter = new NewsAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);

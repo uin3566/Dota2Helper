@@ -52,7 +52,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
     @Override
     public int getItemCount() {
-        return NavUtil.category_list.length;
+        return NavUtil.categoryList.length;
     }
 
     public class DrawerViewHolder extends RecyclerView.ViewHolder{
@@ -65,7 +65,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         }
 
         public void setData(int position) {
-            mItemTextView.setText(NavUtil.category_list[position]);
+            mItemTextView.setText(NavUtil.categoryList[position]);
         }
     }
 }

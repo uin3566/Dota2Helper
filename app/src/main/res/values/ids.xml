@@ -3,6 +3,6 @@
     <item name="swipe_target" type="id" />
     <item name="swipe_refresh_header" type="id" />
     <item name="swipe_load_more_footer" type="id" />
-    <item name="tag_news_date" type="id"/>
-    <item name="tag_news_nid" type="id"/>
+    <item name="tag_article_date" type="id"/>
+    <item name="tag_article_nid" type="id"/>
 </resources>

@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<NewsList.NewsEntity> mNewsEntityList = new ArrayList<>();
     private Context mContext;
+    private LayoutInflater mLayoutInflater;
 
     private ItemClickListener mItemClickListener = null;
 
@@ -33,6 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public NewsAdapter(Context context, ItemClickListener itemClickListener) {
         mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
         mItemClickListener = itemClickListener;
     }
 
@@ -46,12 +48,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_news, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_news, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_news_date), (String)view.getTag(R.id.tag_news_nid));
+                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_article_date), (String)view.getTag(R.id.tag_article_nid));
                 }
             }
         });
@@ -61,8 +63,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
         NewsList.NewsEntity newsEntity = mNewsEntityList.get(position);
-        holder.itemView.setTag(R.id.tag_news_date, newsEntity.getDate());
-        holder.itemView.setTag(R.id.tag_news_nid, newsEntity.getNid());
+        holder.itemView.setTag(R.id.tag_article_date, newsEntity.getDate());
+        holder.itemView.setTag(R.id.tag_article_nid, newsEntity.getNid());
         holder.fillView(newsEntity);
     }
 

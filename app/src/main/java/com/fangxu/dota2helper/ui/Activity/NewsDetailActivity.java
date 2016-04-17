@@ -1,5 +1,9 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -19,6 +23,8 @@ public class NewsDetailActivity extends BaseActivity {
     public static final String NEWS_DATE = "news_date";
     public static final String NEWS_NID = "news_nid";
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
     @Bind(R.id.wv_news_detail)
     WebView mWebView;
 
@@ -28,7 +34,17 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void init() {
+    public void init(Bundle savedInstanceState) {
+        mToolbar.setTitle(R.string.news_detail);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         loadDetail();
@@ -49,9 +65,7 @@ public class NewsDetailActivity extends BaseActivity {
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        String assStyle = "<style>img{max-width:100%;height:auto;}</style>";
-                        String html = "<html><head>" + assStyle + "</head>" + s + "</html>";
-                        mWebView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+                        mWebView.loadDataWithBaseURL(null, s, "text/html", "UTF-8", null);
                     }
                 }, new Action1<Throwable>() {
                     @Override

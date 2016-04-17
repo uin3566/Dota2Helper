@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     app:titleTextColor="@color/drawer_text_color"
+    app:theme="@style/ToolbarColoredBackArrow"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:background="?attr/colorPrimary"

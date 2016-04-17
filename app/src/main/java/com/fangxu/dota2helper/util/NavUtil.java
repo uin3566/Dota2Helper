@@ -10,7 +10,14 @@ import com.fangxu.dota2helper.ui.Fragment.UpdateFragment;
  */
 public class NavUtil {
 
-    public static final int category_list[] = {R.string.news, R.string.strategy, R.string.update};
+    private static final String ALL = "all";
+    private static final String NEWER = "newer";
+    private static final String STEP = "step";
+    private static final String SKILL = "skill";
 
-    public static final String fragment_list[] = {NewsFragment.class.getName(), StrategyFragment.class.getName(), UpdateFragment.class.getName()};
+    public static final int categoryList[] = {R.string.news, R.string.strategy, R.string.update};
+
+    public static final String fragmentList[] = {NewsFragment.class.getName(), StrategyFragment.class.getName(), UpdateFragment.class.getName()};
+
+    public static final String strategyTypeList[] = {ALL, NEWER, STEP, SKILL};
 }

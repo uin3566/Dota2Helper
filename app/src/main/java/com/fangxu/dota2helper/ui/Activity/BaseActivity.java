@@ -12,14 +12,14 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getLayoutResId();
-    public abstract void init();
+    public abstract void init(Bundle savedInstanceState);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
-        init();
+        init(savedInstanceState);
     }
 
     @Override

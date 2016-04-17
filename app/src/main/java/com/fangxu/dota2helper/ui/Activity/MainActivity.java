@@ -1,6 +1,10 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,9 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.fangxu.dota2helper.ui.Fragment.BaseFragment;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.R;
-import com.fangxu.dota2helper.ui.Fragment.BaseFragment;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
 import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 
@@ -31,11 +35,12 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     @Bind(R.id.rv_drawer_recycler)
     RecyclerView mRecyclerView;
 
+    private Fragment mCurrentShowFragment = null;
+
     private DrawerAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     private Map<Integer, String> mFragmentNameMap = new HashMap<>();
-    private Map<String, BaseFragment> mFragmentMap = new HashMap<>();
 
     @Override
     public int getLayoutResId() {
@@ -43,7 +48,7 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     }
 
     @Override
-    public void init() {
+    public void init(Bundle savedInstanceState) {
         setSupportActionBar(mToolbar);
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mActionBarDrawerToggle.syncState();
@@ -55,38 +60,56 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
         mRecyclerView.setAdapter(mDrawerAdapter);
 
         initFragmentNameMap();
-        BaseFragment fragment = getFragmentByName(mFragmentNameMap.get(NavUtil.category_list[0]));
-        setFragment(fragment);
+        String tag = mFragmentNameMap.get(NavUtil.categoryList[0]);
+        Fragment fragment = getFragmentByName(tag);
+        showFragment(mCurrentShowFragment, fragment, tag);
     }
 
     @Override
     public void onItemClick(int position) {
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        BaseFragment fragment = getFragmentByName(mFragmentNameMap.get(NavUtil.category_list[position]));
-        setFragment(fragment);
+        String tag = mFragmentNameMap.get(NavUtil.categoryList[position]);
+        Fragment fragment = getFragmentByName(tag);
+        showFragment(mCurrentShowFragment, fragment, tag);
     }
 
     private void initFragmentNameMap() {
-        int len = NavUtil.category_list.length;
+        int len = NavUtil.categoryList.length;
         for (int i = 0; i < len; i++) {
-            mFragmentNameMap.put(NavUtil.category_list[i], NavUtil.fragment_list[i]);
+            mFragmentNameMap.put(NavUtil.categoryList[i], NavUtil.fragmentList[i]);
         }
     }
 
-    private void setFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, fragment).commit();
+    private void showFragment(Fragment from, Fragment to, String tag) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (from == null) {
+            if (to.isAdded()) {
+                transaction.show(to).commit();
+            } else {
+                transaction.add(R.id.fl_content, to, tag).commit();
+            }
+        } else {
+            if (to.isAdded()) {
+                transaction.hide(from).show(to).commit();
+            } else {
+                transaction.hide(from).add(R.id.fl_content, to, tag).commit();
+            }
+        }
+        mCurrentShowFragment = to;
     }
 
-    private BaseFragment getFragmentByName(String name) {
-        BaseFragment fragment = mFragmentMap.get(name);
-        if (fragment == null) {
-            try{
-                fragment = (BaseFragment)Class.forName(name).newInstance();
+    private Fragment getFragmentByName(String name) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(name);
+        if (fragment != null) {
+            return fragment;
+        } else {
+            try {
+                fragment = (Fragment) Class.forName(name).newInstance();
             } catch (Exception e) {
                 fragment = NewsFragment.newInstance();
             }
-            mFragmentMap.put(name, fragment);
         }
         return fragment;
     }
+
 }
