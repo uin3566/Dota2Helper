@@ -15,6 +15,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_drawer_recycler"
         android:background="@android:color/transparent"
+        android:overScrollMode="never"
         android:scrollbars="none"
         android:layout_below="@id/iv_drawer_top"
         android:layout_width="match_parent"

@@ -10,6 +10,7 @@
 
     <color name="white">#ffffff</color>
     <color name="grey">#eeeeee</color>
+    <color name="dark_red">#c62828</color>
 
     <color name="transparent">#00ffffff</color>
 </resources>

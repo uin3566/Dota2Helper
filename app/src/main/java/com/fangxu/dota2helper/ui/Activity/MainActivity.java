@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.fangxu.dota2helper.ui.Fragment.BaseFragment;
 import com.fangxu.dota2helper.util.NavUtil;
@@ -40,6 +41,8 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     private DrawerAdapter mDrawerAdapter;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
+    private int mCurrentDrawerPos = 0;
+
     private Map<Integer, String> mFragmentNameMap = new HashMap<>();
 
     @Override
@@ -50,7 +53,20 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     @Override
     public void init(Bundle savedInstanceState) {
         setSupportActionBar(mToolbar);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setTitle(R.string.app_name);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
+            }
+        };
+        setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
         mActionBarDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
@@ -67,6 +83,7 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
 
     @Override
     public void onItemClick(int position) {
+        mCurrentDrawerPos = position;
         mDrawerLayout.closeDrawer(GravityCompat.START);
         String tag = mFragmentNameMap.get(NavUtil.categoryList[position]);
         Fragment fragment = getFragmentByName(tag);
