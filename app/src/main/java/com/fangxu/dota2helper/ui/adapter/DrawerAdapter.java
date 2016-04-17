@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.util.NavUtil;
@@ -16,6 +18,10 @@ import butterknife.ButterKnife;
  * Created by Xuf on 2016/4/3.
  */
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerViewHolder> {
+    private static final int[] iconId = {R.drawable.selector_news, R.drawable.selector_strategy,
+            R.drawable.selector_update};
+
+    private int mCurrentPos = 0;
 
     private LayoutInflater mLayoutInflater;
 
@@ -37,7 +43,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             @Override
             public void onClick(View v) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((int)v.getTag());
+                    mCurrentPos = (int)v.getTag();
+                    mItemClickListener.onItemClick(mCurrentPos);
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -56,7 +64,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     }
 
     public class DrawerViewHolder extends RecyclerView.ViewHolder{
-        @Bind(R.id.tv_drawer_item)
+        @Bind(R.id.ll_drawer_item)
+        LinearLayout mDrawerItem;
+        @Bind(R.id.iv_drawer_icon)
+        ImageView mItemImageView;
+        @Bind(R.id.tv_drawer_text)
         TextView mItemTextView;
 
         public DrawerViewHolder(View itemView) {
@@ -65,7 +77,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         }
 
         public void setData(int position) {
+            mItemImageView.setImageResource(iconId[position]);
             mItemTextView.setText(NavUtil.categoryList[position]);
+            if (position == mCurrentPos) {
+                mDrawerItem.setSelected(true);
+            } else {
+                mDrawerItem.setSelected(false);
+            }
         }
     }
 }

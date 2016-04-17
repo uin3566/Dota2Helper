@@ -25,8 +25,11 @@
     <!-- drawer -->
     <dimen name="drawer_width">260dp</dimen>
     <dimen name="drawer_top_image_height">140dp</dimen>
-    <dimen name="drawer_item_height">40dp</dimen>
+    <dimen name="drawer_item_height">45dp</dimen>
     <dimen name="drawer_item_text_size">16sp</dimen>
+    <dimen name="drawer_icon_margin">18dp</dimen>
+    <dimen name="drawer_icon_size">24dp</dimen>
+    <dimen name="drawer_text_margin">32dp</dimen>
 
     <!-- google -->
     <dimen name="refresh_header_height_google">100dp</dimen>

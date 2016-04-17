@@ -4,14 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_drawer_item"
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/drawer_item_text_size"
-        android:textColor="@color/drawer_text_color"
-        android:layout_marginLeft="@dimen/base_margin"
-        android:textStyle="bold"
-        android:layout_height="@dimen/drawer_item_height" />
+    <LinearLayout
+        android:id="@+id/ll_drawer_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_item_height"
+        android:background="@drawable/selector_drawer_item">
+
+        <ImageView
+            android:id="@+id/iv_drawer_icon"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/drawer_icon_margin"
+            android:layout_width="@dimen/drawer_icon_size"
+            android:layout_height="@dimen/drawer_icon_size" />
+
+        <TextView
+            android:id="@+id/tv_drawer_text"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/drawer_item_text_size"
+            android:textColor="@color/drawer_text_color"
+            android:layout_marginLeft="@dimen/drawer_text_margin"
+            android:textStyle="bold"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </LinearLayout>

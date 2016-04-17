@@ -7,11 +7,11 @@
     <string name="load_fail">加载失败</string>
     <string name="news_detail">资讯详情</string>
 
-    <string name="news">资讯</string>
-    <string name="update">更新</string>
-    <string name="strategy">攻略</string>
-    <string name="video">视频</string>
-    <string name="wallpaper">壁纸</string>
+    <string name="news">资  讯</string>
+    <string name="update">更  新</string>
+    <string name="strategy">攻  略</string>
+    <string name="video">视  频</string>
+    <string name="wallpaper">壁  纸</string>
 
     <string-array name="strategy_type">
         <item name="strategy_all">全部</item>
