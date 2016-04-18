@@ -47,6 +47,7 @@ public class NewsDetailActivity extends BaseActivity {
 
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setPluginState(WebSettings.PluginState.ON);
         loadDetail();
     }
 
