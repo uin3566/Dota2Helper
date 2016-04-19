@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  */
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerViewHolder> {
     private static final int[] iconId = {R.drawable.selector_news, R.drawable.selector_strategy,
-            R.drawable.selector_update};
+            R.drawable.selector_update, R.drawable.selector_videos};
 
     private int mCurrentPos = 0;
 

@@ -89,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void fillView(NewsList.NewsEntity newsEntity) {
-            Glide.with(mContext).load(newsEntity.getBackground()).placeholder(R.drawable.news_background_default).into(mBackground);
+            Glide.with(mContext).load(newsEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
             mTitle.setText(newsEntity.getTitle());
             mDescription.setText(newsEntity.getDescription());
             mTime.setText(newsEntity.getTime());

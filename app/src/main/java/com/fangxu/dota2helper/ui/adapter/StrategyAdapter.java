@@ -86,7 +86,7 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.Strate
         }
 
         public void fillView(StrategyList.StrategyEntity strategyEntity) {
-            Glide.with(mContext).load(strategyEntity.getBackground()).placeholder(R.drawable.news_background_default).into(mBackground);
+            Glide.with(mContext).load(strategyEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
             mTitle.setText(strategyEntity.getTitle());
             mDescription.setText(strategyEntity.getDescription());
         }

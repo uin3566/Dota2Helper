@@ -19,4 +19,14 @@
         <item name="strategy_step">进阶</item>
         <item name="strategy_skill">技巧</item>
     </string-array>
+
+    <string-array name="video_type">
+        <item name="video_all">全部</item>
+        <item name="video_bisai">比赛</item>
+        <item name="video_beginner">新手</item>
+        <item name="video_advanced">进阶</item>
+        <item name="video_quwei">趣味</item>
+        <item name="video_jieshuo">解说</item>
+        <item name="video_celebrity">明星</item>
+    </string-array>
 </resources>
