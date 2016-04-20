@@ -35,6 +35,16 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
     }
 
     @Override
+    protected void onFragmentFirstVisible() {
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
+    }
+
+    @Override
     public int getResourceId() {
         return R.layout.fragment_swipe_to_load;
     }
@@ -44,12 +54,6 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
         mAdapter = new VideoAdapter(getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
     }
 
     @Override
@@ -64,21 +68,20 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
 
     @Override
     public void setVideoList(List<VideoList.VideoEntity> videoEntityList, boolean append) {
-        if (append) {
-            mSwipeRefresh.setLoadingMore(false);
-        } else {
-            mSwipeRefresh.setRefreshing(false);
-        }
         mAdapter.updateData(videoEntityList, append);
     }
 
     @Override
     public void setRefreshFailed(boolean loadMore) {
+        ToastUtil.showToast(getActivity(), R.string.load_fail);
+    }
+
+    @Override
+    public void hideProgress(boolean loadMore) {
         if (loadMore) {
             mSwipeRefresh.setLoadingMore(false);
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-        ToastUtil.showToast(getActivity(), R.string.load_fail);
     }
 }

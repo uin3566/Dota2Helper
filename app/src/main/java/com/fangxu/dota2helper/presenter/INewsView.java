@@ -10,4 +10,5 @@ import java.util.List;
 public interface INewsView {
     void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append);
     void setRefreshFailed(boolean loadMore);
+    void hideProgress(boolean loadMore);
 }

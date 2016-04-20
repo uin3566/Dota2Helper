@@ -31,10 +31,12 @@ public class StrategyPresenter implements StrategyCallback{
     @Override
     public void onUpdateSuccessed(List<StrategyList.StrategyEntity> strategyEntityList, boolean loadmore) {
         mCallback.setStrategyList(strategyEntityList, loadmore);
+        mCallback.hideProgress(loadmore);
     }
 
     @Override
     public void onUpdateFailed(boolean loadmore) {
         mCallback.setRefreshFailed(loadmore);
+        mCallback.hideProgress(loadmore);
     }
 }

@@ -29,6 +29,11 @@ public class StrategyContainerFragment extends BaseFragment {
     }
 
     @Override
+    protected void onFragmentFirstVisible() {
+
+    }
+
+    @Override
     public int getResourceId() {
         return R.layout.fragment_strategy;
     }

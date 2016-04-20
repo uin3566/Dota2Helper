@@ -48,10 +48,12 @@ public class NewsPresenter implements NewsCallback{
     @Override
     public void onUpdateFailed(boolean loadmore) {
         mCallback.setRefreshFailed(loadmore);
+        mCallback.hideProgress(loadmore);
     }
 
     @Override
     public void onUpdateSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore) {
         mCallback.setNewsList(newsEntityList, loadmore);
+        mCallback.hideProgress(loadmore);
     }
 }

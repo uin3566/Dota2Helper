@@ -15,5 +15,4 @@ public class MyApp extends Application {
         super.onCreate();
         LeakCanary.install(this);
     }
-
 }

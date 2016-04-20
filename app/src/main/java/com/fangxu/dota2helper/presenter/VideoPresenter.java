@@ -31,10 +31,12 @@ public class VideoPresenter implements VideoCallback{
     @Override
     public void onUpdateSuccessed(List<VideoList.VideoEntity> videoEntityList, boolean loadmore) {
         mCallback.setVideoList(videoEntityList, loadmore);
+        mCallback.hideProgress(loadmore);
     }
 
     @Override
     public void onUpdateFailed(boolean loadmore) {
         mCallback.setRefreshFailed(loadmore);
+        mCallback.hideProgress(loadmore);
     }
 }

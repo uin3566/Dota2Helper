@@ -41,12 +41,6 @@ public class StrategyFragment extends RefreshBaseFragment implements
         mAdapter = new StrategyAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
     }
 
     @Override
@@ -62,6 +56,16 @@ public class StrategyFragment extends RefreshBaseFragment implements
     }
 
     @Override
+    protected void onFragmentFirstVisible() {
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
+    }
+
+    @Override
     public void onRefresh() {
         mPresenter.doRefresh();
     }
@@ -73,22 +77,21 @@ public class StrategyFragment extends RefreshBaseFragment implements
 
     @Override
     public void setStrategyList(List<StrategyList.StrategyEntity> strategyEntityList, boolean append) {
-        if (append) {
-            mSwipeRefresh.setLoadingMore(false);
-        } else {
-            mSwipeRefresh.setRefreshing(false);
-        }
         mAdapter.updateData(strategyEntityList, append);
     }
 
     @Override
     public void setRefreshFailed(boolean loadMore) {
+        ToastUtil.showToast(getActivity(), R.string.load_fail);
+    }
+
+    @Override
+    public void hideProgress(boolean loadMore) {
         if (loadMore) {
             mSwipeRefresh.setLoadingMore(false);
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-        ToastUtil.showToast(getActivity(), R.string.load_fail);
     }
 
     @Override

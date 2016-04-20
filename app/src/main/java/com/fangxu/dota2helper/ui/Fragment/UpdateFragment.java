@@ -43,6 +43,11 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView, Ne
     }
 
     @Override
+    protected void onFragmentFirstVisible() {
+
+    }
+
+    @Override
     public void initView(View view) {
         mAdapter = new NewsAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -67,22 +72,21 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView, Ne
 
     @Override
     public void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append) {
-        if (append) {
-            mSwipeRefresh.setLoadingMore(false);
-        } else {
-            mSwipeRefresh.setRefreshing(false);
-        }
         mAdapter.updateData(newsEntityList, append);
     }
 
     @Override
     public void setRefreshFailed(boolean loadMore) {
+        ToastUtil.showToast(getActivity(), R.string.load_fail);
+    }
+
+    @Override
+    public void hideProgress(boolean loadMore) {
         if (loadMore) {
             mSwipeRefresh.setLoadingMore(false);
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-        ToastUtil.showToast(getActivity(), R.string.load_fail);
     }
 
     @Override

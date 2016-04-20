@@ -10,4 +10,5 @@ import java.util.List;
 public interface IVideoView {
     void setVideoList(List<VideoList.VideoEntity> videoEntityList, boolean append);
     void setRefreshFailed(boolean loadMore);
+    void hideProgress(boolean loadMore);
 }
