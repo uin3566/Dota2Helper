@@ -59,7 +59,7 @@ public class NewsDetailActivity extends BaseActivity {
     private void loadDetail() {
         String date = getIntent().getStringExtra(NEWS_DATE);
         String nid = getIntent().getStringExtra(NEWS_NID);
-        AppNetWork.INSTANCE.getNewsDetailApi().getNewsDetail(date, nid)
+        AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {

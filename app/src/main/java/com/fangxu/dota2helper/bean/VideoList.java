@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/19.
+ * video list
  */
 public class VideoList {
     private List<VideoEntity> videos;

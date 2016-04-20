@@ -3,6 +3,7 @@ package com.fangxu.dota2helper.network;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.bean.StrategyList;
 import com.fangxu.dota2helper.bean.VideoList;
+import com.fangxu.dota2helper.bean.VideoSetList;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface NewsApi {
     Observable<VideoList> refreshVideos(@Path("video_type") String videoType);
     @GET("/api/v1.0/video/loadmore/{video_type}/{list_id}")
     Observable<VideoList> loadMoreVideos(@Path("video_type") String videoType, @Path("list_id") int listId);
+    @GET("/api/v1.0/video/videoset/{date}/{vid}")
+    Observable<VideoSetList> getVideoSetInfo(@Path("date") String date, @Path("vid") String vid);
 }

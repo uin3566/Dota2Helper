@@ -14,7 +14,7 @@ public enum AppNetWork {
     INSTANCE;
 
     private NewsApi mNewsApi;
-    private NewsDetailApi mNewsDetailApi;
+    private DetailsApi mDetailsApi;
 
     AppNetWork() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -29,14 +29,14 @@ public enum AppNetWork {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
-        mNewsDetailApi = retrofit1.create(NewsDetailApi.class);
+        mDetailsApi = retrofit1.create(DetailsApi.class);
     }
 
     public NewsApi getNewsApi() {
         return mNewsApi;
     }
 
-    public NewsDetailApi getNewsDetailApi() {
-        return mNewsDetailApi;
+    public DetailsApi getDetailsApi() {
+        return mDetailsApi;
     }
 }

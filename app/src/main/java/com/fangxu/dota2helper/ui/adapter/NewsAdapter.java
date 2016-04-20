@@ -53,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View view) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_article_date), (String)view.getTag(R.id.tag_article_nid));
+                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id));
                 }
             }
         });
@@ -63,8 +63,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
         NewsList.NewsEntity newsEntity = mNewsEntityList.get(position);
-        holder.itemView.setTag(R.id.tag_article_date, newsEntity.getDate());
-        holder.itemView.setTag(R.id.tag_article_nid, newsEntity.getNid());
+        holder.itemView.setTag(R.id.tag_date, newsEntity.getDate());
+        holder.itemView.setTag(R.id.tag_id, newsEntity.getNid());
         holder.fillView(newsEntity);
     }
 

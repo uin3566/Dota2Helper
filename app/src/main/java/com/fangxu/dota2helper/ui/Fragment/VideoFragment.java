@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.VideoList;
 import com.fangxu.dota2helper.presenter.IVideoView;
 import com.fangxu.dota2helper.presenter.VideoPresenter;
+import com.fangxu.dota2helper.ui.Activity.VideoDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.VideoAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -20,7 +22,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoFragment extends RefreshBaseFragment implements IVideoView{
+public class VideoFragment extends RefreshBaseFragment implements IVideoView, VideoAdapter.ItemClickListener{
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -51,7 +53,7 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
 
     @Override
     public void initView(View view) {
-        mAdapter = new VideoAdapter(getActivity());
+        mAdapter = new VideoAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -83,5 +85,13 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onItemClick(String date, String vid) {
+        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+        intent.putExtra(VideoDetailActivity.VIDEO_DATE, date);
+        intent.putExtra(VideoDetailActivity.VIDEO_VID, vid);
+        startActivity(intent);
     }
 }

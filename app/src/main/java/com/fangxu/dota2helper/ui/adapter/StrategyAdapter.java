@@ -52,7 +52,7 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.Strate
             @Override
             public void onClick(View view) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_article_date), (String)view.getTag(R.id.tag_article_nid));
+                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id));
                 }
             }
         });
@@ -62,8 +62,8 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.Strate
     @Override
     public void onBindViewHolder(StrategyViewHolder holder, int position) {
         StrategyList.StrategyEntity entity = mStrategyEntityList.get(position);
-        holder.itemView.setTag(R.id.tag_article_date, entity.getDate());
-        holder.itemView.setTag(R.id.tag_article_nid, entity.getNid());
+        holder.itemView.setTag(R.id.tag_date, entity.getDate());
+        holder.itemView.setTag(R.id.tag_id, entity.getNid());
         holder.fillView(entity);
     }
 
