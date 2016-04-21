@@ -46,6 +46,16 @@ public class VideoWatchFragment extends BaseFragment {
 
     @Override
     protected void onFragmentFirstVisible() {
+
+    }
+
+    @Override
+    public int getResourceId() {
+        return R.layout.fragment_video_watch;
+    }
+
+    @Override
+    public void initView(View view) {
         mBasePlayerManager = new YoukuBasePlayerManager(getActivity()) {
             @Override
             public void setPadHorizontalLayout() {
@@ -80,16 +90,6 @@ public class VideoWatchFragment extends BaseFragment {
         mPlayerView.initialize(mBasePlayerManager);
     }
 
-    @Override
-    public int getResourceId() {
-        return R.layout.fragment_video_watch;
-    }
-
-    @Override
-    public void initView(View view) {
-
-    }
-
     private void goPlay() {
         if (!mYkvid.isEmpty()) {
             mPlayer.playVideo(mYkvid);
@@ -99,6 +99,46 @@ public class VideoWatchFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mBasePlayerManager != null) {
+            mBasePlayerManager.onStart();
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (mBasePlayerManager != null) {
+            mBasePlayerManager.onLowMemory();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBasePlayerManager != null) {
+            mBasePlayerManager.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mBasePlayerManager != null) {
+            mBasePlayerManager.onPause();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mBasePlayerManager != null) {
+            mBasePlayerManager.onStop();
+        }
     }
 
     @Override
