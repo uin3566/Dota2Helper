@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Dota2Helper.iml" filepath="$PROJECT_DIR$/Dota2Helper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/youkuPlayerOpenSDK/youkuPlayerOpenSDK.iml" filepath="$PROJECT_DIR$/youkuPlayerOpenSDK/youkuPlayerOpenSDK.iml" />
     </modules>
   </component>
 </project>
-

@@ -65,6 +65,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     public void setVideoSet(VideoSetList videoSetList) {
+        ToastUtil.showToast(this, "success");
         mAdapter = new VideoFragmentPagerAdapter(getSupportFragmentManager());
         addFragments(videoSetList);
         mViewPager.setAdapter(mAdapter);
@@ -72,7 +73,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
     private void addFragments(VideoSetList videoSetList) {
         List<VideoSetList.VideoDateVidEntity> entityList = videoSetList.getList();
-        for (int i = 0; i < entityList.size(); i++) {
+        for (int i = 0; i < 1; i++) {
             Bundle bundle = new Bundle();
             if (i == 0) {
                 bundle.putString(VideoWatchFragment.YKVID, videoSetList.getYoukuvid());

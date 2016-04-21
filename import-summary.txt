@@ -1,0 +1,91 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .fatjar
+* ic_launcher-web.png
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.+
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => youkuPlayerOpenSDK\src\main\AndroidManifest.xml
+* assets\ => youkuPlayerOpenSDK\src\main\assets
+* libs\armeabi-v7a\libalgms.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libalgms.so
+* libs\armeabi-v7a\libhash.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libhash.so
+* libs\armeabi-v7a\libluajava.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libluajava.so
+* libs\armeabi-v7a\libMMANDKSignature.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libMMANDKSignature.so
+* libs\armeabi-v7a\libmresearch.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libmresearch.so
+* libs\armeabi-v7a\libthumbnailer.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libthumbnailer.so
+* libs\armeabi-v7a\libuencrypt.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libuencrypt.so
+* libs\armeabi-v7a\libuffmpeg.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libuffmpeg.so
+* libs\armeabi-v7a\libuplayer22.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libuplayer22.so
+* libs\armeabi-v7a\libuplayer23.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libuplayer23.so
+* libs\armeabi-v7a\libustagefright40.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libustagefright40.so
+* libs\armeabi-v7a\libustagefright43.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libustagefright43.so
+* libs\armeabi-v7a\libwebpbackport.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi-v7a\libwebpbackport.so
+* libs\armeabi\libalgms.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi\libalgms.so
+* libs\armeabi\libluajava.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi\libluajava.so
+* libs\armeabi\libMMANDKSignature.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi\libMMANDKSignature.so
+* libs\armeabi\libmresearch.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi\libmresearch.so
+* libs\armeabi\libwebpbackport.so => youkuPlayerOpenSDK\src\main\jniLibs\armeabi\libwebpbackport.so
+* libs\baseproject.jar => youkuPlayerOpenSDK\libs\baseproject.jar
+* libs\fastjson-1.2.7.jar => youkuPlayerOpenSDK\libs\fastjson-1.2.7.jar
+* libs\mAppTracker.jar => youkuPlayerOpenSDK\libs\mAppTracker.jar
+* libs\mvvtracker.jar => youkuPlayerOpenSDK\libs\mvvtracker.jar
+* libs\playerBase.jar => youkuPlayerOpenSDK\libs\playerBase.jar
+* libs\tracking.jar => youkuPlayerOpenSDK\libs\tracking.jar
+* libs\YoukuAnalytics.jar => youkuPlayerOpenSDK\libs\YoukuAnalytics.jar
+* res\ => youkuPlayerOpenSDK\src\main\res\
+* src\ => youkuPlayerOpenSDK\src\main\java\
+* src\com\youku\service\download\DownloadInfo.aidl => youkuPlayerOpenSDK\src\main\aidl\com\youku\service\download\DownloadInfo.aidl
+* src\com\youku\service\download\ICallback.aidl => youkuPlayerOpenSDK\src\main\aidl\com\youku\service\download\ICallback.aidl
+* src\com\youku\service\download\IDownloadService.aidl => youkuPlayerOpenSDK\src\main\aidl\com\youku\service\download\IDownloadService.aidl
+
+Missing Android Support Repository:
+-----------------------------------
+Some useful libraries, such as the Android Support Library, are
+installed from a special Maven repository, which should be installed
+via the SDK manager.
+
+It looks like this library is missing from your SDK installation at:
+null
+
+To install it, open the SDK manager, and in the Extras category,
+select "Android Support Repository". You may also want to install the
+"Google Repository" if you want to use libraries like Google Play
+Services.
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

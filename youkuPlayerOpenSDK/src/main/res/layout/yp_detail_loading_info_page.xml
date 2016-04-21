@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_play" >
+
+    <SeekBar
+        android:id="@+id/loading_info_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/detail_play_progress_margin_left"
+        android:clickable="false"
+        android:max="100"
+        android:progressDrawable="@drawable/yp_progressbarstyle"
+        android:thumb="@drawable/yp_progressthumbstyle"
+        android:thumbOffset="-10dp" />
+
+</RelativeLayout>

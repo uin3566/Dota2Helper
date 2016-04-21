@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:id="@+id/seek_loading_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@drawable/bg_play"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/loading_tips"
+            style="@style/detail_play_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/player_tip_loading" />
+
+        <SeekBar
+            android:id="@+id/loading_seekbar"
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/detail_play_progress_margin_left"
+            android:clickable="false"
+            android:max="100"
+            android:progressDrawable="@drawable/yp_progressbarstyle"
+            android:thumb="@drawable/yp_progressthumbstyle"
+            android:thumbOffset="-10dp" />
+
+        <TextView
+            android:id="@+id/detail_play_load_name"
+            style="@style/detail_play_load_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="" />
+    </LinearLayout>
+
+</merge>

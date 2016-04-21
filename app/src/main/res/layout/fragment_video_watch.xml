@@ -4,11 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_test"
-        android:gravity="center"
-        android:textSize="50sp"
+    <com.youku.player.base.YoukuPlayerView
+        android:id="@+id/youku_player"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="240dp" />
 
 </RelativeLayout>
