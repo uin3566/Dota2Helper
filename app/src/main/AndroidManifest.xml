@@ -41,7 +41,7 @@
 
         <activity
             android:name=".ui.Activity.VideoDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
 
     </application>
 

@@ -209,12 +209,12 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
 			com.baseproject.utils.Profile.initProfile("player", plant
 					+ versionName + ";Android;"
 					+ android.os.Build.VERSION.RELEASE + ";"
-					+ android.os.Build.MODEL, getBaseActivity());
+					+ android.os.Build.MODEL, getBaseActivity().getApplicationContext());
 		}
 
 //		mApplication = PlayerApplication.getPlayerApplicationInstance();
 		flags = getBaseActivity().getApplicationInfo().flags;
-		com.baseproject.utils.Profile.mContext = getBaseActivity();
+		com.baseproject.utils.Profile.mContext = getBaseActivity().getApplicationContext();
 		if (MediaPlayerProxyUtil.isUplayerSupported()) {								//-------------------->
 			YoukuBasePlayerManager.isHighEnd = true;
 			// 使用软解

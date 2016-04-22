@@ -1,22 +1,20 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.presenter.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
-import com.fangxu.dota2helper.ui.Fragment.VideoWatchFragment;
 import com.fangxu.dota2helper.util.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.youku.player.base.YoukuBasePlayerManager;
+import com.youku.player.base.YoukuPlayer;
+import com.youku.player.base.YoukuPlayerView;
 
 import butterknife.Bind;
 
@@ -29,10 +27,12 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.view_pager)
-    ViewPager mViewPager;
+    @Bind(R.id.youku_player)
+    YoukuPlayerView mYoukuPlayerView;
 
-    private VideoFragmentPagerAdapter mAdapter;
+    private YoukuBasePlayerManager mYoukuBasePlayerManager;
+    private YoukuPlayer mYoukuPlayer;
+    private boolean mIsPlayerReady = false;
 
     private VideoDetailPresenter mPresenter;
 
@@ -43,6 +43,8 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     public void init(Bundle savedInstanceState) {
+        mPresenter = new VideoDetailPresenter(this);
+
         mToolbar.setTitle(R.string.video_detail);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,8 +55,47 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
             }
         });
 
-        mPresenter = new VideoDetailPresenter(this);
         queryVideoSetInfo();
+        initPlayer();
+    }
+
+    private void initPlayer() {
+        mYoukuBasePlayerManager = new YoukuBasePlayerManager(this) {
+            @Override
+            public void setPadHorizontalLayout() {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onInitializationSuccess(YoukuPlayer player) {
+                // TODO Auto-generated method stub
+                addPlugins();
+                mYoukuPlayer = player;
+                mIsPlayerReady = true;
+            }
+
+            @Override
+            public void onSmallscreenListener() {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onFullscreenListener() {
+                // TODO Auto-generated method stub
+
+            }
+        };
+        mYoukuBasePlayerManager.onCreate();
+
+        mYoukuPlayerView.setSmallScreenLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        mYoukuPlayerView.setFullScreenLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT));
+        mYoukuPlayerView.initialize(mYoukuBasePlayerManager);
     }
 
     private void queryVideoSetInfo() {
@@ -66,24 +107,9 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void setVideoSet(VideoSetList videoSetList) {
         ToastUtil.showToast(this, "success");
-        mAdapter = new VideoFragmentPagerAdapter(getSupportFragmentManager());
-        addFragments(videoSetList);
-        mViewPager.setAdapter(mAdapter);
-    }
-
-    private void addFragments(VideoSetList videoSetList) {
-        List<VideoSetList.VideoDateVidEntity> entityList = videoSetList.getList();
-        for (int i = 0; i < 1; i++) {
-            Bundle bundle = new Bundle();
-            if (i == 0) {
-                bundle.putString(VideoWatchFragment.YKVID, videoSetList.getYoukuvid());
-            } else {
-                bundle.putString(VideoWatchFragment.YKVID, "");
-            }
-            bundle.putString(VideoWatchFragment.DATE, entityList.get(i).getDate());
-            bundle.putString(VideoWatchFragment.VID, entityList.get(i).getVid());
-            VideoWatchFragment fragment = VideoWatchFragment.newInstance(bundle);
-            mAdapter.add(fragment);
+        if (mIsPlayerReady) {
+            String vid = videoSetList.getYoukuvid();
+            mYoukuPlayer.playVideo(vid);
         }
     }
 
@@ -97,25 +123,56 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         ToastUtil.showToast(this, invalid);
     }
 
-    private static class VideoFragmentPagerAdapter extends FragmentPagerAdapter {
-        private List<VideoWatchFragment> mFragmentList = new ArrayList<>();
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mYoukuBasePlayerManager.onLowMemory();
+    }
 
-        public VideoFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mYoukuBasePlayerManager.onPause();
+    }
 
-        public void add(VideoWatchFragment fragment) {
-            mFragmentList.add(fragment);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mYoukuBasePlayerManager.onResume();
+    }
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
+    @Override
+    public boolean onSearchRequested() {
+        return mYoukuBasePlayerManager.onSearchRequested();
+    }
 
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mYoukuBasePlayerManager.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mYoukuBasePlayerManager.onStop();
+    }
+
+    @Override
+    public void onBackPressed() { // android系统调用
+        super.onBackPressed();
+        mYoukuBasePlayerManager.onBackPressed();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mYoukuBasePlayerManager.onDestroy();
     }
 }

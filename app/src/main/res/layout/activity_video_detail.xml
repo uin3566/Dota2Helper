@@ -6,9 +6,9 @@
 
     <include layout="@layout/layout_toolbar"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <com.youku.player.base.YoukuPlayerView
+        android:id="@+id/youku_player"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
