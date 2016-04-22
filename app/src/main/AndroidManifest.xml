@@ -40,7 +40,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.Activity.VideoDetailActivity"
+            android:name=".ui.Activity.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
 
     </application>

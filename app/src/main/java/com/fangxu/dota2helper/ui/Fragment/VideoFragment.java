@@ -9,7 +9,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.VideoList;
 import com.fangxu.dota2helper.presenter.IVideoView;
 import com.fangxu.dota2helper.presenter.VideoPresenter;
-import com.fangxu.dota2helper.ui.Activity.VideoDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.adapter.VideoAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -89,9 +89,9 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView, Vi
 
     @Override
     public void onItemClick(String date, String vid) {
-        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
-        intent.putExtra(VideoDetailActivity.VIDEO_DATE, date);
-        intent.putExtra(VideoDetailActivity.VIDEO_VID, vid);
+        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+        intent.putExtra(VideoPlayerActivity.VIDEO_DATE, date);
+        intent.putExtra(VideoPlayerActivity.VIDEO_VID, vid);
         startActivity(intent);
     }
 }

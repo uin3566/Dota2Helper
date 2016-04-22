@@ -2,8 +2,7 @@ package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -12,23 +11,25 @@ import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.presenter.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
 import com.fangxu.dota2helper.util.ToastUtil;
+import com.nineoldandroids.view.ViewHelper;
 import com.youku.player.base.YoukuBasePlayerManager;
 import com.youku.player.base.YoukuPlayer;
 import com.youku.player.base.YoukuPlayerView;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailActivity extends BaseActivity implements IVideoDetailView {
+public class VideoPlayerActivity extends BaseActivity implements IVideoDetailView {
     public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_VID = "video_nid";
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
     @Bind(R.id.youku_player)
     YoukuPlayerView mYoukuPlayerView;
+    @Bind(R.id.player_title_bar)
+    LinearLayout mTitleBar;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -44,17 +45,6 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void init(Bundle savedInstanceState) {
         mPresenter = new VideoDetailPresenter(this);
-
-        mToolbar.setTitle(R.string.video_detail);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
         queryVideoSetInfo();
         initPlayer();
     }
@@ -102,6 +92,11 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         String date = getIntent().getStringExtra(VIDEO_DATE);
         String vid = getIntent().getStringExtra(VIDEO_VID);
         mPresenter.queryVideoSetInformation(date, vid);
+    }
+
+    @OnClick(R.id.iv_back_arrow)
+    public void onClickBack(ImageButton button) {
+        onBackPressed();
     }
 
     @Override
@@ -159,7 +154,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     }
 
     @Override
-    public void onBackPressed() { // android系统调用
+    public void onBackPressed() {
         super.onBackPressed();
         mYoukuBasePlayerManager.onBackPressed();
     }
@@ -167,6 +162,12 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ViewHelper.setTranslationY(mTitleBar, -mTitleBar.getBottom());
+        } else {
+            ViewHelper.setTranslationY(mTitleBar, 0);
+        }
+        mYoukuPlayerView.onConfigrationChange();
         mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
     }
 

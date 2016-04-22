@@ -15,7 +15,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="8dp">
 
-        <include layout="@layout/layout_toolbar"/>
+        <include layout="@layout/layout_toolbar"
+                 android:id="@+id/toolbar"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.DrawerLayout

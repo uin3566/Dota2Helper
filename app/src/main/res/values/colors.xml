@@ -2,6 +2,7 @@
 <resources>
     <color name="color_primary">#18171c</color>
     <color name="color_primary_dark">#101209</color>
+    <color name="color_primary_activated">#303032</color>
 
     <color name="drawer_text_color">@color/white</color>
     <color name="tab_text_color">@color/white</color>
