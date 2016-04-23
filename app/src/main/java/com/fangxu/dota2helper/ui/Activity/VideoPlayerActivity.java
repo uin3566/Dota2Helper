@@ -2,6 +2,8 @@ package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,8 +30,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @Bind(R.id.youku_player)
     YoukuPlayerView mYoukuPlayerView;
-    @Bind(R.id.player_title_bar)
-    LinearLayout mTitleBar;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -44,6 +46,16 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     public void init(Bundle savedInstanceState) {
+        mToolbar.setTitle(R.string.video_detail);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         mPresenter = new VideoDetailPresenter(this);
         queryVideoSetInfo();
         initPlayer();
@@ -79,12 +91,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         };
         mYoukuBasePlayerManager.onCreate();
 
-        mYoukuPlayerView.setSmallScreenLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        mYoukuPlayerView.setFullScreenLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT));
+        mYoukuPlayerView.setSmallScreenLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        mYoukuPlayerView.setFullScreenLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
         mYoukuPlayerView.initialize(mYoukuBasePlayerManager);
     }
 
@@ -94,14 +106,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mPresenter.queryVideoSetInformation(date, vid);
     }
 
-    @OnClick(R.id.iv_back_arrow)
-    public void onClickBack(ImageButton button) {
-        onBackPressed();
-    }
-
     @Override
     public void setVideoSet(VideoSetList videoSetList) {
-        ToastUtil.showToast(this, "success");
         if (mIsPlayerReady) {
             String vid = videoSetList.getYoukuvid();
             mYoukuPlayer.playVideo(vid);
@@ -163,11 +169,10 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ViewHelper.setTranslationY(mTitleBar, -mTitleBar.getBottom());
+            mToolbar.setVisibility(View.GONE);
         } else {
-            ViewHelper.setTranslationY(mTitleBar, 0);
+            mToolbar.setVisibility(View.VISIBLE);
         }
-        mYoukuPlayerView.onConfigrationChange();
         mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
     }
 
