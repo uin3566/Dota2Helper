@@ -12,6 +12,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.presenter.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
+import com.fangxu.dota2helper.ui.view.YoukuPluginPlayer;
 import com.fangxu.dota2helper.util.ToastUtil;
 import com.nineoldandroids.view.ViewHelper;
 import com.youku.player.base.YoukuBasePlayerManager;
@@ -73,6 +74,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
                 addPlugins();
+                YoukuPluginPlayer pluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate);
+                setmPluginSmallScreenPlay(pluginPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
             }
