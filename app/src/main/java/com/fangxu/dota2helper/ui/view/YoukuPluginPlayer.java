@@ -52,7 +52,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private TextView playTitleTextView;// 播放标题
 
     private RelativeLayout controlLayout;
-    private ImageButton play_pauseButton;// 播放暂停按钮
+    private ImageView play_pauseButton;// 播放暂停按钮
     private ImageButton full_screenButton;// 全屏按钮
     private String id;// 上页传递id video/show
 
@@ -209,10 +209,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         currentTime = (TextView) containerView.findViewById(R.id.current_time);
         if (null != videoBar)
             videoBar.setOnSeekBarChangeListener(mBarChangeListener);
-        play_pauseButton = (ImageButton) containerView
+        play_pauseButton = (ImageView) containerView
                 .findViewById(R.id.ib_detail_play_control);
         play_pauseButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (null == mMediaPlayerDelegate)
@@ -245,8 +244,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 if (isBack) {
                     isBack = false;
                     isLoading = true;
-                    play_pauseButton
-                            .setImageResource(R.drawable.ic_pause);
+                    play_pauseButton.setImageResource(R.drawable.ic_pause);
                 }
                 userAction();
             }
@@ -1331,7 +1329,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-			/*
+            /*
 			 * case MSG_LOADING: { if (!autoPlay && null != mMediaPlayerDelegate
 			 * && !mMediaPlayerDelegate.changeAutoPlay) return; ((Activity)
 			 * mActivity).runOnUiThread(new Runnable() {

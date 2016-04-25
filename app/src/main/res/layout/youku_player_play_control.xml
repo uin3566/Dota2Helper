@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_seek"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="#BF000000" >
+        android:background="#BF000000">
 
         <ImageButton
             android:id="@+id/ib_detail_play_full"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/detail_play_full_margin_right"
@@ -27,24 +27,23 @@
             android:id="@+id/total_time"
             style="@style/player_total_time_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignBottom="@id/ib_detail_play_full"
             android:layout_alignTop="@id/ib_detail_play_full"
             android:layout_marginRight="@dimen/detail_play_progress_margin_left"
             android:layout_toLeftOf="@id/ib_detail_play_full"
             android:gravity="center"
             android:text="00:00"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
-        <ImageButton
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+        <ImageView
             android:id="@+id/ib_detail_play_control"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/detail_play_progress_margin_left"
+            android:paddingRight="@dimen/detail_play_progress_margin_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_pause" />
 
@@ -56,10 +55,9 @@
             android:layout_alignBottom="@id/ib_detail_play_full"
             android:layout_toRightOf="@id/ib_detail_play_control"
             android:layout_alignTop="@id/ib_detail_play_full"
-            android:layout_marginLeft="@dimen/detail_play_progress_margin_left"
             android:gravity="center"
             android:text="00:00"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -71,7 +69,7 @@
             android:layout_marginRight="@dimen/detail_play_progress_margin_right"
             android:layout_toLeftOf="@id/total_time"
             android:layout_toRightOf="@id/current_time"
-            android:gravity="center" >
+            android:gravity="center">
 
             <SeekBar
                 android:id="@+id/sb_detail_play_progress"
@@ -81,7 +79,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:progressDrawable="@drawable/yp_progress_holo_light"
-                android:thumb="@drawable/yp_detail_icon_schedule_ball" />
+                android:thumb="@drawable/ic_progress_round" />
         </LinearLayout>
     </RelativeLayout>
 
