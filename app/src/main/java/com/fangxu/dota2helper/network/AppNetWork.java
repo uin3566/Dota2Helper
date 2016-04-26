@@ -1,7 +1,6 @@
 package com.fangxu.dota2helper.network;
 
 
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,6 +14,7 @@ public enum AppNetWork {
 
     private NewsApi mNewsApi;
     private DetailsApi mDetailsApi;
+    private YoukuApi mYoukuApi;
 
     AppNetWork() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -30,6 +30,13 @@ public enum AppNetWork {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         mDetailsApi = retrofit1.create(DetailsApi.class);
+
+        Retrofit retrofit2 = new Retrofit.Builder()
+                .baseUrl("http://openapi.youku.com")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mYoukuApi = retrofit2.create(YoukuApi.class);
     }
 
     public NewsApi getNewsApi() {
@@ -38,5 +45,9 @@ public enum AppNetWork {
 
     public DetailsApi getDetailsApi() {
         return mDetailsApi;
+    }
+
+    public YoukuApi getYoukuApi() {
+        return mYoukuApi;
     }
 }
