@@ -11,6 +11,26 @@
     <com.youku.player.base.YoukuPlayerView
         android:id="@+id/youku_player"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_blur_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/video_player_height">
+
+            <ImageView
+                android:id="@+id/iv_blur"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/iv_play"
+                android:layout_centerInParent="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_center_play"/>
+        </RelativeLayout>
+    </com.youku.player.base.YoukuPlayerView>
 
 </LinearLayout>

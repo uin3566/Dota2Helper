@@ -5,4 +5,5 @@
     <item name="swipe_load_more_footer" type="id" />
     <item name="tag_date" type="id"/>
     <item name="tag_id" type="id"/>
+    <item name="tag_background" type="id"/>
 </resources>

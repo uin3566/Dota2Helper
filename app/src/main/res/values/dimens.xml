@@ -9,6 +9,8 @@
 
     <dimen name="video_play_icon_size">30dp</dimen>
 
+    <dimen name="video_player_height">203dp</dimen>
+
     <!-- text -->
     <dimen name="title_text_size">14sp</dimen>
     <dimen name="content_text_size">12sp</dimen>

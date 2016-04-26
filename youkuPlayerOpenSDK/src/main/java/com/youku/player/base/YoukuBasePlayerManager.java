@@ -260,7 +260,7 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
 	/**
      * 
      */
-	protected void addPlugins() {
+	protected void addPlugins(final PluginOverlay smallPlugin) {
 		getBaseActivity().runOnUiThread(new Runnable() {
 
 			@Override
@@ -272,17 +272,18 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
 				// 全屏插件
 				pluginManager.addPlugin(mPluginFullScreenPlay, player_holder);
 				// 小屏播放控制
-				if (mPluginSmallScreenPlay == null)
-					mPluginSmallScreenPlay = new PluginSimplePlayer(				//--------------------->
-							YoukuBasePlayerManager.this, mediaPlayerDelegate);
+				if (smallPlugin == null) {
+					mPluginSmallScreenPlay = new PluginSimplePlayer(YoukuBasePlayerManager.this, mediaPlayerDelegate);
+				} else {
+					mPluginSmallScreenPlay = smallPlugin;
+				}
 
-				// 播放结束�?
+				// 播放结束
 				// 广告播放页面
 				PluginADPlay.setAdMoreBackgroundColor(Profile.PLANTFORM == Plantform.TUDOU);
-				mPluginADPlay = new PluginADPlay(YoukuBasePlayerManager.this,
-						mediaPlayerDelegate);
+				mPluginADPlay = new PluginADPlay(YoukuBasePlayerManager.this, mediaPlayerDelegate);
 
-				// 特殊的播放页�?
+				// 特殊的播放页
 				mYoukuPlayerView.mMediaPlayerDelegate = mediaPlayerDelegate;	//----------------->
 				pluginManager.addYoukuPlayerView(mYoukuPlayerView);
 				pluginManager.addPlugin(mPluginSmallScreenPlay, player_holder);

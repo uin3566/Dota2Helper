@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -23,7 +24,10 @@ import com.baseproject.image.ImageResizer;
 import com.baseproject.utils.Logger;
 import com.baseproject.utils.UIUtils;
 import com.baseproject.utils.Util;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.BlurTransformation;
 import com.youku.player.Track;
 import com.youku.player.apiservice.ICacheInfo;
 import com.youku.player.base.GoplayException;
@@ -69,6 +73,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private View seekLoadingContainerView;
     private RelativeLayout loadingInfoLayout;
     private SeekBar infoSeekBar;
+    private String videoBackground;
 
     // private Loading playLoading;
 
@@ -76,6 +81,22 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                              IMediaPlayerDelegate mediaPlayerDelegate) {
         super(basePlayerManager.getBaseActivity(), mediaPlayerDelegate);
         mBasePlayerManager = basePlayerManager;
+        this.mActivity = basePlayerManager.getBaseActivity();
+        LayoutInflater mLayoutInflater = LayoutInflater.from(mActivity);
+        containerView = mLayoutInflater.inflate(
+                R.layout.layout_youku_plugin_player, null);
+        if (null != mediaPlayerDelegate
+                && mediaPlayerDelegate.videoInfo != null)
+            video_id = mediaPlayerDelegate.videoInfo.getVid();
+        addView(containerView);
+        initPlayLayout();
+    }
+
+    public YoukuPluginPlayer(YoukuBasePlayerManager basePlayerManager,
+                             IMediaPlayerDelegate mediaPlayerDelegate, String videoBackground) {
+        super(basePlayerManager.getBaseActivity(), mediaPlayerDelegate);
+        mBasePlayerManager = basePlayerManager;
+        this.videoBackground = videoBackground;
         this.mActivity = basePlayerManager.getBaseActivity();
         LayoutInflater mLayoutInflater = LayoutInflater.from(mActivity);
         containerView = mLayoutInflater.inflate(
@@ -111,7 +132,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     TextView totalTime;
     TextView currentTime;
     private View retryView;
-    private LinearLayout goRetry;
+    private RelativeLayout goRetry;
 
     // 重试
 
@@ -122,7 +143,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         if (null == containerView)
             return;
         retryView = containerView.findViewById(R.id.view_restart);
-        goRetry = (LinearLayout) containerView.findViewById(R.id.go_retry);
+        goRetry = (RelativeLayout) containerView.findViewById(R.id.go_retry);
+        ImageView retryBlur = (ImageView) containerView.findViewById(R.id.iv_retry_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(retryBlur);
         if (null != goRetry) {
             goRetry.setOnClickListener(new OnClickListener() {
 
@@ -142,7 +165,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                             mMediaPlayerDelegate.setFirstUnloaded();
                             mMediaPlayerDelegate.start();
                             mMediaPlayerDelegate.retry();
-                            showLoading();
+                            showLoading(false);
                         } else {
                             if (mMediaPlayerDelegate != null
                                     && mMediaPlayerDelegate.videoInfo != null) {
@@ -309,10 +332,12 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         LayoutInflater mLayoutInflater = LayoutInflater.from(mActivity);
         if (null == mLayoutInflater)
             return;
-        endPageView = mLayoutInflater.inflate(R.layout.yp_detail_play_end_page,
+        endPageView = mLayoutInflater.inflate(R.layout.youku_play_end_page,
                 null);
         if (null == endPageView)
             return;
+        ImageView blurImage = (ImageView) endPageView.findViewById(R.id.iv_retry_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImage);
         nextLayout = (LinearLayout) endPageView.findViewById(R.id.ll_next_play);
         replayLayout = (LinearLayout) endPageView.findViewById(R.id.ll_replay);
         if (null != nextLayout)
@@ -358,17 +383,19 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         if (null == mLayoutInflater)
             return;
         loadingInfoLayout = (RelativeLayout) mLayoutInflater.inflate(
-                R.layout.yp_detail_loading_info_page, null);
+                R.layout.youku_loading_info_page, null);
+        ImageView blurImage = (ImageView) loadingInfoLayout.findViewById(R.id.iv_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImage);
         if (null == loadingInfoLayout)
             return;
         infoSeekBar = (SeekBar) loadingInfoLayout
                 .findViewById(R.id.loading_info_seekbar);
-
     }
 
     private TextView playNameTextView;
     private SeekBar playLoadingBar;
     private TextView loadingTips;
+    private ImageView blurImageView;
     private String TAG = "PluginSmallScreenPlay";
 
     /**
@@ -383,6 +410,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 .findViewById(R.id.loading_seekbar);
         loadingTips = (TextView) seekLoadingContainerView
                 .findViewById(R.id.loading_tips);
+        blurImageView = (ImageView) seekLoadingContainerView.findViewById(R.id.iv_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImageView);
         if (null != playLoadingBar)
             playLoadingBar
                     .setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -419,7 +448,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     /**
      * 显示加载中
      */
-    public void showLoading() {
+    public void showLoading(boolean showBlur) {
         Logger.e(TAG, "showLoading()");
         if (mMediaPlayerDelegate.isADShowing) {
             Logger.e(TAG, "mMediaPlayerDelegate.isADShowing()");
@@ -449,8 +478,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 loadingTips.setVisibility(View.GONE);
             if (null != playNameTextView)
                 playNameTextView.setVisibility(View.GONE);
-            if (null != seekLoadingContainerView && firstLoaded)
-                seekLoadingContainerView.setBackgroundResource(0);
+            if (null != seekLoadingContainerView && firstLoaded) {
+                //seekLoadingContainerView.setBackgroundResource(0);
+            }
         } else {
             if (null != loadingTips) {
                 loadingTips.setText(getResources().getString(
@@ -459,9 +489,15 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
             }
             if (null != playNameTextView)
                 playNameTextView.setVisibility(View.VISIBLE);
-            if (null != seekLoadingContainerView)
-                seekLoadingContainerView
-                        .setBackgroundResource(R.drawable.bg_play);
+            if (null != seekLoadingContainerView) {
+                //seekLoadingContainerView.setBackgroundResource(R.drawable.bg_play);
+            }
+        }
+
+        if (showBlur) {
+            blurImageView.setVisibility(VISIBLE);
+        } else {
+            blurImageView.setVisibility(INVISIBLE);
         }
 
     }
@@ -1267,7 +1303,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 @Override
                 public void run() {
                     hideEndPage();
-                    showLoading();
+                    showLoading(false);
                     hideRetryLayout();
                 }
             });
@@ -1330,7 +1366,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             /*
-			 * case MSG_LOADING: { if (!autoPlay && null != mMediaPlayerDelegate
+             * case MSG_LOADING: { if (!autoPlay && null != mMediaPlayerDelegate
 			 * && !mMediaPlayerDelegate.changeAutoPlay) return; ((Activity)
 			 * mActivity).runOnUiThread(new Runnable() {
 			 * 
@@ -1340,7 +1376,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
 			 */
 
 			/*
-			 * case MSG_LOADED: { ((Activity) mActivity).runOnUiThread(new
+             * case MSG_LOADED: { ((Activity) mActivity).runOnUiThread(new
 			 * Runnable() {
 			 * 
 			 * @Override public void run() { hideLoading(); enableController();
@@ -1356,8 +1392,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 // case MSG_BUFFER_UPDATE: {
                 // break;
                 // }
-			/*
-			 * case MSG_ERROR: { ((Activity) mActivity).runOnUiThread(new
+            /*
+             * case MSG_ERROR: { ((Activity) mActivity).runOnUiThread(new
 			 * Runnable() {
 			 * 
 			 * @Override public void run() { disableController();
@@ -1730,7 +1766,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         isRealVideoStart = false;
         Logger.e("interactplugin", "onVideoInfoGetted");
         hideLoadinfo();
-        showLoading();
+        showLoading(true);
         if (null != mMediaPlayerDelegate
                 && mMediaPlayerDelegate.videoInfo != null)
             video_id = mMediaPlayerDelegate.videoInfo.getVid();
