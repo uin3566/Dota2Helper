@@ -7,9 +7,12 @@
     <dimen name="news_list_image_height">65dp</dimen>
     <dimen name="news_list_image_margin">@dimen/dimen_5dp</dimen>
 
+    <!-- player -->
     <dimen name="video_play_icon_size">30dp</dimen>
-
     <dimen name="video_player_height">203dp</dimen>
+    <dimen name="video_info_area_height">40dp</dimen>
+    <dimen name="video_info_area_text_size">14sp</dimen>
+    <dimen name="video_info_area_icon_size">18dp</dimen>
 
     <!-- text -->
     <dimen name="title_text_size">14sp</dimen>

@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.interactor;
 
+import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
 
 /**
@@ -8,4 +9,6 @@ import com.fangxu.dota2helper.bean.VideoSetList;
 public interface VideoDetailCallback {
     public void onGetVideoSetSuccess(VideoSetList videoSetList);
     public void onGetVideoSetFailed();
+    public void onGetVideoDetailSuccess(VideoDetailInfo videoDetailInfo);
+    public void onGetVideoDetailFailed();
 }

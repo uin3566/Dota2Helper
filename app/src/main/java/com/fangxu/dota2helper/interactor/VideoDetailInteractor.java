@@ -47,12 +47,12 @@ public class VideoDetailInteractor {
                 .subscribe(new Action1<VideoDetailInfo>() {
                     @Override
                     public void call(VideoDetailInfo videoDetailInfo) {
-                        Log.i("fjdskl", "success");
+                        mCallback.onGetVideoDetailSuccess(videoDetailInfo);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.i("fjdskl", "exception");
+                        mCallback.onGetVideoDetailFailed();
                     }
                 });
     }

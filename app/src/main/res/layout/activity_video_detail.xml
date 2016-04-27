@@ -5,8 +5,9 @@
     android:orientation="vertical"
     android:background="@color/grey">
 
-    <include layout="@layout/layout_toolbar"
-        android:id="@+id/toolbar"/>
+    <include
+        layout="@layout/layout_toolbar"
+        android:id="@+id/toolbar" />
 
     <com.youku.player.base.YoukuPlayerView
         android:id="@+id/youku_player"
@@ -22,15 +23,88 @@
                 android:id="@+id/iv_blur"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <ImageView
                 android:id="@+id/iv_play"
                 android:layout_centerInParent="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/ic_center_play"/>
+                android:src="@drawable/ic_center_play" />
         </RelativeLayout>
     </com.youku.player.base.YoukuPlayerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_info_area_height"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@drawable/ic_watched"
+                android:layout_width="@dimen/video_info_area_icon_size"
+                android:layout_height="@dimen/video_info_area_icon_size" />
+
+            <TextView
+                android:id="@+id/tv_watch_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/video_info_area_text_size"
+                android:textColor="@color/content_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_down"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@drawable/ic_down"
+                android:layout_width="@dimen/video_info_area_icon_size"
+                android:layout_height="@dimen/video_info_area_icon_size" />
+
+            <TextView
+                android:id="@+id/tv_down"
+                android:gravity="center"
+                android:textSize="@dimen/video_info_area_text_size"
+                android:textColor="@color/content_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_toLeftOf="@id/ll_down"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/base_margin">
+
+            <ImageView
+                android:src="@drawable/ic_up"
+                android:layout_width="@dimen/video_info_area_icon_size"
+                android:layout_height="@dimen/video_info_area_icon_size" />
+
+            <TextView
+                android:id="@+id/tv_up"
+                android:gravity="center"
+                android:textSize="@dimen/video_info_area_text_size"
+                android:textColor="@color/content_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
@@ -40,6 +41,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     RelativeLayout mBlurImageContainer;
     @Bind(R.id.iv_blur)
     ImageView mBlurImageView;
+    @Bind(R.id.tv_up)
+    TextView mUp;
+    @Bind(R.id.tv_down)
+    TextView mDown;
+    @Bind(R.id.tv_watch_count)
+    TextView mWatchCount;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -119,9 +126,14 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mPresenter.queryVideoSetInformation(date, vid);
     }
 
+    private void queryVideoDetail(String youkuVid) {
+        mPresenter.queryYoukuVideoDetail(youkuVid);
+    }
+
     @Override
     public void setVideoSet(VideoSetList videoSetList) {
         mVid = videoSetList.getYoukuvid();
+        queryVideoDetail(mVid);
     }
 
     @OnClick(R.id.iv_play)
@@ -129,7 +141,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         if (mIsPlayerReady && mVid != null) {
             mYoukuPlayer.playVideo(mVid);
             mBlurImageContainer.setVisibility(View.INVISIBLE);
-            mPresenter.queryYoukuVideoDetail(mVid);
         }
     }
 
@@ -141,6 +152,13 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void onVideoInvalid(String invalid) {
         ToastUtil.showToast(this, invalid);
+    }
+
+    @Override
+    public void setVideoDetail(String watchedCount, String upCount, String downCount) {
+        mWatchCount.setText(watchedCount);
+        mUp.setText(upCount);
+        mDown.setText(downCount);
     }
 
     @Override
