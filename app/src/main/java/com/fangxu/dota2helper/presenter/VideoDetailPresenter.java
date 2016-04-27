@@ -24,6 +24,10 @@ public class VideoDetailPresenter implements VideoDetailCallback{
 
     }
 
+    public void queryYoukuVideoDetail(String vid) {
+        mInteractor.queryYoukuVideoDetail(vid);
+    }
+
     @Override
     public void onGetVideoSetSuccess(VideoSetList videoSetList) {
         int isValid = videoSetList.getIsvalid();

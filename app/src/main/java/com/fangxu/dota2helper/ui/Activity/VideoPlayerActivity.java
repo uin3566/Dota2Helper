@@ -129,6 +129,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         if (mIsPlayerReady && mVid != null) {
             mYoukuPlayer.playVideo(mVid);
             mBlurImageContainer.setVisibility(View.INVISIBLE);
+            mPresenter.queryYoukuVideoDetail(mVid);
         }
     }
 

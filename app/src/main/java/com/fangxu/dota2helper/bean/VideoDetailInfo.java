@@ -1,5 +1,8 @@
 package com.fangxu.dota2helper.bean;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by lenov0 on 2016/4/26.
  */
@@ -9,6 +12,7 @@ public class VideoDetailInfo {
     private String title;
     private String link;
     private String thumbnail;
+    private String bigThumbnail;
     private int duration;
     private String category;
     private String state;
@@ -25,166 +29,643 @@ public class VideoDetailInfo {
     private int comment_count;
     private int up_count;
     private int down_count;
+    private int reference_count;
+    private List<Integer> operation_limit;
+    private List<String> streamtypes;
+    private List<Screenshot> thumbnails;
+    private Show show;
+    private Source source;
+    private Dvd dvd;
+    private BlockedReason blocked_reason;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getBigThumbnail() {
+        return bigThumbnail;
+    }
+
+    public void setBigThumbnail(String bigThumbnail) {
+        this.bigThumbnail = bigThumbnail;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublished(String published) {
+        this.published = published;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
+    public String getPublic_type() {
+        return public_type;
+    }
+
+    public void setPublic_type(String public_type) {
+        this.public_type = public_type;
+    }
+
+    public String getCopyright_type() {
+        return copyright_type;
+    }
+
+    public void setCopyright_type(String copyright_type) {
+        this.copyright_type = copyright_type;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public int getView_count() {
+        return view_count;
+    }
+
+    public void setView_count(int view_count) {
+        this.view_count = view_count;
+    }
+
+    public int getFavorite_count() {
+        return favorite_count;
+    }
+
+    public void setFavorite_count(int favorite_count) {
+        this.favorite_count = favorite_count;
+    }
+
+    public int getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(int comment_count) {
+        this.comment_count = comment_count;
+    }
+
+    public int getUp_count() {
+        return up_count;
+    }
+
+    public void setUp_count(int up_count) {
+        this.up_count = up_count;
+    }
+
+    public int getDown_count() {
+        return down_count;
+    }
+
+    public void setDown_count(int down_count) {
+        this.down_count = down_count;
+    }
+
+    public int getReference_count() {
+        return reference_count;
+    }
+
+    public void setReference_count(int reference_count) {
+        this.reference_count = reference_count;
+    }
+
+    public List<Integer> getOperation_limit() {
+        return operation_limit;
+    }
+
+    public void setOperation_limit(List<Integer> operation_limit) {
+        this.operation_limit = operation_limit;
+    }
+
+    public List<String> getStreamtypes() {
+        return streamtypes;
+    }
+
+    public void setStreamtypes(List<String> streamtypes) {
+        this.streamtypes = streamtypes;
+    }
+
+    public List<Screenshot> getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(List<Screenshot> thumbnails) {
+        this.thumbnails = thumbnails;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public void setShow(Show show) {
+        this.show = show;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public Dvd getDvd() {
+        return dvd;
+    }
+
+    public void setDvd(Dvd dvd) {
+        this.dvd = dvd;
+    }
+
+    public BlockedReason getBlocked_reason() {
+        return blocked_reason;
+    }
+
+    public void setBlocked_reason(BlockedReason blocked_reason) {
+        this.blocked_reason = blocked_reason;
+    }
 
     public static class User{
         private String id;
         private String name;
         private String link;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
     }
-//    {
-//        "id" : "XNDY5Njc0MTA4",
-//            "title" : "康熙来了 121101",
-//            "link" : "http://v.youku.com/v_show/id_XNDY5Njc0MTA4.html",
-//            "thumbnail" : "http://g2.ykimg.com/01270F1F46509251F539D10123193CD2CB70CC-5896-F53E-B869-61E819861E71",
-//            "duration" : "2675.36",
-//            "category" : "综艺",
-//            "state" : "normal",
-//            "created" : "2011-07-15 09:00:42",
-//            "published" : "2011-07-15 09:00:42",
-//            "description" : "康熙来了",
-//            "player" : "http://player.youku.com/player.php/sid/XNDY5Njc0MTA4/v.swf",
-//            "public_type" : "all",
-//            "copyright_type" : "reproduced",
-//            "user" :
-//        {
-//            "id" : 58011986,
-//                "name" : "康熙来了2010",
-//                "link" : "http://i.youku.com/u/UMjMyMDQ3OTQ0"
-//        },
-//        "tags": "康熙来了",
-//            "view_count" : 646437,
-//            "favorite_count": "124",
-//            "comment_count": "547",
-//            "up_count": 3060,
-//            "down_count": 724,
-//            "reference_count": 0,
-//            "operation_limit": [ ],
-//        "streamtypes": [
-//        "hd2",
-//                "flvhd",
-//                "mp4",
-//                "3gp",
-//                "3gphd"
-//        ],
-//        "thumbnails": [
-//        {
-//            "seq": 1,
-//                "url": "http://g3.ykimg.com/01270F1F46509251F204590123193C80F22A26-EDE9-96A1-EB60-8FA55743C21C",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 2,
-//                "url": "http://g4.ykimg.com/01270F1F46509251F37D7D0123193C0E845A38-7A41-3CCA-00A9-2908EF58F301",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 3,
-//                "url": "http://g1.ykimg.com/01270F1F46509251F4E7800123193CCF7AB6E4-D027-1157-4F9F-D5783E051474",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 4,
-//                "url": "http://g2.ykimg.com/01270F1F46509251F539D10123193CD2CB70CC-5896-F53E-B869-61E819861E71",
-//                "is_cover": 1
-//        },
-//        {
-//            "seq": 5,
-//                "url": "http://g3.ykimg.com/01270F1F46509251F625770123193C706B1FB5-4BAB-9077-2701-498C2E1DB452",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 6,
-//                "url": "http://g4.ykimg.com/01270F1F46509251F7DA0F0123193C43216832-6BF1-98C7-A93B-F5F003D06E3A",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 7,
-//                "url": "http://g1.ykimg.com/01270F1F46509251F8DC940123193C8074B788-FA97-3BAE-0273-AAECBCBAC873",
-//                "is_cover": 0
-//        },
-//        {
-//            "seq": 8,
-//                "url": "http://g2.ykimg.com/01270F1F46509251F966270123193C863C7E46-5504-D446-3BAB-2A056EC1A550",
-//                "is_cover": 0
-//        }
-//        ],
-//        "show": {
-//        "id": "2ab71ff032cb11e196ac",
-//                "name": "康熙来了 2012",
-//                "link": "http://www.youku.com/show_page/id_z2ab71ff032cb11e196ac.html",
-//                "type": "正片",
-//                "seq": "215",
-//                "stage": "20121101"
-//    },
-//        "dvd": {
-//        "point": {
-//            "story": [
-//            {
-//                "start": "307043",
-//                    "title": "张艾亚大秀台步 蹩脚姿势被嘲笑",
-//                    "desc": ""
-//            },
-//            {
-//                "start": "1060907",
-//                    "title": "陈汉典野战造型 半裸狂跳骑马舞",
-//                    "desc": ""
-//            },
-//            {
-//                "start": "1736034",
-//                    "title": "陈汉典大展身手 跳远似飞引欢呼",
-//                    "desc": ""
-//            },
-//            {
-//                "start": "2046152",
-//                    "title": "小S教瘦身秘诀 超速竞走秀曲线",
-//                    "desc": ""
-//            }
-//            ]
-//        },
-//        "tv_starttime": "2012-11-01 22:00:00",
-//                "desc": "本期《康熙来了》沈玉琳、许建国、王尹平、余筱萍和张艾亚纷纷挑战运动项目，他们每人在球场上表现如何呢？陈汉典为何现场大秀骑马舞？小S竟也放下身段，快速竞走传授她的曲线秘诀。敬请关注！",
-//                "person": [
-//        {
-//            "id": "317206",
-//                "name": "余筱萍",
-//                "start": "112494",
-//                "type": "guest",
-//                "link": "http://www.youku.com/star_page/uid_UMTI2ODgyNA=="
-//        },
-//        {
-//            "id": "330092",
-//                "name": "沈玉琳",
-//                "start": "68347",
-//                "type": "guest",
-//                "link": "http://www.youku.com/star_page/uid_UMTMyMDM2OA=="
-//        },
-//        {
-//            "id": "419241",
-//                "name": "许建国",
-//                "start": "490796",
-//                "type": "guest",
-//                "link": "http://www.youku.com/star_page/uid_UMTY3Njk2NA=="
-//        },
-//        {
-//            "id": "421849",
-//                "name": "张艾亚",
-//                "start": "313980",
-//                "type": "guest",
-//                "link": "http://www.youku.com/star_page/uid_UMTY4NzM5Ng=="
-//        },
-//        {
-//            "id": "422446",
-//                "name": "王尹平",
-//                "start": "245714",
-//                "type": "guest",
-//                "link": "http://www.youku.com/star_page/uid_UMTY4OTc4NA=="
-//        }
-//        ]
-//    },
-//        "source": {
-//        "id": 1,
-//                "name": "优酷站内WEB上传",
-//                "link": "http://www.youku.com/v_up/"
-//    }
-//    }
+
+    public static class Screenshot{
+        private int seq;
+        private String url;
+        private int is_cover;
+
+        public int getSeq() {
+            return seq;
+        }
+
+        public void setSeq(int seq) {
+            this.seq = seq;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public int getIs_cover() {
+            return is_cover;
+        }
+
+        public void setIs_cover(int is_cover) {
+            this.is_cover = is_cover;
+        }
+    }
+
+    public static class Show{
+        private String id;
+        private String name;
+        private String link;
+        private String type;
+        private int seq;
+        private int stage;
+        private int collecttime;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public int getSeq() {
+            return seq;
+        }
+
+        public void setSeq(int seq) {
+            this.seq = seq;
+        }
+
+        public int getStage() {
+            return stage;
+        }
+
+        public void setStage(int stage) {
+            this.stage = stage;
+        }
+
+        public int getCollecttime() {
+            return collecttime;
+        }
+
+        public void setCollecttime(int collecttime) {
+            this.collecttime = collecttime;
+        }
+    }
+
+    public static class Dvd{
+        private Point point;
+        private AudioLang audiolang;
+        private String title;
+        private String state;
+        private Date tv_starttime;
+        private int createtime;
+        private String rc_title;
+        private String desc;
+        private Person person;
+
+        public Point getPoint() {
+            return point;
+        }
+
+        public void setPoint(Point point) {
+            this.point = point;
+        }
+
+        public AudioLang getAudiolang() {
+            return audiolang;
+        }
+
+        public void setAudiolang(AudioLang audiolang) {
+            this.audiolang = audiolang;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public Date getTv_starttime() {
+            return tv_starttime;
+        }
+
+        public void setTv_starttime(Date tv_starttime) {
+            this.tv_starttime = tv_starttime;
+        }
+
+        public int getCreatetime() {
+            return createtime;
+        }
+
+        public void setCreatetime(int createtime) {
+            this.createtime = createtime;
+        }
+
+        public String getRc_title() {
+            return rc_title;
+        }
+
+        public void setRc_title(String rc_title) {
+            this.rc_title = rc_title;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public Person getPerson() {
+            return person;
+        }
+
+        public void setPerson(Person person) {
+            this.person = person;
+        }
+    }
+
+    public static class Person{
+        private String id;
+        private String name;
+        private Date start;
+        private String type;
+        private String link;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Date getStart() {
+            return start;
+        }
+
+        public void setStart(Date start) {
+            this.start = start;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
+    }
+
+    public static class AudioLang{
+        private String id;
+        private String url;
+        private String lang;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getLang() {
+            return lang;
+        }
+
+        public void setLang(String lang) {
+            this.lang = lang;
+        }
+    }
+
+    public static class Point{
+        private int head;
+        private int tail;
+        private Story story;
+
+        public int getHead() {
+            return head;
+        }
+
+        public void setHead(int head) {
+            this.head = head;
+        }
+
+        public int getTail() {
+            return tail;
+        }
+
+        public void setTail(int tail) {
+            this.tail = tail;
+        }
+
+        public Story getStory() {
+            return story;
+        }
+
+        public void setStory(Story story) {
+            this.story = story;
+        }
+    }
+
+    public static class Story{
+        private int start;
+        private String title;
+        private String desc;
+
+        public int getStart() {
+            return start;
+        }
+
+        public void setStart(int start) {
+            this.start = start;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
+
+    public static class BlockedReason {
+        private int no;
+        private String desc;
+
+        public int getNo() {
+            return no;
+        }
+
+        public void setNo(int no) {
+            this.no = no;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
+
+    public static class Source{
+        private int id;
+        private String name;
+        private String link;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
+    }
 }
