@@ -52,7 +52,9 @@ public class VideoDetailPresenter implements VideoDetailCallback{
         String watchedCount = NumberConversion.bigNumber(videoDetailInfo.getView_count()) + "次播放";
         String upCount = NumberConversion.bigNumber(videoDetailInfo.getUp_count());
         String downCount = NumberConversion.bigNumber(videoDetailInfo.getDown_count());
-        mCallback.setVideoDetail(watchedCount, upCount, downCount);
+        String title = videoDetailInfo.getTitle();
+        String publishTime = "发布于 " + videoDetailInfo.getPublished();
+        mCallback.setVideoDetail(title, publishTime, watchedCount, upCount, downCount);
     }
 
     @Override

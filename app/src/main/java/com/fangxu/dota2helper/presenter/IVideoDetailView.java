@@ -9,5 +9,5 @@ public interface IVideoDetailView {
     void setVideoSet(VideoSetList videoSetList);
     void onGetInfoFailed(String error);
     void onVideoInvalid(String invalid);
-    void setVideoDetail(String watchedCount, String upCount, String downCount);
+    void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount);
 }

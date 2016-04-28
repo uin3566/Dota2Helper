@@ -47,6 +47,10 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     TextView mDown;
     @Bind(R.id.tv_watch_count)
     TextView mWatchCount;
+    @Bind(R.id.tv_title)
+    TextView mTitle;
+    @Bind(R.id.tv_publish_time)
+    TextView mPublishTime;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -155,10 +159,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     }
 
     @Override
-    public void setVideoDetail(String watchedCount, String upCount, String downCount) {
+    public void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount) {
         mWatchCount.setText(watchedCount);
         mUp.setText(upCount);
         mDown.setText(downCount);
+        mTitle.setText(title);
+        mPublishTime.setText(published);
     }
 
     @Override

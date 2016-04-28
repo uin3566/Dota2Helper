@@ -11,7 +11,8 @@
     <dimen name="video_play_icon_size">30dp</dimen>
     <dimen name="video_player_height">203dp</dimen>
     <dimen name="video_info_area_height">40dp</dimen>
-    <dimen name="video_info_area_text_size">14sp</dimen>
+    <dimen name="video_info_area_big_text_size">16sp</dimen>
+    <dimen name="video_info_area_common_text_size">14sp</dimen>
     <dimen name="video_info_area_icon_size">18dp</dimen>
 
     <!-- text -->
