@@ -3,6 +3,7 @@ package com.fangxu.dota2helper.interactor;
 import android.util.Log;
 
 import com.fangxu.dota2helper.MyApp;
+import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.network.AppNetWork;
@@ -57,7 +58,39 @@ public class VideoDetailInteractor {
                 });
     }
 
-    public void queryYoukuVid(String date, String vid) {
+    public void queryYoukuVid(final int index, String date, String vid) {
+        AppNetWork.INSTANCE.getDetailsApi()
+                .getYoukuVid(date, vid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        mCallback.onGetYoukuVidSuccess(index, s);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mCallback.onGetYoukuVidFailed();
+                    }
+                });
+    }
 
+    public void queryRelatedVideoList(String vid) {
+        AppNetWork.INSTANCE.getYoukuApi()
+                .getRelatedVideoList(MyApp.getYoukuClientId(), vid, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<RelatedVideoList>() {
+                    @Override
+                    public void call(RelatedVideoList relatedVideoList) {
+                        mCallback.onGetRelatedVideoListSuccess(relatedVideoList.getVideos());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mCallback.onGetRelatedVideoListFailed();
+                    }
+                });
     }
 }

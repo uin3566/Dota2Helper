@@ -1,4 +1,4 @@
-package com.fangxu.dota2helper.ui.view;
+package com.fangxu.dota2helper.ui.widget;
 
 import android.content.Context;
 import android.content.res.Resources;

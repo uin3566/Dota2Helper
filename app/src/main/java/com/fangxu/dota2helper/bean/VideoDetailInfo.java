@@ -30,7 +30,7 @@ public class VideoDetailInfo {
     private int up_count;
     private int down_count;
     private int reference_count;
-    private List<Integer> operation_limit;
+    private List<String> operation_limit;
     private List<String> streamtypes;
     private List<Screenshot> thumbnails;
     private Show show;
@@ -214,11 +214,11 @@ public class VideoDetailInfo {
         this.reference_count = reference_count;
     }
 
-    public List<Integer> getOperation_limit() {
+    public List<String> getOperation_limit() {
         return operation_limit;
     }
 
-    public void setOperation_limit(List<Integer> operation_limit) {
+    public void setOperation_limit(List<String> operation_limit) {
         this.operation_limit = operation_limit;
     }
 

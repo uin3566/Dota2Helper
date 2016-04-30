@@ -1,11 +1,10 @@
-package com.fangxu.dota2helper.ui.view;
+package com.fangxu.dota2helper.ui.widget;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -25,7 +24,6 @@ import com.baseproject.utils.Logger;
 import com.baseproject.utils.UIUtils;
 import com.baseproject.utils.Util;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.util.BlurTransformation;
 import com.youku.player.Track;
