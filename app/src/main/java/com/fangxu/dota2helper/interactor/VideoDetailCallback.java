@@ -18,4 +18,5 @@ public interface VideoDetailCallback {
     public void onGetYoukuVidFailed();
     public void onGetRelatedVideoListSuccess(List<RelatedVideoList.RelatedVideoEntity> relatedVideoEntityList);
     public void onGetRelatedVideoListFailed();
+    public void onGetDetailAndRelatedVideoList(VideoDetailInfo videoDetailInfo, List<RelatedVideoList.RelatedVideoEntity> relatedVideoEntityList);
 }

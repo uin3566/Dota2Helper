@@ -33,7 +33,7 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView, Vi
     public void init() {
         int position = FragmentPagerItem.getPosition(getArguments());
         String videoType = NavUtil.videoTypeList[position];
-        mPresenter = new VideoPresenter(this, videoType);
+        mPresenter = new VideoPresenter(getActivity(), this, videoType);
     }
 
     @Override

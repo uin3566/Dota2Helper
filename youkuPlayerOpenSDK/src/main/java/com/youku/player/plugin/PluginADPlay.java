@@ -4,6 +4,7 @@ package com.youku.player.plugin;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -39,7 +40,8 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 	TextView endPage;
 //	TextView ad_more;
 	YoukuBasePlayerManager mBasePlayerManager;
-	Activity mActivity;
+	Context mContext;
+    private Handler mHandler;
 	IMediaPlayerDelegate mediaPlayerDelegate;
 	private TextView mCountUpdateTextView;
 	private ImageView mSwitchPlayer;
@@ -73,9 +75,11 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 		super(basePlayerManager.getBaseActivity(), mediaPlayerDelegate);
 		this.mediaPlayerDelegate = mediaPlayerDelegate;
 		mBasePlayerManager = basePlayerManager;
-		mActivity = mBasePlayerManager.getBaseActivity();
-		mLayoutInflater = LayoutInflater.from(mActivity);
-		init(mActivity);
+		//mActivity = mBasePlayerManager.getBaseActivity();
+        mContext = mBasePlayerManager.getBaseActivity().getApplicationContext();
+		mLayoutInflater = LayoutInflater.from(mContext);
+        mHandler = new Handler(Looper.getMainLooper());
+		init(mContext);
 	}
 
 	private void init(Context context) {
@@ -156,8 +160,8 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 				if (Util.hasInternet()
 						&& !Util.isWifi()
 						&& !PreferenceManager.getDefaultSharedPreferences(
-								mActivity).getBoolean("allowONline3G", true)) {
-					Toast.makeText(mActivity, "请设置3g/2g允许播放", Toast.LENGTH_SHORT)
+								mContext).getBoolean("allowONline3G", true)) {
+					Toast.makeText(mContext, "请设置3g/2g允许播放", Toast.LENGTH_SHORT)
 							.show();
 					return;
 				}
@@ -218,13 +222,19 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 
 	@Override
 	public boolean onErrorListener(int what, int extra) {
-		mActivity.runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				containerView.setVisibility(View.GONE);
-			}
-		});
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                containerView.setVisibility(View.GONE);
+            }
+        });
+//		mActivity.runOnUiThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				containerView.setVisibility(View.GONE);
+//			}
+//		});
 		return false;
 	}
 
@@ -254,23 +264,36 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 
 	@Override
 	public void onLoadedListener() {
-		((Activity) mActivity).runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				play_adButton.setVisibility(View.GONE);
-				hideLoading();
-			}
-		});
+//		((Activity) mActivity).runOnUiThread(new Runnable() {
+//			@Override
+//			public void run() {
+//				play_adButton.setVisibility(View.GONE);
+//				hideLoading();
+//			}
+//		});
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                play_adButton.setVisibility(View.GONE);
+                hideLoading();
+            }
+        });
 	}
 
 	@Override
 	public void onLoadingListener() {
-		((Activity) mActivity).runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				showLoading();
-			}
-		});
+//		((Activity) mActivity).runOnUiThread(new Runnable() {
+//			@Override
+//			public void run() {
+//				showLoading();
+//			}
+//		});
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                showLoading();
+            }
+        });
 	}
 
 	@Override
@@ -309,22 +332,37 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 
 	@Override
 	public void onVideoChange() {
-		mActivity.runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				mCountUpdateTextView.setText("");
-				play_adButton.setVisibility(View.GONE);
-				mSwitchPlayer.setVisibility(View.GONE);
+//		mActivity.runOnUiThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				mCountUpdateTextView.setText("");
+//				play_adButton.setVisibility(View.GONE);
+//				mSwitchPlayer.setVisibility(View.GONE);
+////				ad_more.setVisibility(View.GONE);
+//				mSwitchParent.setVisibility(View.GONE);
+//                if (Profile.PLANTFORM == Plantform.YOUKU) {
+////                	mAdSkip.setVisibility(View.GONE);
+//                	mAdSkipBlank.setVisibility(View.GONE);
+//                	mCountUpdateWrap.setVisibility(View.GONE);
+//                }
+//			}
+//		});
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mCountUpdateTextView.setText("");
+                play_adButton.setVisibility(View.GONE);
+                mSwitchPlayer.setVisibility(View.GONE);
 //				ad_more.setVisibility(View.GONE);
-				mSwitchParent.setVisibility(View.GONE);
+                mSwitchParent.setVisibility(View.GONE);
                 if (Profile.PLANTFORM == Plantform.YOUKU) {
 //                	mAdSkip.setVisibility(View.GONE);
-                	mAdSkipBlank.setVisibility(View.GONE);
-                	mCountUpdateWrap.setVisibility(View.GONE);
+                    mAdSkipBlank.setVisibility(View.GONE);
+                    mCountUpdateWrap.setVisibility(View.GONE);
                 }
-			}
-		});
+            }
+        });
 	}
 
 	boolean isADPluginShowing = false;
@@ -542,18 +580,29 @@ public class PluginADPlay extends PluginOverlay implements DetailMessage {
 	}
 
 	public void hideLoading() {
-		((Activity) mActivity).runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (null != seekLoadingContainerView) {
-					seekLoadingContainerView.setVisibility(View.GONE);
-					playLoadingBar.setProgress(0);
-				}
-				if (null != seekHandler)
-					seekHandler.removeCallbacksAndMessages(null);
-			}
-		});
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (null != seekLoadingContainerView) {
+                    seekLoadingContainerView.setVisibility(View.GONE);
+                    playLoadingBar.setProgress(0);
+                }
+                if (null != seekHandler)
+                    seekHandler.removeCallbacksAndMessages(null);
+            }
+        });
+//		((Activity) mActivity).runOnUiThread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                if (null != seekLoadingContainerView) {
+//                    seekLoadingContainerView.setVisibility(View.GONE);
+//                    playLoadingBar.setProgress(0);
+//                }
+//                if (null != seekHandler)
+//                    seekHandler.removeCallbacksAndMessages(null);
+//            }
+//        });
 	}
 
 	private Handler seekHandler = new Handler() {

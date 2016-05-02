@@ -52,7 +52,7 @@ public class StrategyFragment extends RefreshBaseFragment implements
     public void init() {
         int position = FragmentPagerItem.getPosition(getArguments());
         String strategyType = NavUtil.strategyTypeList[position];
-        mPresenter = new StrategyPresenter(this, strategyType);
+        mPresenter = new StrategyPresenter(getActivity(), this, strategyType);
     }
 
     @Override

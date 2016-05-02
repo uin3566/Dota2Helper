@@ -1,5 +1,7 @@
 package com.fangxu.dota2helper.presenter;
 
+import android.app.Activity;
+
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
@@ -16,9 +18,9 @@ public class VideoDetailPresenter implements VideoDetailCallback{
     private IVideoDetailView mCallback;
     private VideoDetailInteractor mInteractor;
 
-    public VideoDetailPresenter(IVideoDetailView iVideoDetailView) {
+    public VideoDetailPresenter(Activity activity, IVideoDetailView iVideoDetailView) {
         mCallback = iVideoDetailView;
-        mInteractor = new VideoDetailInteractor(this);
+        mInteractor = new VideoDetailInteractor(activity, this);
     }
 
     public void queryVideoSetInformation(String date, String vid) {
@@ -35,6 +37,10 @@ public class VideoDetailPresenter implements VideoDetailCallback{
 
     public void queryRelatedYoukuVideo(String vid) {
         mInteractor.queryRelatedVideoList(vid);
+    }
+
+    public void queryDetailAndRelated(String vid) {
+        mInteractor.queryDetailAndRelated(vid);
     }
 
     @Override
@@ -59,6 +65,12 @@ public class VideoDetailPresenter implements VideoDetailCallback{
     }
 
     @Override
+    public void onGetVideoSetFailed() {
+        final String error = "获取视频信息失败";
+        mCallback.onGetInfoFailed(error);
+    }
+
+    @Override
     public void onGetRelatedVideoListSuccess(List<RelatedVideoList.RelatedVideoEntity> relatedVideoEntityList) {
         mCallback.setRelatedVideoList(relatedVideoEntityList);
     }
@@ -69,9 +81,12 @@ public class VideoDetailPresenter implements VideoDetailCallback{
     }
 
     @Override
-    public void onGetVideoSetFailed() {
-        final String error = "获取视频信息失败";
-        mCallback.onGetInfoFailed(error);
+    public void onGetDetailAndRelatedVideoList(VideoDetailInfo videoDetailInfo, List<RelatedVideoList.RelatedVideoEntity> relatedVideoEntityList) {
+        if (videoDetailInfo == null && relatedVideoEntityList == null) {
+            mCallback.setNoInfo();
+        } else {
+
+        }
     }
 
     @Override

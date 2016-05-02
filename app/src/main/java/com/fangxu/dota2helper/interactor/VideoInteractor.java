@@ -1,11 +1,15 @@
 package com.fangxu.dota2helper.interactor;
 
+import android.app.Activity;
+
+import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.VideoList;
 import com.fangxu.dota2helper.network.AppNetWork;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Administrator on 2016/4/19.
@@ -13,13 +17,15 @@ import rx.schedulers.Schedulers;
 public class VideoInteractor {
     private VideoCallback mCallback;
     private int mNextListId;
+    private CompositeSubscription mCompositeSubscription;
 
-    public VideoInteractor(VideoCallback callback) {
+    public VideoInteractor(Activity activity, VideoCallback callback) {
         mCallback = callback;
+        mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
     }
 
     public void queryVideos(String type) {
-        AppNetWork.INSTANCE.getNewsApi()
+        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
                 .refreshVideos(type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,11 +40,11 @@ public class VideoInteractor {
                     public void call(Throwable throwable) {
                         mCallback.onUpdateFailed(false);
                     }
-                });
+                }));
     }
 
     public void queryMoreVideos(String type) {
-        AppNetWork.INSTANCE.getNewsApi()
+        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
                 .loadMoreVideos(type, mNextListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -53,6 +59,6 @@ public class VideoInteractor {
                     public void call(Throwable throwable) {
                         mCallback.onUpdateFailed(true);
                     }
-                });
+                }));
     }
 }

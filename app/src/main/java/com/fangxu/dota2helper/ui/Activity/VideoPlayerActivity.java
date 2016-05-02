@@ -23,6 +23,7 @@ import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.presenter.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
+import com.fangxu.dota2helper.ui.widget.GoogleCircleProgressView;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;
 import com.fangxu.dota2helper.ui.widget.SelectButton;
 import com.fangxu.dota2helper.ui.widget.YoukuPluginPlayer;
@@ -74,6 +75,10 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     ScrollListView mListView;
     @Bind(R.id.scroll_view)
     ScrollView mScrollView;
+    @Bind(R.id.fl_progress_container)
+    FrameLayout mProgressContainer;
+    @Bind(R.id.googleProgress)
+    GoogleCircleProgressView mProgress;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -108,7 +113,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mListView.setAdapter(mAdapter);
         mListView.setFocusable(false);
 
-        mPresenter = new VideoDetailPresenter(this);
+        mPresenter = new VideoDetailPresenter(this, this);
         queryVideoSetInfo();
         initPlayer();
     }
@@ -135,13 +140,13 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             @Override
             public void onSmallscreenListener() {
                 // TODO Auto-generated method stub
-
+                mToolbar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFullscreenListener() {
                 // TODO Auto-generated method stub
-
+                mToolbar.setVisibility(View.GONE);
             }
         };
         mYoukuBasePlayerManager.onCreate();
@@ -169,6 +174,10 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mPresenter.queryRelatedYoukuVideo(youkuVid);
     }
 
+    private void queryDetailAndRelatedList(String youkuVid) {
+        mPresenter.queryDetailAndRelated(youkuVid);
+    }
+
     private void onSelectButtonClicked(SelectButton selectButton) {
         if (selectButton.getIndex() != mCurrentSelectedIndex) {
             mGridLayout.getChildAt(mCurrentSelectedIndex).setSelected(false);
@@ -178,8 +187,9 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             if (mVid == null) {
                 ToastUtil.showToast(VideoPlayerActivity.this, "数据准备中，请稍后再试");
             } else {
-                queryVideoDetail(mVid);
-                queryRelatedVideo(mVid);
+//                queryVideoDetail(mVid);
+//                queryRelatedVideo(mVid);
+                queryDetailAndRelatedList(mVid);
                 mYoukuPlayer.playVideo(mVid);
                 mBlurImageContainer.setVisibility(View.INVISIBLE);
             }
@@ -192,6 +202,16 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         String down = NumberConversion.bigNumber(downCount);
         String publishTime = "发布于 " + published;
         setVideoDetail(title, publishTime, watchCount, up, down);
+    }
+
+    @Override
+    public void setNoRelatedVideoList() {
+
+    }
+
+    @Override
+    public void onGetNoInfo() {
+
     }
 
     @Override
@@ -241,8 +261,10 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid) {
         if (queryVideoDetail) {
             mVid = youkuVid;
-            queryVideoDetail(mVid);
-            queryRelatedVideo(mVid);
+//            queryVideoDetail(mVid);
+//            queryRelatedVideo(mVid);
+            mProgressContainer.setVisibility(View.VISIBLE);
+            queryDetailAndRelatedList(mVid);
         }
         mYoukuVidMap.put(index, youkuVid);
     }
@@ -318,17 +340,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mToolbar.setVisibility(View.GONE);
-        } else {
-            mToolbar.setVisibility(View.VISIBLE);
-        }
         mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mYoukuBasePlayerManager.onDestroy();
+        super.onDestroy();
     }
 }

@@ -35,217 +35,242 @@
         </RelativeLayout>
     </com.youku.player.base.YoukuPlayerView>
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/video_info_area_height"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/base_margin"
-                android:paddingRight="@dimen/base_margin">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:src="@drawable/ic_watched"
-                        android:layout_width="@dimen/video_info_area_icon_size"
-                        android:layout_height="@dimen/video_info_area_icon_size" />
-
-                    <TextView
-                        android:id="@+id/tv_watch_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/video_info_area_common_text_size"
-                        android:textColor="@color/content_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_down"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:src="@drawable/ic_down"
-                        android:layout_width="@dimen/video_info_area_icon_size"
-                        android:layout_height="@dimen/video_info_area_icon_size" />
-
-                    <TextView
-                        android:id="@+id/tv_down"
-                        android:gravity="center"
-                        android:textSize="@dimen/video_info_area_common_text_size"
-                        android:textColor="@color/content_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_toLeftOf="@id/ll_down"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/base_margin">
-
-                    <ImageView
-                        android:src="@drawable/ic_up"
-                        android:layout_width="@dimen/video_info_area_icon_size"
-                        android:layout_height="@dimen/video_info_area_icon_size" />
-
-                    <TextView
-                        android:id="@+id/tv_up"
-                        android:gravity="center"
-                        android:textSize="@dimen/video_info_area_common_text_size"
-                        android:textColor="@color/content_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/base_margin"
-                android:paddingRight="@dimen/base_margin"
-                android:paddingTop="@dimen/base_little_margin"
-                android:paddingBottom="@dimen/base_little_margin"
-                android:layout_marginTop="@dimen/base_little_margin">
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:text="--"
-                    android:textColor="@color/title_text"
-                    android:textStyle="bold"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/video_info_area_big_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tv_publish_time"
-                    android:text="--"
-                    android:textColor="@color/content_text"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/base_little_margin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/video_info_area_common_text_size"
-                    android:layout_below="@id/tv_title" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_anthology_container"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/base_little_margin"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/base_margin"
-                android:paddingRight="@dimen/base_margin"
-                android:paddingTop="@dimen/base_little_margin"
-                android:paddingBottom="@dimen/base_little_margin">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:id="@+id/rl_anthology_text_container"
-                    android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tv_anthology"
-                        android:text="@string/anthology"
-                        android:layout_centerVertical="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/video_info_area_common_text_size"
-                        android:textColor="@color/title_text"
-                        android:layout_marginLeft="@dimen/base_little_margin" />
-
-                    <ImageView
-                        android:src="@drawable/shape_thin_rectangle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true" />
-
-                </RelativeLayout>
-
-                <android.support.v7.widget.GridLayout
-                    android:id="@+id/grid_layout"
-                    android:layout_below="@id/rl_anthology_text_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:columnCount="5"
-                    app:orientation="horizontal" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_related_video_container"
-                android:visibility="visible"
-                android:layout_marginTop="@dimen/base_little_margin"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/base_margin"
-                android:paddingRight="@dimen/base_margin"
-                android:paddingTop="@dimen/base_little_margin"
-                android:paddingBottom="@dimen/base_little_margin">
-
-                <RelativeLayout
-                    android:id="@+id/rl_related_video_text_container"
-                    android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tv_related_video"
-                        android:text="@string/related_video"
-                        android:layout_centerVertical="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/video_info_area_common_text_size"
-                        android:textColor="@color/title_text"
-                        android:layout_marginLeft="@dimen/base_little_margin" />
-
-                    <ImageView
-                        android:src="@drawable/shape_thin_rectangle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true" />
-
-                </RelativeLayout>
-
-                <com.fangxu.dota2helper.ui.widget.ScrollListView
-                    android:id="@+id/scroll_list_view"
+                    android:layout_height="@dimen/video_info_area_height"
                     android:background="@color/white"
-                    android:layout_below="@id/rl_related_video_text_container"
+                    android:paddingLeft="@dimen/base_margin"
+                    android:paddingRight="@dimen/base_margin">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:src="@drawable/ic_watched"
+                            android:layout_width="@dimen/video_info_area_icon_size"
+                            android:layout_height="@dimen/video_info_area_icon_size" />
+
+                        <TextView
+                            android:id="@+id/tv_watch_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/video_info_area_common_text_size"
+                            android:textColor="@color/content_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_down"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:src="@drawable/ic_down"
+                            android:layout_width="@dimen/video_info_area_icon_size"
+                            android:layout_height="@dimen/video_info_area_icon_size" />
+
+                        <TextView
+                            android:id="@+id/tv_down"
+                            android:gravity="center"
+                            android:textSize="@dimen/video_info_area_common_text_size"
+                            android:textColor="@color/content_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/ll_down"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/base_margin">
+
+                        <ImageView
+                            android:src="@drawable/ic_up"
+                            android:layout_width="@dimen/video_info_area_icon_size"
+                            android:layout_height="@dimen/video_info_area_icon_size" />
+
+                        <TextView
+                            android:id="@+id/tv_up"
+                            android:gravity="center"
+                            android:textSize="@dimen/video_info_area_common_text_size"
+                            android:textColor="@color/content_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/base_margin"
+                    android:paddingRight="@dimen/base_margin"
+                    android:paddingTop="@dimen/base_little_margin"
+                    android:paddingBottom="@dimen/base_little_margin"
+                    android:layout_marginTop="@dimen/base_little_margin">
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:text="--"
+                        android:textColor="@color/title_text"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/video_info_area_big_text_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-    </ScrollView>
+                    <TextView
+                        android:id="@+id/tv_publish_time"
+                        android:text="--"
+                        android:textColor="@color/content_text"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/base_little_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/video_info_area_common_text_size"
+                        android:layout_below="@id/tv_title" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_anthology_container"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/base_little_margin"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/base_margin"
+                    android:paddingRight="@dimen/base_margin"
+                    android:paddingTop="@dimen/base_little_margin"
+                    android:paddingBottom="@dimen/base_little_margin">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_anthology_text_container"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_anthology"
+                            android:text="@string/anthology"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/video_info_area_common_text_size"
+                            android:textColor="@color/title_text"
+                            android:layout_marginLeft="@dimen/base_little_margin" />
+
+                        <ImageView
+                            android:src="@drawable/shape_thin_rectangle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true" />
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.GridLayout
+                        android:id="@+id/grid_layout"
+                        android:layout_below="@id/rl_anthology_text_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:columnCount="5"
+                        app:orientation="horizontal" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_related_video_container"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/base_little_margin"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/base_margin"
+                    android:paddingRight="@dimen/base_margin"
+                    android:paddingTop="@dimen/base_little_margin"
+                    android:paddingBottom="@dimen/base_little_margin">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_related_video_text_container"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_related_video"
+                            android:text="@string/related_video"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/video_info_area_common_text_size"
+                            android:textColor="@color/title_text"
+                            android:layout_marginLeft="@dimen/base_little_margin" />
+
+                        <ImageView
+                            android:src="@drawable/shape_thin_rectangle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true" />
+
+                    </RelativeLayout>
+
+                    <com.fangxu.dota2helper.ui.widget.ScrollListView
+                        android:id="@+id/scroll_list_view"
+                        android:background="@color/white"
+                        android:layout_below="@id/rl_related_video_text_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/fl_progress_container"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.fangxu.dota2helper.ui.widget.GoogleCircleProgressView
+                android:id="@+id/googleProgress"
+                app:gcp_show_arrow="true"
+                app:gcp_progress_stoke_width="3dp"
+                app:gcp_arrow_height="6dp"
+                app:gcp_arrow_width="8dp"
+                android:layout_width="@dimen/load_more_drawable_size_google"
+                android:layout_height="@dimen/load_more_drawable_size_google"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

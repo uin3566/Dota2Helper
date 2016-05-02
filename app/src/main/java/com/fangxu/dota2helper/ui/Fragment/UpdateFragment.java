@@ -38,7 +38,7 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView, Ne
 
     @Override
     public void init() {
-        mPresenter = new NewsPresenter(this);
+        mPresenter = new NewsPresenter(getActivity(), this);
         setRetainInstance(true);
     }
 

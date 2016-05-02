@@ -1,5 +1,7 @@
 package com.fangxu.dota2helper.presenter;
 
+import android.app.Activity;
+
 import com.fangxu.dota2helper.bean.VideoList;
 import com.fangxu.dota2helper.interactor.VideoCallback;
 import com.fangxu.dota2helper.interactor.VideoInteractor;
@@ -14,10 +16,10 @@ public class VideoPresenter implements VideoCallback{
     private VideoInteractor mInteractor;
     private IVideoView mCallback;
 
-    public VideoPresenter(IVideoView iVideoView, String type) {
+    public VideoPresenter(Activity activity, IVideoView iVideoView, String type) {
         mType = type;
         mCallback = iVideoView;
-        mInteractor = new VideoInteractor(this);
+        mInteractor = new VideoInteractor(activity, this);
     }
 
     public void doRefresh() {

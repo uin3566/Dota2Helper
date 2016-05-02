@@ -1,5 +1,8 @@
 package com.fangxu.dota2helper.presenter;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.interactor.NewsCallback;
 import com.fangxu.dota2helper.interactor.NewsInteractor;
@@ -19,8 +22,8 @@ public class NewsPresenter implements NewsCallback{
     private INewsView mCallback;
     private int mType;
 
-    public NewsPresenter(INewsView iNewsView) {
-        mInteractor = new NewsInteractor(this);
+    public NewsPresenter(Activity activity, INewsView iNewsView) {
+        mInteractor = new NewsInteractor(activity, this);
         mCallback = iNewsView;
         if (iNewsView instanceof NewsFragment){
             mType = NEWS;

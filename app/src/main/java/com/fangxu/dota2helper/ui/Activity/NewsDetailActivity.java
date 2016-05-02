@@ -7,6 +7,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.network.AppNetWork;
 import com.fangxu.dota2helper.util.ToastUtil;
 
@@ -59,7 +60,7 @@ public class NewsDetailActivity extends BaseActivity {
     private void loadDetail() {
         String date = getIntent().getStringExtra(NEWS_DATE);
         String nid = getIntent().getStringExtra(NEWS_NID);
-        AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
+        RxCenter.INSTANCE.getCompositeSubscription(getTaskId()).add(AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
@@ -72,6 +73,6 @@ public class NewsDetailActivity extends BaseActivity {
                     public void call(Throwable throwable) {
                         ToastUtil.showToast(NewsDetailActivity.this, "error");
                     }
-                });
+                }));
     }
 }

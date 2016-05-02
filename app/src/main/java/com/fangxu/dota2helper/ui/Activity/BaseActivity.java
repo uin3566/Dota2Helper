@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.RxCenter;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
@@ -26,11 +27,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
+        RxCenter.INSTANCE.addCompositeSubscription(getTaskId());
         init(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(getTaskId());
         super.onDestroy();
     }
 }

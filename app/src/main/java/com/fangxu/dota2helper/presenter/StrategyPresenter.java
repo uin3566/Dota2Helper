@@ -1,5 +1,7 @@
 package com.fangxu.dota2helper.presenter;
 
+import android.app.Activity;
+
 import com.fangxu.dota2helper.bean.StrategyList;
 import com.fangxu.dota2helper.interactor.StrategyCallback;
 import com.fangxu.dota2helper.interactor.StrategyInteractor;
@@ -14,10 +16,10 @@ public class StrategyPresenter implements StrategyCallback{
     private StrategyInteractor mInteractor;
     private String mType;
 
-    public StrategyPresenter(IStrategyView iStrategyView, String type) {
+    public StrategyPresenter(Activity activity, IStrategyView iStrategyView, String type) {
         mCallback = iStrategyView;
         mType = type;
-        mInteractor = new StrategyInteractor(this);
+        mInteractor = new StrategyInteractor(activity, this);
     }
 
     public void doRefresh() {

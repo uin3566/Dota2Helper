@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.presenter;
 
 import com.fangxu.dota2helper.bean.RelatedVideoList;
+import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface IVideoDetailView {
     void onVideoInvalid(String invalid);
     void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount);
     void setRelatedVideoList(List<RelatedVideoList.RelatedVideoEntity> relatedVideoList);
+    void setNoInfo();
+    void setDetailAndRelatedVideoList(String title, String published, String watchedCount, String upCount, String downCount, List<RelatedVideoList.RelatedVideoEntity> relatedVideoList);
 }
