@@ -17,6 +17,7 @@
     <dimen name="video_info_area_icon_size">18dp</dimen>
     <dimen name="select_button_height">35dp</dimen>
     <dimen name="select_button_width">60dp</dimen>
+    <dimen name="load_video_detail_progress_size">40dp</dimen>
 
     <!-- text -->
     <dimen name="title_text_size">14sp</dimen>

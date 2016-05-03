@@ -111,7 +111,7 @@ public class VideoDetailInteractor {
         mDetailInfo = null;
         mVideoList = null;
         Observable o1 = AppNetWork.INSTANCE.getYoukuApi().getVideoDetailInfo(MyApp.getYoukuClientId(), vid);
-        Observable o2 = AppNetWork.INSTANCE.getYoukuApi().getRelatedVideoList(MyApp.getYoukuClientId(), vid, 10);
+        Observable o2 = AppNetWork.INSTANCE.getYoukuApi().getRelatedVideoList(MyApp.getYoukuClientId(), vid, 20);
         Subscription subscription = Observable.mergeDelayError(o1, o2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +123,7 @@ public class VideoDetailInteractor {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mCallback.onGetDetailAndRelatedVideoList(mDetailInfo, mVideoList);
                     }
 
                     @Override
@@ -131,7 +131,7 @@ public class VideoDetailInteractor {
                         if (o instanceof VideoDetailInfo) {
                             mDetailInfo = (VideoDetailInfo) o;
                         } else {
-                            mVideoList = (List<RelatedVideoList.RelatedVideoEntity>) o;
+                            mVideoList = ((RelatedVideoList)o).getVideos();
                         }
                     }
                 });

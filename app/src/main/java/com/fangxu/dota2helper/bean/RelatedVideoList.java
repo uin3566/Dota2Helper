@@ -31,7 +31,7 @@ public class RelatedVideoList {
         private String title;
         private String link;
         private String thumbnail;
-        private int duration;
+        private float duration;
         private String category;
         private String state;
         private int view_count;
@@ -76,11 +76,11 @@ public class RelatedVideoList {
             this.thumbnail = thumbnail;
         }
 
-        public int getDuration() {
+        public float getDuration() {
             return duration;
         }
 
-        public void setDuration(int duration) {
+        public void setDuration(float duration) {
             this.duration = duration;
         }
 

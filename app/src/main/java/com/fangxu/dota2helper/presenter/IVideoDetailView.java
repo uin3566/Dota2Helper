@@ -17,6 +17,6 @@ public interface IVideoDetailView {
     void onVideoInvalid(String invalid);
     void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount);
     void setRelatedVideoList(List<RelatedVideoList.RelatedVideoEntity> relatedVideoList);
-    void setNoInfo();
-    void setDetailAndRelatedVideoList(String title, String published, String watchedCount, String upCount, String downCount, List<RelatedVideoList.RelatedVideoEntity> relatedVideoList);
+    void setNoRelatedVideo();
+    void hideProgressBar();
 }

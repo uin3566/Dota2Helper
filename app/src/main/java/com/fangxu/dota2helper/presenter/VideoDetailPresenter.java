@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailPresenter implements VideoDetailCallback{
+public class VideoDetailPresenter implements VideoDetailCallback {
     private IVideoDetailView mCallback;
     private VideoDetailInteractor mInteractor;
 
@@ -29,10 +29,6 @@ public class VideoDetailPresenter implements VideoDetailCallback{
 
     public void queryYoukuVid(int index, String date, String vid) {
         mInteractor.queryYoukuVid(index, date, vid);
-    }
-
-    public void queryYoukuVideoDetail(String vid) {
-        mInteractor.queryYoukuVideoDetail(vid);
     }
 
     public void queryRelatedYoukuVideo(String vid) {
@@ -53,7 +49,7 @@ public class VideoDetailPresenter implements VideoDetailCallback{
                 mCallback.setAnthologyGridGone();
             } else {
                 mCallback.setVideoList(videoSetList.getList());
-                for (int i = 1; i< videoCount; i++) {
+                for (int i = 1; i < videoCount; i++) {
                     VideoSetList.VideoDateVidEntity entity = videoSetList.getList().get(i);
                     queryYoukuVid(i, entity.getDate(), entity.getVid());
                 }
@@ -82,11 +78,21 @@ public class VideoDetailPresenter implements VideoDetailCallback{
 
     @Override
     public void onGetDetailAndRelatedVideoList(VideoDetailInfo videoDetailInfo, List<RelatedVideoList.RelatedVideoEntity> relatedVideoEntityList) {
-        if (videoDetailInfo == null && relatedVideoEntityList == null) {
-            mCallback.setNoInfo();
-        } else {
-
+        if (videoDetailInfo != null) {
+            String watchedCount = NumberConversion.bigNumber(videoDetailInfo.getView_count()) + "次播放";
+            String upCount = NumberConversion.bigNumber(videoDetailInfo.getUp_count());
+            String downCount = NumberConversion.bigNumber(videoDetailInfo.getDown_count());
+            String title = videoDetailInfo.getTitle();
+            String publishTime = "发布于 " + videoDetailInfo.getPublished();
+            mCallback.setVideoDetail(title, publishTime, watchedCount, upCount, downCount);
         }
+
+        if (relatedVideoEntityList != null && relatedVideoEntityList.size() > 0) {
+            mCallback.setRelatedVideoList(relatedVideoEntityList);
+        } else {
+            mCallback.setNoRelatedVideo();
+        }
+        mCallback.hideProgressBar();
     }
 
     @Override

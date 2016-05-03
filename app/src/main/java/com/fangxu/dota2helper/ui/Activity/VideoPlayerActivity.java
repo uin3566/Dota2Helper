@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.res.Configuration;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +46,8 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/4/20.
  */
 public class VideoPlayerActivity extends BaseActivity implements IVideoDetailView, RelatedVideoAdapter.RelatedVideoClickListener {
+    public static final String VIDEO_TITLE = "video_title";
+    public static final String VIDEO_PUBLISH_TIME = "video_publish_time";
     public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_VID = "video_nid";
     public static final String VIDEO_BACKGROUND = "video_background";
@@ -77,8 +80,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     ScrollView mScrollView;
     @Bind(R.id.fl_progress_container)
     FrameLayout mProgressContainer;
-    @Bind(R.id.googleProgress)
-    GoogleCircleProgressView mProgress;
+    @Bind(R.id.tv_empty_list)
+    TextView mEmptyRelatedVideo;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -112,6 +115,9 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mAdapter = new RelatedVideoAdapter(this, this);
         mListView.setAdapter(mAdapter);
         mListView.setFocusable(false);
+
+        mTitle.setText(getIntent().getStringExtra(VIDEO_TITLE));
+        mPublishTime.setText(getIntent().getStringExtra(VIDEO_PUBLISH_TIME));
 
         mPresenter = new VideoDetailPresenter(this, this);
         queryVideoSetInfo();
@@ -166,10 +172,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mPresenter.queryVideoSetInformation(date, vid);
     }
 
-    private void queryVideoDetail(String youkuVid) {
-        mPresenter.queryYoukuVideoDetail(youkuVid);
-    }
-
     private void queryRelatedVideo(String youkuVid) {
         mPresenter.queryRelatedYoukuVideo(youkuVid);
     }
@@ -187,8 +189,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             if (mVid == null) {
                 ToastUtil.showToast(VideoPlayerActivity.this, "数据准备中，请稍后再试");
             } else {
-//                queryVideoDetail(mVid);
-//                queryRelatedVideo(mVid);
                 queryDetailAndRelatedList(mVid);
                 mYoukuPlayer.playVideo(mVid);
                 mBlurImageContainer.setVisibility(View.INVISIBLE);
@@ -200,18 +200,13 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         String watchCount = NumberConversion.bigNumber(watchedCount) + "次播放";
         String up = NumberConversion.bigNumber(upCount);
         String down = NumberConversion.bigNumber(downCount);
-        String publishTime = "发布于 " + published;
+        String publishTime = "发布于" + published;
         setVideoDetail(title, publishTime, watchCount, up, down);
     }
 
     @Override
-    public void setNoRelatedVideoList() {
-
-    }
-
-    @Override
-    public void onGetNoInfo() {
-
+    public void hideProgressBar() {
+        mProgressContainer.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -258,11 +253,14 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     }
 
     @Override
+    public void setNoRelatedVideo() {
+        mEmptyRelatedVideo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid) {
         if (queryVideoDetail) {
             mVid = youkuVid;
-//            queryVideoDetail(mVid);
-//            queryRelatedVideo(mVid);
             mProgressContainer.setVisibility(View.VISIBLE);
             queryDetailAndRelatedList(mVid);
         }

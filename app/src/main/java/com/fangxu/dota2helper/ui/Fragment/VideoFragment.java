@@ -88,8 +88,10 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView, Vi
     }
 
     @Override
-    public void onItemClick(String date, String vid, String background) {
+    public void onItemClick(String title, String publishTime, String date, String vid, String background) {
         Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+        intent.putExtra(VideoPlayerActivity.VIDEO_TITLE, title);
+        intent.putExtra(VideoPlayerActivity.VIDEO_PUBLISH_TIME, publishTime);
         intent.putExtra(VideoPlayerActivity.VIDEO_DATE, date);
         intent.putExtra(VideoPlayerActivity.VIDEO_VID, vid);
         intent.putExtra(VideoPlayerActivity.VIDEO_BACKGROUND, background);

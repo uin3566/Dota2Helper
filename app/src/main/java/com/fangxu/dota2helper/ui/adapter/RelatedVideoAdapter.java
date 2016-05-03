@@ -64,7 +64,7 @@ public class RelatedVideoAdapter extends BaseAdapter {
 
         final RelatedVideoList.RelatedVideoEntity entity = (RelatedVideoList.RelatedVideoEntity)getItem(i);
         holder.mTitle.setText(entity.getTitle());
-        holder.mVideoLength.setText("时长:" + transformDuration(entity.getDuration()));
+        holder.mVideoLength.setText("时长:" + transformDuration((int)entity.getDuration()));
         holder.mPlayTimes.setText(entity.getView_count() + "次播放");
         Glide.with(mContext).load(entity.getThumbnail()).placeholder(R.drawable.image_background_default).into(holder.mBackground);
         convertView.setOnClickListener(new View.OnClickListener() {
