@@ -7,32 +7,14 @@ import java.util.List;
  * one series of video, such as competition video round1, round2, round3
  */
 public class VideoSetList {
-    private int isvalid;
-    private String youkuvid;
-    private List<VideoDateVidEntity> list;
+    private List<VideoDateVidEntity> video_set;
 
-    public List<VideoDateVidEntity> getList() {
-        return list;
+    public List<VideoDateVidEntity> getVideoSet() {
+        return video_set;
     }
 
-    public void setList(List<VideoDateVidEntity> list) {
-        this.list = list;
-    }
-
-    public int getIsvalid() {
-        return isvalid;
-    }
-
-    public void setIsvalid(int isvalid) {
-        this.isvalid = isvalid;
-    }
-
-    public String getYoukuvid() {
-        return youkuvid;
-    }
-
-    public void setYoukuvid(String youkuvid) {
-        this.youkuvid = youkuvid;
+    public void setVideoSet(List<VideoDateVidEntity> video_set) {
+        this.video_set = video_set;
     }
 
     public static class VideoDateVidEntity{

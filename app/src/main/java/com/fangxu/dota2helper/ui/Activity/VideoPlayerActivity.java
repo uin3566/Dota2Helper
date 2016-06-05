@@ -87,7 +87,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
 
-    private String mVid;
+    private String mVid = null;
     private boolean mIsPlayerReady = false;
     private int mCurrentSelectedIndex = 0;//当前选集序号
     private RelatedVideoAdapter mAdapter;
@@ -188,7 +188,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             selectButton.setSelected(true);
             mCurrentSelectedIndex = selectButton.getIndex();
             mVid = mYoukuVidMap.get(mCurrentSelectedIndex);
-            if (mVid == null) {
+            if (mVid == null || mVid.isEmpty()) {
                 ToastUtil.showToast(VideoPlayerActivity.this, "数据准备中，请稍后再试");
             } else {
                 queryDetailAndRelatedList(mVid);
@@ -225,6 +225,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void setAnthologyGridGone() {
         mAnthologyContainer.setVisibility(View.GONE);
+        setYoukuVid(true, 0, mVid);
     }
 
     @Override
@@ -247,6 +248,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             });
             mGridLayout.addView(selectButton, i);
         }
+        setYoukuVid(true, 0, mVid);
     }
 
     @Override
@@ -262,7 +264,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid) {
         if (queryVideoDetail) {
-//            mVid = youkuVid;
             mProgressContainer.setVisibility(View.VISIBLE);
             queryDetailAndRelatedList(mVid);
         }
@@ -271,7 +272,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @OnClick(R.id.iv_play)
     public void onClickPlay(ImageView imageView) {
-        if (mIsPlayerReady) {
+        if (mIsPlayerReady && mVid != null) {
             mYoukuPlayer.playVideo(mVid);
             mBlurImageContainer.setVisibility(View.INVISIBLE);
         }

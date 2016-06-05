@@ -53,24 +53,6 @@ public class VideoDetailInteractor {
                 }));
     }
 
-    public void queryYoukuVideoDetail(String vid) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getYoukuApi()
-                .getVideoDetailInfo(MyApp.getYoukuClientId(), vid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<VideoDetailInfo>() {
-                    @Override
-                    public void call(VideoDetailInfo videoDetailInfo) {
-                        mCallback.onGetVideoDetailSuccess(videoDetailInfo);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        mCallback.onGetVideoDetailFailed();
-                    }
-                }));
-    }
-
     public void queryYoukuVid(final int index, String date, String vid) {
         mCompositeSubscription.add(AppNetWork.INSTANCE.getDetailsApi()
                 .getYoukuVid(date, vid)

@@ -41,22 +41,15 @@ public class VideoDetailPresenter implements VideoDetailCallback {
 
     @Override
     public void onGetVideoSetSuccess(VideoSetList videoSetList) {
-        int isValid = videoSetList.getIsvalid();
-        if (isValid == 1) {
-            mCallback.setYoukuVid(true, 0, videoSetList.getYoukuvid());
-            int videoCount = videoSetList.getList().size();
-            if (videoCount == 1) {
-                mCallback.setAnthologyGridGone();
-            } else {
-                mCallback.setVideoList(videoSetList.getList());
-                for (int i = 1; i < videoCount; i++) {
-                    VideoSetList.VideoDateVidEntity entity = videoSetList.getList().get(i);
-                    queryYoukuVid(i, entity.getDate(), entity.getVid());
-                }
-            }
+        int videoCount = videoSetList.getVideoSet().size();
+        if (videoCount == 1) {
+            mCallback.setAnthologyGridGone();
         } else {
-            final String invalid = "暂不支持该类视频";
-            mCallback.onVideoInvalid(invalid);
+            mCallback.setVideoList(videoSetList.getVideoSet());
+            for (int i = 1; i < videoCount; i++) {
+                VideoSetList.VideoDateVidEntity entity = videoSetList.getVideoSet().get(i);
+                queryYoukuVid(i, entity.getDate(), entity.getVid());
+            }
         }
     }
 
