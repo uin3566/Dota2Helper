@@ -8,4 +8,5 @@
     <item name="tag_date" type="id"/>
     <item name="tag_id" type="id"/>
     <item name="tag_background" type="id"/>
+    <item name="tag_ykvid" type="id"/>
 </resources>

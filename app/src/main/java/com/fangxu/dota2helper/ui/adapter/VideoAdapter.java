@@ -30,7 +30,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private ItemClickListener mItemClickListener = null;
 
     public interface ItemClickListener{
-        void onItemClick(String title, String publishTime, String date, String vid, String background);
+        void onItemClick(String title, String publishTime, String date, String vid, String background, String ykVid);
     }
 
     public VideoAdapter(Context context, ItemClickListener itemClickListener) {
@@ -54,7 +54,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             public void onClick(View view) {
                 if (mItemClickListener != null) {
                     mItemClickListener.onItemClick((String)view.getTag(R.id.tag_title), (String)view.getTag(R.id.tag_publish_in)
-                            , (String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id), (String)view.getTag(R.id.tag_background));
+                            , (String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id)
+                            , (String)view.getTag(R.id.tag_background), (String)view.getTag(R.id.tag_ykvid));
                 }
             }
         });
@@ -69,6 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.itemView.setTag(R.id.tag_date, entity.getDate());
         holder.itemView.setTag(R.id.tag_id, entity.getVid());
         holder.itemView.setTag(R.id.tag_background, entity.getBackground());
+        holder.itemView.setTag(R.id.tag_ykvid, entity.getYkvid());
         holder.fillView(entity);
     }
 

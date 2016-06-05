@@ -51,6 +51,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_VID = "video_nid";
     public static final String VIDEO_BACKGROUND = "video_background";
+    public static final String VIDEO_YOUKU_VID="video_youku_vid";
 
     @Bind(R.id.youku_player)
     YoukuPlayerView mYoukuPlayerView;
@@ -86,7 +87,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
 
-    private String mVid = null;
+    private String mVid;
     private boolean mIsPlayerReady = false;
     private int mCurrentSelectedIndex = 0;//当前选集序号
     private RelatedVideoAdapter mAdapter;
@@ -120,6 +121,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         mPublishTime.setText(getIntent().getStringExtra(VIDEO_PUBLISH_TIME));
 
         mPresenter = new VideoDetailPresenter(this, this);
+        mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
         queryVideoSetInfo();
         initPlayer();
     }
@@ -260,7 +262,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid) {
         if (queryVideoDetail) {
-            mVid = youkuVid;
+//            mVid = youkuVid;
             mProgressContainer.setVisibility(View.VISIBLE);
             queryDetailAndRelatedList(mVid);
         }
@@ -269,7 +271,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @OnClick(R.id.iv_play)
     public void onClickPlay(ImageView imageView) {
-        if (mIsPlayerReady && mVid != null) {
+        if (mIsPlayerReady) {
             mYoukuPlayer.playVideo(mVid);
             mBlurImageContainer.setVisibility(View.INVISIBLE);
         }

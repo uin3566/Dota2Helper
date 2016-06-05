@@ -16,7 +16,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class VideoInteractor {
     private VideoCallback mCallback;
-    private int mNextListId;
+    private String mLastVid;
     private CompositeSubscription mCompositeSubscription;
 
     public VideoInteractor(Activity activity, VideoCallback callback) {
@@ -32,7 +32,7 @@ public class VideoInteractor {
                 .subscribe(new Action1<VideoList>() {
                     @Override
                     public void call(VideoList videoList) {
-                        mNextListId = videoList.getNextListId();
+                        mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
                         mCallback.onUpdateSuccessed(videoList.getVideos(), false);
                     }
                 }, new Action1<Throwable>() {
@@ -45,13 +45,13 @@ public class VideoInteractor {
 
     public void queryMoreVideos(String type) {
         mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
-                .loadMoreVideos(type, mNextListId)
+                .loadMoreVideos(type, mLastVid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<VideoList>() {
                     @Override
                     public void call(VideoList videoList) {
-                        mNextListId = videoList.getNextListId();
+                        mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
                         mCallback.onUpdateSuccessed(videoList.getVideos(), true);
                     }
                 }, new Action1<Throwable>() {

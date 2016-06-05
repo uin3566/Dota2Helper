@@ -21,14 +21,14 @@ public enum AppNetWork {
 
     AppNetWork() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://dota2server.applinzi.com")
+                .baseUrl("http://dota2xufserver.duapp.com")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mNewsApi = retrofit.create(NewsApi.class);
 
         Retrofit retrofit1 = new Retrofit.Builder()
-                .baseUrl("http://dota2server.applinzi.com")
+                .baseUrl("http://dota2xufserver.duapp.com")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();

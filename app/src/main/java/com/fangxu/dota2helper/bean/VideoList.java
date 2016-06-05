@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class VideoList {
     private List<VideoEntity> videos;
-    private int nextListId;
 
     public List<VideoEntity> getVideos() {
         return videos;
@@ -18,21 +17,22 @@ public class VideoList {
         this.videos = videos;
     }
 
-    public int getNextListId() {
-        return nextListId;
-    }
-
-    public void setNextListId(int nextListId) {
-        this.nextListId = nextListId;
-    }
-
     public static class VideoEntity{
+        private String ykvid;
         private String vid;
         private String title;
         private String publishin;
         private String videolength;
         private String background;
         private String date;
+
+        public String getYkvid() {
+            return ykvid;
+        }
+
+        public void setYkvid(String ykvid) {
+            this.ykvid = ykvid;
+        }
 
         public String getVid() {
             return vid;
