@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:id="@+id/player_view_all"
+    android:orientation="vertical" >
+   <com.youku.player.ui.widget.FitScaleImageView
+       android:id="@+id/player_back"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="#000000"
+         android:src="@drawable/player_canvas"
+     />
+   <include layout="@layout/yp_player_container"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_alignBottom="@id/player_back"/>
+ <!--   <include layout="@layout/playerview_plugin_detail_play_interact"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_alignBottom="@id/player_back"/> -->
+	<FrameLayout
+	   android:id="@+id/player_holder_all" 
+	   android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:fitsSystemWindows="true"
+       android:layout_alignBottom="@id/player_back"
+       >
+	</FrameLayout>
+
+</RelativeLayout>

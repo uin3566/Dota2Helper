@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MediaplayerConfig>
+	<!-- 平台id -->
+    <plantform>10001</plantform>
+    
+	<!-- 前贴广告 -->
+    <preAd>true</preAd>
+	
+	<!-- 暂停广告 -->
+    <pauseAd>true</pauseAd>
+	
+	<!-- 离线广告 -->
+    <offlineAd>true</offlineAd>
+    
+    <!--  跳过广告按钮 -->
+    <skipAdButton>true</skipAdButton>
+   	
+   	<!--  广告统计 -->
+    <trackAd>true</trackAd>
+    
+    <!-- 切换清晰度提示 -->
+    <changeQualityTip>true</changeQualityTip>
+    
+    <!-- 广告登录提示对话框 -->
+    <loginDialog>true</loginDialog>
+    
+    <!-- 播放错误统计，只有土豆有 -->
+    <trackPlayError>false</trackPlayError>
+    
+    <!-- 广告跳转内嵌webview -->
+    <adWebView>true</adWebView>
+    
+    <!-- 硬解播放 -->
+    <harewareDecode>true</harewareDecode>
+    
+    <!-- 渠道号 -->
+    <ctype>20</ctype>
+
+</MediaplayerConfig>
