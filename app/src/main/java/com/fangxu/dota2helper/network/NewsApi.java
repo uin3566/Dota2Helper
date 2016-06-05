@@ -30,7 +30,7 @@ public interface NewsApi {
     Observable<StrategyList> loadMoreStrategies(@Path("strategy_type") String strategyType, @Path("list_id") int listId);
     @GET("/api/v1.0/video/refresh/{video_type}")
     Observable<VideoList> refreshVideos(@Path("video_type") String videoType);
-    @GET("/api/v1.0/video/loadmore/{video_type}/{list_id}")
+    @GET("/api/v1.0/video/loadmore/{video_type}/{vid}")
     Observable<VideoList> loadMoreVideos(@Path("video_type") String videoType, @Path("vid") String vid);
     @GET("/api/v1.0/video/videoset/{date}/{vid}")
     Observable<VideoSetList> getVideoSetInfo(@Path("date") String date, @Path("vid") String vid);
