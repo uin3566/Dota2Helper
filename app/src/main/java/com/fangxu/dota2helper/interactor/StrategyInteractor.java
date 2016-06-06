@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.interactor;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.StrategyList;
@@ -15,14 +16,15 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by lenov0 on 2016/4/17.
  */
-public class StrategyInteractor {
+public class StrategyInteractor extends BaseInteractor{
+    private static final String TAG = "test task id";
     private StrategyCallback mCallback;
     private int mNextListId;
-    private CompositeSubscription mCompositeSubscription;
 
     public StrategyInteractor(Activity activity, StrategyCallback callback) {
         mCallback = callback;
         mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
+        Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
     public void queryStrategies(String type) {

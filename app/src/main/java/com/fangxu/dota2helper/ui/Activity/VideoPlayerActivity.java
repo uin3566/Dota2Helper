@@ -184,13 +184,13 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     private void onSelectButtonClicked(SelectButton selectButton) {
         if (selectButton.getIndex() != mCurrentSelectedIndex) {
-            mGridLayout.getChildAt(mCurrentSelectedIndex).setSelected(false);
-            selectButton.setSelected(true);
-            mCurrentSelectedIndex = selectButton.getIndex();
-            mVid = mYoukuVidMap.get(mCurrentSelectedIndex);
+            mVid = mYoukuVidMap.get(selectButton.getIndex());
             if (mVid == null || mVid.isEmpty()) {
                 ToastUtil.showToast(VideoPlayerActivity.this, "数据准备中，请稍后再试");
             } else {
+                mGridLayout.getChildAt(mCurrentSelectedIndex).setSelected(false);
+                mCurrentSelectedIndex = selectButton.getIndex();
+                selectButton.setSelected(true);
                 queryDetailAndRelatedList(mVid);
                 mYoukuPlayer.playVideo(mVid);
                 mBlurImageContainer.setVisibility(View.INVISIBLE);
@@ -347,6 +347,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     protected void onDestroy() {
         mYoukuBasePlayerManager.onDestroy();
+        mPresenter.destroy();
         super.onDestroy();
     }
 }

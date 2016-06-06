@@ -11,9 +11,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoPresenter implements VideoCallback{
+public class VideoPresenter extends BasePresenter implements VideoCallback{
     private String mType;
-    private VideoInteractor mInteractor;
     private IVideoView mCallback;
 
     public VideoPresenter(Activity activity, IVideoView iVideoView, String type) {
@@ -22,12 +21,17 @@ public class VideoPresenter implements VideoCallback{
         mInteractor = new VideoInteractor(activity, this);
     }
 
+    @Override
+    public void destroy() {
+        mInteractor.destroy();
+    }
+
     public void doRefresh() {
-        mInteractor.queryVideos(mType);
+        ((VideoInteractor)mInteractor).queryVideos(mType);
     }
 
     public void doLoadMore() {
-        mInteractor.queryMoreVideos(mType);
+        ((VideoInteractor)mInteractor).queryMoreVideos(mType);
     }
 
     @Override

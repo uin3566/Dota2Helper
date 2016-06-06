@@ -11,9 +11,8 @@ import java.util.List;
 /**
  * Created by lenov0 on 2016/4/17.
  */
-public class StrategyPresenter implements StrategyCallback{
+public class StrategyPresenter extends BasePresenter implements StrategyCallback{
     private IStrategyView mCallback;
-    private StrategyInteractor mInteractor;
     private String mType;
 
     public StrategyPresenter(Activity activity, IStrategyView iStrategyView, String type) {
@@ -23,11 +22,11 @@ public class StrategyPresenter implements StrategyCallback{
     }
 
     public void doRefresh() {
-        mInteractor.queryStrategies(mType);
+        ((StrategyInteractor)mInteractor).queryStrategies(mType);
     }
 
     public void doLoadMore() {
-        mInteractor.queryMoreStrategies(mType);
+        ((StrategyInteractor)mInteractor).queryMoreStrategies(mType);
     }
 
     @Override

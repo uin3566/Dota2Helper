@@ -14,9 +14,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailPresenter implements VideoDetailCallback {
+public class VideoDetailPresenter extends BasePresenter implements VideoDetailCallback {
     private IVideoDetailView mCallback;
-    private VideoDetailInteractor mInteractor;
 
     public VideoDetailPresenter(Activity activity, IVideoDetailView iVideoDetailView) {
         mCallback = iVideoDetailView;
@@ -24,19 +23,19 @@ public class VideoDetailPresenter implements VideoDetailCallback {
     }
 
     public void queryVideoSetInformation(String date, String vid) {
-        mInteractor.queryVideoSetInfo(date, vid);
+        ((VideoDetailInteractor)mInteractor).queryVideoSetInfo(date, vid);
     }
 
     public void queryYoukuVid(int index, String date, String vid) {
-        mInteractor.queryYoukuVid(index, date, vid);
+        ((VideoDetailInteractor)mInteractor).queryYoukuVid(index, date, vid);
     }
 
     public void queryRelatedYoukuVideo(String vid) {
-        mInteractor.queryRelatedVideoList(vid);
+        ((VideoDetailInteractor)mInteractor).queryRelatedVideoList(vid);
     }
 
     public void queryDetailAndRelated(String vid) {
-        mInteractor.queryDetailAndRelated(vid);
+        ((VideoDetailInteractor)mInteractor).queryDetailAndRelated(vid);
     }
 
     @Override

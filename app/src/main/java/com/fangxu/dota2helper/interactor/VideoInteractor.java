@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.interactor;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.VideoList;
@@ -14,14 +15,15 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoInteractor {
+public class VideoInteractor extends BaseInteractor{
+    private static final String TAG = "test task id";
     private VideoCallback mCallback;
     private String mLastVid;
-    private CompositeSubscription mCompositeSubscription;
 
     public VideoInteractor(Activity activity, VideoCallback callback) {
         mCallback = callback;
         mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
+        Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
     public void queryVideos(String type) {
@@ -34,11 +36,13 @@ public class VideoInteractor {
                     public void call(VideoList videoList) {
                         mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
                         mCallback.onUpdateSuccessed(videoList.getVideos(), false);
+                        Log.i(TAG, "queryVideos success");
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         mCallback.onUpdateFailed(false);
+                        Log.i(TAG, "queryVideos failed");
                     }
                 }));
     }
@@ -53,11 +57,13 @@ public class VideoInteractor {
                     public void call(VideoList videoList) {
                         mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
                         mCallback.onUpdateSuccessed(videoList.getVideos(), true);
+                        Log.i(TAG, "queryMoreVideos success");
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         mCallback.onUpdateFailed(true);
+                        Log.i(TAG, "queryMoreVideos failed");
                     }
                 }));
     }

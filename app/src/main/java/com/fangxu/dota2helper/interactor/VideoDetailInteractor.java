@@ -24,15 +24,16 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailInteractor {
+public class VideoDetailInteractor extends BaseInteractor{
+    private static final String TAG = "test task id";
     private VideoDetailCallback mCallback;
-    private CompositeSubscription mCompositeSubscription;
-    VideoDetailInfo mDetailInfo = null;
-    List<RelatedVideoList.RelatedVideoEntity> mVideoList = null;
+    private VideoDetailInfo mDetailInfo = null;
+    private List<RelatedVideoList.RelatedVideoEntity> mVideoList = null;
 
     public VideoDetailInteractor(Activity activity, VideoDetailCallback videoDetailCallback) {
         mCallback = videoDetailCallback;
         mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
+        Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
     public void queryVideoSetInfo(String date, String vid) {

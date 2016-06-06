@@ -14,11 +14,10 @@ import java.util.List;
 /**
  * Created by lenov0 on 2016/4/9.
  */
-public class NewsPresenter implements NewsCallback{
+public class NewsPresenter extends BasePresenter implements NewsCallback{
     public static final int NEWS = 0;
     public static final int UPDATES = 1;
 
-    private NewsInteractor mInteractor;
     private INewsView mCallback;
     private int mType;
 
@@ -34,17 +33,17 @@ public class NewsPresenter implements NewsCallback{
 
     public void doRefresh() {
         if (mType == NEWS) {
-            mInteractor.queryNews();
+            ((NewsInteractor)mInteractor).queryNews();
         } else {
-            mInteractor.queryUpdates();
+            ((NewsInteractor)mInteractor).queryUpdates();
         }
     }
 
     public void doLoadMore() {
         if (mType == NEWS) {
-            mInteractor.queryMoreNews();
+            ((NewsInteractor)mInteractor).queryMoreNews();
         } else {
-            mInteractor.queryMoreUpdates();
+            ((NewsInteractor)mInteractor).queryMoreUpdates();
         }
     }
 

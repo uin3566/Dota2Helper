@@ -2,6 +2,7 @@ package com.fangxu.dota2helper.interactor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
@@ -18,15 +19,16 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by lenov0 on 2016/4/9.
  */
-public class NewsInteractor {
+public class NewsInteractor extends BaseInteractor{
+    private static final String TAG = "test task id";
     private NewsCallback mCallback;
     private int mNextNewsListId;
     private int mNextUpdatesListId;
-    private CompositeSubscription mCompositeSubscription;
 
     public NewsInteractor(Activity activity, NewsCallback callback) {
         mCallback = callback;
         mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
+        Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
     public void queryNews() {
