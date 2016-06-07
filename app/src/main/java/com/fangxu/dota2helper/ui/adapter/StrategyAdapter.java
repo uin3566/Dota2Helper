@@ -43,6 +43,7 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.Strate
             mStrategyEntityList.clear();
         }
         mStrategyEntityList.addAll(strategyEntityList);
+        notifyDataSetChanged();
     }
 
     @Override

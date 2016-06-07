@@ -44,6 +44,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             mVideoEntityList.clear();
         }
         mVideoEntityList.addAll(videoEntityList);
+        notifyDataSetChanged();
     }
 
     @Override
