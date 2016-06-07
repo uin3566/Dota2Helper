@@ -23,12 +23,16 @@ public class StrategyInteractor extends BaseInteractor{
 
     public StrategyInteractor(Activity activity, StrategyCallback callback) {
         mCallback = callback;
-        mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
         Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
+    @Override
+    public void destroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.strategyTaskId);
+    }
+
     public void queryStrategies(String type) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.strategyTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .refreshStrategies(type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,7 +51,7 @@ public class StrategyInteractor extends BaseInteractor{
     }
 
     public void queryMoreStrategies(String type) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.strategyTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .loadMoreStrategies(type, mNextListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

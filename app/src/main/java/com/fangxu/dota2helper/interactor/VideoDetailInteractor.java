@@ -17,9 +17,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -32,12 +30,16 @@ public class VideoDetailInteractor extends BaseInteractor{
 
     public VideoDetailInteractor(Activity activity, VideoDetailCallback videoDetailCallback) {
         mCallback = videoDetailCallback;
-        mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
         Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
+    @Override
+    public void destroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.videoDetailTaskId);
+    }
+
     public void queryVideoSetInfo(String date, String vid) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoDetailTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .getVideoSetInfo(date, vid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +57,7 @@ public class VideoDetailInteractor extends BaseInteractor{
     }
 
     public void queryYoukuVid(final int index, String date, String vid) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getDetailsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoDetailTaskId).add(AppNetWork.INSTANCE.getDetailsApi()
                 .getYoukuVid(date, vid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,7 +75,7 @@ public class VideoDetailInteractor extends BaseInteractor{
     }
 
     public void queryRelatedVideoList(String vid) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getYoukuApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoDetailTaskId).add(AppNetWork.INSTANCE.getYoukuApi()
                 .getRelatedVideoList(MyApp.getYoukuClientId(), vid, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,6 +120,6 @@ public class VideoDetailInteractor extends BaseInteractor{
                         }
                     }
                 });
-        mCompositeSubscription.add(subscription);
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoDetailTaskId).add(subscription);
     }
 }

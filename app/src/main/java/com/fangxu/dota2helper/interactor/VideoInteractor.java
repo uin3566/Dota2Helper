@@ -22,12 +22,16 @@ public class VideoInteractor extends BaseInteractor{
 
     public VideoInteractor(Activity activity, VideoCallback callback) {
         mCallback = callback;
-        mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
         Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
+    @Override
+    public void destroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.videoTaskId);
+    }
+
     public void queryVideos(String type) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .refreshVideos(type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +52,7 @@ public class VideoInteractor extends BaseInteractor{
     }
 
     public void queryMoreVideos(String type) {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.videoTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .loadMoreVideos(type, mLastVid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

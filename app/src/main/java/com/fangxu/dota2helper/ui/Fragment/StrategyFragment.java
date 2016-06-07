@@ -56,6 +56,12 @@ public class StrategyFragment extends RefreshBaseFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected void onFragmentFirstVisible() {
         mSwipeRefresh.post(new Runnable() {
             @Override

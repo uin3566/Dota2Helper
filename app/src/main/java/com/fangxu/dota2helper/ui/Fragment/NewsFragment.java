@@ -45,6 +45,12 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, News
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected void onFragmentFirstVisible() {
 
     }

@@ -27,13 +27,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
-        RxCenter.INSTANCE.addCompositeSubscription(getTaskId());
         init(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
-        RxCenter.INSTANCE.removeCompositeSubscription(getTaskId());
         super.onDestroy();
     }
 }

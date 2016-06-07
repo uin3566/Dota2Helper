@@ -97,7 +97,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         public void fillView(VideoList.VideoEntity videoEntity) {
             Glide.with(mContext).load(videoEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
             mTitle.setText(videoEntity.getTitle());
-            mVideoLength.setText("时长:" + videoEntity.getVideolength());
+            String videoLength = videoEntity.getVideolength();
+            videoLength = "-1".equals(videoLength) ? "--:--" : videoLength;
+            mVideoLength.setText("时长:" + videoLength);
             mPublishTime.setText(videoEntity.getPublishin());
         }
     }

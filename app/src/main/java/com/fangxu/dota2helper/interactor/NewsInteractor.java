@@ -27,12 +27,16 @@ public class NewsInteractor extends BaseInteractor{
 
     public NewsInteractor(Activity activity, NewsCallback callback) {
         mCallback = callback;
-        mCompositeSubscription = RxCenter.INSTANCE.getCompositeSubscription(activity.getTaskId());
         Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 
+    @Override
+    public void destroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.newsTaskId);
+    }
+
     public void queryNews() {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi().refreshNews()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().refreshNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
@@ -50,7 +54,7 @@ public class NewsInteractor extends BaseInteractor{
     }
 
     public void queryMoreNews() {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi().loadMoreNews(mNextNewsListId)
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreNews(mNextNewsListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
@@ -68,7 +72,7 @@ public class NewsInteractor extends BaseInteractor{
     }
 
     public void queryUpdates() {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi().refreshUpdates()
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().refreshUpdates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
@@ -86,7 +90,7 @@ public class NewsInteractor extends BaseInteractor{
     }
 
     public void queryMoreUpdates() {
-        mCompositeSubscription.add(AppNetWork.INSTANCE.getNewsApi().loadMoreUpdates(mNextUpdatesListId)
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreUpdates(mNextUpdatesListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
