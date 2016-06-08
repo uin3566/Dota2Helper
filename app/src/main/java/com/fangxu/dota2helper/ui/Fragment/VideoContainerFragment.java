@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.NavUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -36,15 +37,14 @@ public class VideoContainerFragment extends BaseFragment{
 
     @Override
     public void initView(View view) {
-        String[] videoType = getActivity().getResources().getStringArray(R.array.video_type);
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(getActivity());
-        for (String type : videoType) {
-            creator.add(type, VideoFragment.class);
+        for (int i = 0; i < NavUtil.videoTypeList.length; i++) {
+            creator.add(NavUtil.getVideoTypeChinese(i), VideoFragment.class);
         }
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getChildFragmentManager(),creator.create());
 
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(videoType.length);
+        mViewPager.setOffscreenPageLimit(NavUtil.videoTypeList.length);
         mSmartTabLayout.setViewPager(mViewPager);
     }
 }

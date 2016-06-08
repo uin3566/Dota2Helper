@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.NavUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -40,15 +41,14 @@ public class StrategyContainerFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
-        String[] strategyType = getActivity().getResources().getStringArray(R.array.strategy_type);
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(getActivity());
-        for (String type : strategyType) {
-            creator.add(type, StrategyFragment.class);
+        for (int i = 0; i < NavUtil.strategyTypeList.length; i++) {
+            creator.add(NavUtil.getStrategyTypeChinese(i), StrategyFragment.class);
         }
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getChildFragmentManager(),creator.create());
 
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(strategyType.length);
+        mViewPager.setOffscreenPageLimit(NavUtil.strategyTypeList.length);
         mSmartTabLayout.setViewPager(mViewPager);
     }
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.fangxu.dota2helper.util.NavUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.youku.player.YoukuPlayerBaseConfiguration;
 
@@ -21,6 +22,7 @@ public class MyApp extends Application {
         LeakCanary.install(this);
         initYoukuConfiguration();
         initClientId();
+        NavUtil.init(this);
     }
 
     public static String getYoukuClientId() {

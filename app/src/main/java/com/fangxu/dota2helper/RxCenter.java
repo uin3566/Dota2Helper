@@ -16,13 +16,6 @@ public enum RxCenter {
         mCompositeSubscriptionMap = new HashMap<>();
     }
 
-    public void addCompositeSubscription(int taskId) {
-        if (mCompositeSubscriptionMap.get(taskId) == null) {
-            CompositeSubscription compositeSubscription = new CompositeSubscription();
-            mCompositeSubscriptionMap.put(taskId, compositeSubscription);
-        }
-    }
-
     public void removeCompositeSubscription(int taskId) {
         CompositeSubscription compositeSubscription = mCompositeSubscriptionMap.get(taskId);
         if (compositeSubscription != null) {

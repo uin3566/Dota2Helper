@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/detail_play_title_height"
         android:layout_gravity="left|center_vertical"
-        android:layout_marginLeft="@dimen/detail_play_title_margin_left_right"
+        android:layout_marginLeft="@dimen/base_margin"
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical"
