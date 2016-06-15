@@ -8,16 +8,6 @@ import java.util.List;
 public class StrategyList {
     private List<StrategyEntity> strategies;
 
-    private int nextListId;
-
-    public int getNextListId() {
-        return nextListId;
-    }
-
-    public void setNextListId(int next_list_id) {
-        this.nextListId = next_list_id;
-    }
-
     public List<StrategyEntity> getStrategies() {
         return strategies;
     }

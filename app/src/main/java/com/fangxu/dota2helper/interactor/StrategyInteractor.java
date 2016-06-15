@@ -19,7 +19,7 @@ import rx.subscriptions.CompositeSubscription;
 public class StrategyInteractor extends BaseInteractor{
     private static final String TAG = "test task id";
     private StrategyCallback mCallback;
-    private int mNextListId;
+    private String mLastNid;
 
     public StrategyInteractor(Activity activity, StrategyCallback callback) {
         mCallback = callback;
@@ -39,7 +39,7 @@ public class StrategyInteractor extends BaseInteractor{
                 .subscribe(new Action1<StrategyList>() {
                     @Override
                     public void call(StrategyList strategyList) {
-                        mNextListId = strategyList.getNextListId();
+                        mLastNid = strategyList.getStrategies().get(strategyList.getStrategies().size() - 1).getNid();
                         mCallback.onUpdateSuccessed(strategyList.getStrategies(), false);
                     }
                 }, new Action1<Throwable>() {
@@ -52,13 +52,16 @@ public class StrategyInteractor extends BaseInteractor{
 
     public void queryMoreStrategies(String type) {
         RxCenter.INSTANCE.getCompositeSubscription(TaskIds.strategyTaskId).add(AppNetWork.INSTANCE.getNewsApi()
-                .loadMoreStrategies(type, mNextListId)
+                .loadMoreStrategies(type, mLastNid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<StrategyList>() {
                     @Override
                     public void call(StrategyList strategyList) {
-                        mNextListId = strategyList.getNextListId();
+                        int size = strategyList.getStrategies().size();
+                        if (size > 0) {
+                            mLastNid = strategyList.getStrategies().get(size - 1).getNid();
+                        }
                         mCallback.onUpdateSuccessed(strategyList.getStrategies(), true);
                     }
                 }, new Action1<Throwable>() {
