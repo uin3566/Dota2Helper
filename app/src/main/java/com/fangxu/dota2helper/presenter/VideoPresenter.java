@@ -36,8 +36,12 @@ public class VideoPresenter extends BasePresenter implements VideoCallback{
 
     @Override
     public void onUpdateSuccessed(List<VideoList.VideoEntity> videoEntityList, boolean loadmore) {
-        mCallback.setVideoList(videoEntityList, loadmore);
         mCallback.hideProgress(loadmore);
+        if (videoEntityList.isEmpty()) {
+            mCallback.showNoMoreToast();
+        } else {
+            mCallback.setVideoList(videoEntityList, loadmore);
+        }
     }
 
     @Override

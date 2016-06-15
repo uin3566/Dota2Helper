@@ -87,6 +87,11 @@ public class StrategyFragment extends RefreshBaseFragment implements
     }
 
     @Override
+    public void showNoMoreToast() {
+        ToastUtil.showToast(getActivity(), R.string.no_more_content);
+    }
+
+    @Override
     public void setRefreshFailed(boolean loadMore) {
         ToastUtil.showToast(getActivity(), R.string.load_fail);
     }

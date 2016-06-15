@@ -59,7 +59,10 @@ public class VideoInteractor extends BaseInteractor{
                 .subscribe(new Action1<VideoList>() {
                     @Override
                     public void call(VideoList videoList) {
-                        mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
+                        int size = videoList.getVideos().size();
+                        if (size > 0) {
+                            mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
+                        }
                         mCallback.onUpdateSuccessed(videoList.getVideos(), true);
                         Log.i(TAG, "queryMoreVideos success");
                     }

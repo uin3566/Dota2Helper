@@ -31,8 +31,12 @@ public class StrategyPresenter extends BasePresenter implements StrategyCallback
 
     @Override
     public void onUpdateSuccessed(List<StrategyList.StrategyEntity> strategyEntityList, boolean loadmore) {
-        mCallback.setStrategyList(strategyEntityList, loadmore);
         mCallback.hideProgress(loadmore);
+        if (strategyEntityList.isEmpty()) {
+            mCallback.showNoMoreToast();
+        } else {
+            mCallback.setStrategyList(strategyEntityList, loadmore);
+        }
     }
 
     @Override

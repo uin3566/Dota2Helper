@@ -71,7 +71,7 @@ public class NewsDetailActivity extends BaseActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.showToast(NewsDetailActivity.this, "error");
+                        ToastUtil.showToast(getApplicationContext(), "error");
                     }
                 }));
     }

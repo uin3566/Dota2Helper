@@ -12,4 +12,5 @@ public interface IStrategyView {
     void setStrategyList(List<StrategyList.StrategyEntity> strategyEntityList, boolean append);
     void setRefreshFailed(boolean loadMore);
     void hideProgress(boolean loadMore);
+    void showNoMoreToast();
 }
