@@ -5,6 +5,7 @@
     <string name="drawer_close">Close drawer</string>
 
     <string name="load_fail">加载失败</string>
+    <string name="no_more_content">没有更多</string>
     <string name="news_detail">详情</string>
     <string name="video_detail">视频详情</string>
     <string name="no_related_video">暂无相关视频...</string>
