@@ -7,17 +7,8 @@ import java.util.List;
  */
 public class NewsList {
 
+    private List<BannerEntity> banner;
     private List<NewsEntity> news;
-
-    private int nextListId;
-
-    public int getNextListId() {
-        return nextListId;
-    }
-
-    public void setNextListId(int next_list_id) {
-        this.nextListId = next_list_id;
-    }
 
     public List<NewsEntity> getNews() {
         return news;
@@ -25,6 +16,53 @@ public class NewsList {
 
     public void setNews(List<NewsEntity> news) {
         this.news = news;
+    }
+
+    public List<BannerEntity> getBanner() {
+        return banner;
+    }
+
+    public void setBanner(List<BannerEntity> banner) {
+        this.banner = banner;
+    }
+
+    public static class BannerEntity{
+        private String background;
+        private String title;
+        private String date;
+        private String nid;
+
+        public String getBackground() {
+            return background;
+        }
+
+        public void setBackground(String background) {
+            this.background = background;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getNid() {
+            return nid;
+        }
+
+        public void setNid(String nid) {
+            this.nid = nid;
+        }
     }
 
     public static class NewsEntity{

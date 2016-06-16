@@ -22,8 +22,8 @@ import rx.subscriptions.CompositeSubscription;
 public class NewsInteractor extends BaseInteractor{
     private static final String TAG = "test task id";
     private NewsCallback mCallback;
-    private int mNextNewsListId;
-    private int mNextUpdatesListId;
+    private String mLastNewsNid;
+    private String mLastUpdatesNid;
 
     public NewsInteractor(Activity activity, NewsCallback callback) {
         mCallback = callback;
@@ -42,7 +42,7 @@ public class NewsInteractor extends BaseInteractor{
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextNewsListId = newsList.getNextListId();
+                        mLastNewsNid = newsList.getNews().get(newsList.getNews().size() - 1).getNid();
                         mCallback.onUpdateSuccessed(newsList.getNews(), false);
                     }
                 }, new Action1<Throwable>() {
@@ -54,13 +54,16 @@ public class NewsInteractor extends BaseInteractor{
     }
 
     public void queryMoreNews() {
-        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreNews(mNextNewsListId)
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreNews(mLastNewsNid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextNewsListId = newsList.getNextListId();
+                        int size = newsList.getNews().size();
+                        if (size > 0) {
+                            mLastNewsNid = newsList.getNews().get(size - 1).getNid();
+                        }
                         mCallback.onUpdateSuccessed(newsList.getNews(), true);
                     }
                 }, new Action1<Throwable>() {
@@ -78,7 +81,7 @@ public class NewsInteractor extends BaseInteractor{
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextUpdatesListId = newsList.getNextListId();
+                        mLastUpdatesNid = newsList.getNews().get(newsList.getNews().size() - 1).getNid();
                         mCallback.onUpdateSuccessed(newsList.getNews(), false);
                     }
                 }, new Action1<Throwable>() {
@@ -90,13 +93,16 @@ public class NewsInteractor extends BaseInteractor{
     }
 
     public void queryMoreUpdates() {
-        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreUpdates(mNextUpdatesListId)
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().loadMoreUpdates(mLastUpdatesNid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-                        mNextUpdatesListId = newsList.getNextListId();
+                        int size = newsList.getNews().size();
+                        if (size > 0) {
+                            mLastUpdatesNid = newsList.getNews().get(size - 1).getNid();
+                        }
                         mCallback.onUpdateSuccessed(newsList.getNews(), true);
                     }
                 }, new Action1<Throwable>() {

@@ -18,12 +18,12 @@ import rx.Observable;
 public interface NewsApi {
     @GET("/api/v1.0/news/refresh")
     Observable<NewsList> refreshNews();
-    @GET("/api/v1.0/news/loadmore/{list_id}")
-    Observable<NewsList> loadMoreNews(@Path("list_id") int listId);
+    @GET("/api/v1.0/news/loadmore/{nid}")
+    Observable<NewsList> loadMoreNews(@Path("nid") String nid);
     @GET("/api/v1.0/updates/refresh")
     Observable<NewsList> refreshUpdates();
-    @GET("/api/v1.0/updates/loadmore/{list_id}")
-    Observable<NewsList> loadMoreUpdates(@Path("list_id") int listId);
+    @GET("/api/v1.0/updates/loadmore/{nid}")
+    Observable<NewsList> loadMoreUpdates(@Path("nid") String nid);
     @GET("/api/v1.0/strategy/refresh/{strategy_type}")
     Observable<StrategyList> refreshStrategies(@Path("strategy_type") String strategyType);
     @GET("/api/v1.0/strategy/loadmore/{strategy_type}/{nid}")
