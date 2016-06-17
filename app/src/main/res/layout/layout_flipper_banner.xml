@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.roubow.viewflipper.RoundViewFlipper
+        android:id="@+id/vf_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:corner="4dp">
+    </com.roubow.viewflipper.RoundViewFlipper>
+
+    <LinearLayout
+        android:id="@+id/ll_dot_container"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+
+    </LinearLayout>
+
+</FrameLayout>

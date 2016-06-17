@@ -24,4 +24,11 @@
             <enum name="invisible" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="FlipperBanner">
+        <attr name="fb_show_title" format="boolean"/>
+        <attr name="fb_title_background" format="color"/>
+        <attr name="fb_dot_selected" format="reference"/>
+        <attr name="fb_dot_normal" format="reference"/>
+    </declare-styleable>
 </resources>

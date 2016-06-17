@@ -16,4 +16,5 @@
     <color name="dark_red">#c62828</color>
 
     <color name="transparent">#00ffffff</color>
+    <color name="black_half_transparent">#80000000</color>
 </resources>
