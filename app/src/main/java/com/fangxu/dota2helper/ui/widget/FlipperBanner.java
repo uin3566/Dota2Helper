@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.ui.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -25,6 +27,7 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     private Context mContext;
     private LinearLayout mDotContainer;
     private ViewFlipper mViewFlipper;
+    private TextView mTitleTextView;
     private float startX;
     private float endX;
     private int mLastIndex;
@@ -40,7 +43,10 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     private float absDy;
 
     private boolean mShowTitle;
-
+    private boolean mShowDot;
+    private int mTitleBackgroundColor;
+    private int mDotSelectedId;
+    private int mDotNormalId;
 
     private Runnable mAutoSwitchRunnable = new Runnable() {
         @Override
@@ -62,23 +68,36 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     };
 
     public FlipperBanner(Context context) {
-        super(context);
-        mContext = context;
-        init();
+        this(context, null);
     }
 
     public FlipperBanner(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
-        init();
+        init(context, attrs);
     }
 
-    private void init(){
+    private void init(Context context, AttributeSet attrs){
+        mContext = context;
         View view = LayoutInflater.from(mContext).inflate(R.layout.layout_flipper_banner, this);
         mViewFlipper = (ViewFlipper)view.findViewById(R.id.vf_banner);
         mDotContainer = (LinearLayout)view.findViewById(R.id.ll_dot_container);
+        LinearLayout bottomContainer = (LinearLayout)view.findViewById(R.id.ll_bottom_container);
+        mTitleTextView = (TextView)view.findViewById(R.id.tv_title);
+
         setOnTouchListener(this);
         setOnClickListener(this);
+
+        TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.FlipperBanner, 0, 0);
+        mShowTitle = ta.getBoolean(R.styleable.FlipperBanner_fb_show_title, false);
+        mShowDot = ta.getBoolean(R.styleable.FlipperBanner_fb_show_dot, false);
+        mTitleBackgroundColor = ta.getColor(R.styleable.FlipperBanner_fb_title_background, 0x00000000);
+        mDotNormalId = ta.getResourceId(R.styleable.FlipperBanner_fb_dot_normal, mDotNormalId);
+        mDotSelectedId = ta.getResourceId(R.styleable.FlipperBanner_fb_dot_selected, mDotSelectedId);
+        ta.recycle();
+
+        bottomContainer.setBackgroundColor(mTitleBackgroundColor);
+        mTitleTextView.setVisibility(mShowTitle ? VISIBLE : GONE);
+        mDotContainer.setVisibility(mShowDot ? VISIBLE : GONE);
     }
 
     @Override
@@ -161,6 +180,10 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
         for (int i = 0; i < size; i++) {
             ImageView imageView = new ImageView(mContext);
             mViewFlipper.addView(imageView);
+            Glide.with(mContext).load(imageUrls.get(i)).placeholder(R.drawable.image_background_default).into(imageView);
+            if (mShowTitle) {
+                mTitleTextView.setText(titles.get(i));
+            }
         }
         mBannerCount = mViewFlipper.getChildCount();
         mLastIndex = 0;
