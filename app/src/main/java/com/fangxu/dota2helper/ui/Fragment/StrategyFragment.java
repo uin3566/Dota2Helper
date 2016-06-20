@@ -107,9 +107,6 @@ public class StrategyFragment extends RefreshBaseFragment implements
 
     @Override
     public void onItemClick(String date, String nid) {
-        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-        intent.putExtra(NewsDetailActivity.NEWS_DATE, date);
-        intent.putExtra(NewsDetailActivity.NEWS_NID, nid);
-        startActivity(intent);
+        NewsDetailActivity.toNewsDetailActivity(getActivity(), date, nid);
     }
 }

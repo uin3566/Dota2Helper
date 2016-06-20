@@ -19,6 +19,10 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="@dimen/dimen_0dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/text_color_white_d"
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:gravity="center_vertical"
@@ -30,6 +34,7 @@
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal" />
 
     </LinearLayout>

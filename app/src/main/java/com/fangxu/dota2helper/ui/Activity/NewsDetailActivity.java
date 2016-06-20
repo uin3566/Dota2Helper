@@ -1,5 +1,7 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,6 +29,13 @@ public class NewsDetailActivity extends BaseActivity {
     Toolbar mToolbar;
     @Bind(R.id.wv_news_detail)
     WebView mWebView;
+
+    public static void toNewsDetailActivity(Context context, String date, String nid) {
+        Intent intent = new Intent(context, NewsDetailActivity.class);
+        intent.putExtra(NEWS_DATE, date);
+        intent.putExtra(NEWS_NID, nid);
+        context.startActivity(intent);
+    }
 
     @Override
     public int getLayoutResId() {

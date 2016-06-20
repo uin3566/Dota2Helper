@@ -15,8 +15,11 @@ import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.bean.NewsList;
+import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
 import com.fangxu.dota2helper.util.DimenUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +50,8 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     private int mTitleBackgroundColor;
     private int mDotSelectedId;
     private int mDotNormalId;
+
+    private List<NewsList.BannerEntity> mBannerEntityList = new ArrayList<>();
 
     private Runnable mAutoSwitchRunnable = new Runnable() {
         @Override
@@ -95,7 +100,9 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
         mDotSelectedId = ta.getResourceId(R.styleable.FlipperBanner_fb_dot_selected, mDotSelectedId);
         ta.recycle();
 
-        bottomContainer.setBackgroundColor(mTitleBackgroundColor);
+        if (mShowTitle || mShowDot) {
+            bottomContainer.setBackgroundColor(mTitleBackgroundColor);
+        }
         mTitleTextView.setVisibility(mShowTitle ? VISIBLE : GONE);
         mDotContainer.setVisibility(mShowDot ? VISIBLE : GONE);
     }
@@ -156,34 +163,22 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(mContext, "click:" + mCurIndex, Toast.LENGTH_SHORT).show();
+        NewsList.BannerEntity bannerEntity = mBannerEntityList.get(mCurIndex);
+        NewsDetailActivity.toNewsDetailActivity(mContext, bannerEntity.getDate(), bannerEntity.getNid());
     }
 
-    public void setBannerByView(List<View> bannerViews) {
+    public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {
+        mBannerEntityList = bannerEntityList;
         mViewFlipper.removeAllViews();
-        for (int i = 0; i < bannerViews.size(); i++){
-            View view = bannerViews.get(i);
-            mViewFlipper.addView(view, i);
-        }
-        mBannerCount = mViewFlipper.getChildCount();
-        mLastIndex = 0;
-        mCurIndex = 0;
-        addDots();
-    }
-
-    public void setBannerByUrl(List<String> imageUrls, List<String> titles) {
-        mViewFlipper.removeAllViews();
-        if (imageUrls.size() != titles.size()) {
-            throw new IllegalArgumentException();
-        }
-        int size = imageUrls.size();
+        int size = bannerEntityList.size();
         for (int i = 0; i < size; i++) {
             ImageView imageView = new ImageView(mContext);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mViewFlipper.addView(imageView);
-            Glide.with(mContext).load(imageUrls.get(i)).placeholder(R.drawable.image_background_default).into(imageView);
             if (mShowTitle) {
-                mTitleTextView.setText(titles.get(i));
+                mTitleTextView.setText(bannerEntityList.get(i).getTitle());
             }
+            Glide.with(mContext).load(bannerEntityList.get(i).getBackground()).placeholder(R.drawable.image_background_default).into(imageView);
         }
         mBannerCount = mViewFlipper.getChildCount();
         mLastIndex = 0;
@@ -192,15 +187,18 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     }
 
     private void addDots(){
-        for (int i = 0; i < mBannerCount; i++){
-            ImageView imageView = new ImageView(mContext);
-            imageView.setImageResource(R.drawable.dot_normal);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(DimenUtil.dp2px(mContext, 5), DimenUtil.dp2px(mContext, 5));
-            lp.setMargins(DimenUtil.dp2px(mContext, 2.5f), 0, DimenUtil.dp2px(mContext, 2.5f), 0);
-            imageView.setLayoutParams(lp);
-            mDotContainer.addView(imageView, i);
+        mDotContainer.removeAllViews();
+        if (mShowDot) {
+            for (int i = 0; i < mBannerCount; i++){
+                ImageView imageView = new ImageView(mContext);
+                imageView.setImageResource(mDotNormalId);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(DimenUtil.dp2px(mContext, 5), DimenUtil.dp2px(mContext, 5));
+                lp.setMargins(DimenUtil.dp2px(mContext, 2.5f), 0, DimenUtil.dp2px(mContext, 2.5f), 0);
+                imageView.setLayoutParams(lp);
+                mDotContainer.addView(imageView, i);
+            }
+            setSelectedIndicator();
         }
-        setSelectedIndicator();
     }
 
     @Override
@@ -225,7 +223,10 @@ public class FlipperBanner extends FrameLayout implements  View.OnClickListener,
     }
 
     private void setSelectedIndicator(){
-        ((ImageView)mDotContainer.getChildAt(mLastIndex)).setImageResource(R.drawable.dot_normal);
-        ((ImageView)mDotContainer.getChildAt(mCurIndex)).setImageResource(R.drawable.dot_selected);
+        NewsList.BannerEntity bannerEntity = mBannerEntityList.get(mCurIndex);
+        mTitleTextView.setText(bannerEntity.getTitle());
+
+        ((ImageView)mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
+        ((ImageView)mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);
     }
 }

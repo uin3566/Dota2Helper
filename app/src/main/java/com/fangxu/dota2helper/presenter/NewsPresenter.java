@@ -48,6 +48,11 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
     }
 
     @Override
+    public void onGetBanner(List<NewsList.BannerEntity> bannerEntityList) {
+        mCallback.setBanner(bannerEntityList);
+    }
+
+    @Override
     public void onUpdateFailed(boolean loadmore) {
         mCallback.setRefreshFailed(loadmore);
         mCallback.hideProgress(loadmore);

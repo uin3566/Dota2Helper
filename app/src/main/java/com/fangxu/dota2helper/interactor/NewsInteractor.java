@@ -44,6 +44,7 @@ public class NewsInteractor extends BaseInteractor{
                     public void call(NewsList newsList) {
                         mLastNewsNid = newsList.getNews().get(newsList.getNews().size() - 1).getNid();
                         mCallback.onUpdateSuccessed(newsList.getNews(), false);
+                        mCallback.onGetBanner(newsList.getBanner());
                     }
                 }, new Action1<Throwable>() {
                     @Override

@@ -77,6 +77,11 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView, Ne
     }
 
     @Override
+    public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {
+
+    }
+
+    @Override
     public void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append) {
         mAdapter.updateData(newsEntityList, append);
     }
@@ -97,9 +102,6 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView, Ne
 
     @Override
     public void onItemClick(String date, String nid) {
-        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-        intent.putExtra(NewsDetailActivity.NEWS_DATE, date);
-        intent.putExtra(NewsDetailActivity.NEWS_NID, nid);
-        startActivity(intent);
+        NewsDetailActivity.toNewsDetailActivity(getActivity(), date, nid);
     }
 }
