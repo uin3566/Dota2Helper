@@ -8,7 +8,8 @@
                                     android:layout_marginTop="@dimen/card_view_dimen"
                                     android:foreground="?attr/selectableItemBackground"
                                     card_view:cardCornerRadius="@dimen/dimen_0dp"
-                                    card_view:cardElevation="@dimen/card_view_elevation">
+                                    card_view:cardElevation="@dimen/card_view_elevation"
+                                    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -69,8 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/base_margin"
             android:layout_alignTop="@id/tv_video_length"
+            android:layout_marginRight="@dimen/base_margin"
             android:text="发布时间：04/12"
             android:textColor="@color/content_text"
             android:textSize="@dimen/content_text_size"/>

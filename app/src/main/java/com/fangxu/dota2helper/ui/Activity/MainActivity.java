@@ -1,9 +1,7 @@
 package com.fangxu.dota2helper.ui.Activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,11 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.fangxu.dota2helper.ui.Fragment.BaseFragment;
+import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
+import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
-import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +25,7 @@ import butterknife.Bind;
 /**
  * Created by Xuf on 2016/4/3.
  */
-public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClickListener {
-
+public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
@@ -37,9 +34,6 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     RecyclerView mRecyclerView;
 
     private Fragment mCurrentShowFragment = null;
-
-    private DrawerAdapter mDrawerAdapter;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     private int mCurrentDrawerPos = 0;
 
@@ -53,7 +47,7 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
     @Override
     public void init(Bundle savedInstanceState) {
         setSupportActionBar(mToolbar);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -67,25 +61,27 @@ public class MainActivity extends BaseActivity implements DrawerAdapter.ItemClic
             }
         };
         setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
-        mActionBarDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mDrawerAdapter = new DrawerAdapter(this, this);
-        mRecyclerView.setAdapter(mDrawerAdapter);
+        final DrawerAdapter drawerAdapter = new DrawerAdapter(this);
+        drawerAdapter.setItemClickListener(new CommonRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                drawerAdapter.setCurrentPos(position);
+                mCurrentDrawerPos = position;
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                String tag = mFragmentNameMap.get(NavUtil.categoryList[position]);
+                Fragment fragment = getFragmentByName(tag);
+                showFragment(mCurrentShowFragment, fragment, tag);
+            }
+        });
+        mRecyclerView.setAdapter(drawerAdapter);
 
         initFragmentNameMap();
         String tag = mFragmentNameMap.get(NavUtil.categoryList[0]);
-        Fragment fragment = getFragmentByName(tag);
-        showFragment(mCurrentShowFragment, fragment, tag);
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        mCurrentDrawerPos = position;
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        String tag = mFragmentNameMap.get(NavUtil.categoryList[position]);
         Fragment fragment = getFragmentByName(tag);
         showFragment(mCurrentShowFragment, fragment, tag);
     }
