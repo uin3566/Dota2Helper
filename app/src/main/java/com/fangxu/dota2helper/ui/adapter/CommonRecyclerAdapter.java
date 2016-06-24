@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/5/17.
@@ -19,6 +22,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     protected List<T> mData = new ArrayList<>();
     protected ItemClickListener mItemClickListener;
 
+    protected Context mContext;
     protected LayoutInflater mLayoutInflater;
     protected View mHeader = null;
     protected View mFooter = null;
@@ -26,6 +30,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     protected abstract class CommonViewHolder extends RecyclerView.ViewHolder{
         public CommonViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public abstract void fillView(int position);
@@ -54,6 +59,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     public CommonRecyclerAdapter(Context context) {
+        mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -138,12 +144,45 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     @Override
+    public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM_HEADER) {
+            return new HeaderHolder(mHeader);
+        }
+        if (viewType == ITEM_FOOTER) {
+            return new FooterHolder(mFooter);
+        }
+        return null;
+    }
+
+    @Override
     public void onBindViewHolder(CommonViewHolder holder, final int position) {
         if (mItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mItemClickListener.onItemClick(position);
+                    if (hasHeader() && hasFooter()) {
+                        if (position == 0) {
+                            mItemClickListener.onHeaderClick();
+                        } else if (position == getItemCount() - 1) {
+                            mItemClickListener.onFooterClick();
+                        } else {
+                            mItemClickListener.onItemClick(position - 1);
+                        }
+                    } else if (hasHeader()) {
+                        if (position == 0) {
+                            mItemClickListener.onHeaderClick();
+                        } else {
+                            mItemClickListener.onItemClick(position - 1);
+                        }
+                    } else if (hasFooter()) {
+                        if (position == getItemCount() - 1) {
+                            mItemClickListener.onFooterClick();
+                        } else {
+                            mItemClickListener.onItemClick(position);
+                        }
+                    } else {
+                        mItemClickListener.onItemClick(position);
+                    }
                 }
             });
         }
@@ -152,5 +191,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     public interface ItemClickListener{
         void onItemClick(int position);
+        void onHeaderClick();
+        void onFooterClick();
     }
 }
