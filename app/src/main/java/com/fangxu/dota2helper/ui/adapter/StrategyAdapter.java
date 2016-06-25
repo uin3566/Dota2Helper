@@ -21,59 +21,31 @@ import butterknife.ButterKnife;
 /**
  * Created by lenov0 on 2016/4/17.
  */
-public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.StrategyViewHolder> {
-    private List<StrategyList.StrategyEntity> mStrategyEntityList = new ArrayList<>();
-
-    private ItemClickListener mItemClickListener = null;
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-
-    public interface ItemClickListener{
-        void onItemClick(String date, String nid);
-    }
-
-    public StrategyAdapter(Context context, ItemClickListener itemClickListener) {
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(mContext);
-        mItemClickListener = itemClickListener;
+public class StrategyAdapter extends CommonRecyclerAdapter<StrategyList.StrategyEntity> {
+    public StrategyAdapter(Context context) {
+        super(context);
     }
 
     public void updateData(List<StrategyList.StrategyEntity> strategyEntityList, boolean append) {
         if (!append) {
-            mStrategyEntityList.clear();
+            mData.clear();
         }
-        mStrategyEntityList.addAll(strategyEntityList);
+        mData.addAll(strategyEntityList);
         notifyDataSetChanged();
     }
 
     @Override
     public StrategyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_strategies, parent, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id));
-                }
-            }
-        });
         return new StrategyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(StrategyViewHolder holder, int position) {
-        StrategyList.StrategyEntity entity = mStrategyEntityList.get(position);
-        holder.itemView.setTag(R.id.tag_date, entity.getDate());
-        holder.itemView.setTag(R.id.tag_id, entity.getNid());
-        holder.fillView(entity);
+    public void onBindViewHolder(CommonViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
     }
 
-    @Override
-    public int getItemCount() {
-        return mStrategyEntityList.size();
-    }
-
-    public class StrategyViewHolder extends RecyclerView.ViewHolder{
+    public class StrategyViewHolder extends CommonViewHolder{
         @Bind(R.id.iv_background)
         ImageView mBackground;
         @Bind(R.id.tv_title)
@@ -83,10 +55,11 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.Strate
 
         public StrategyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
 
-        public void fillView(StrategyList.StrategyEntity strategyEntity) {
+        @Override
+        public void fillView(int position) {
+            StrategyList.StrategyEntity strategyEntity = getItem(position);
             Glide.with(mContext).load(strategyEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
             mTitle.setText(strategyEntity.getTitle());
             mDescription.setText(strategyEntity.getDescription());

@@ -69,6 +69,16 @@ public class MainActivity extends BaseActivity {
         final DrawerAdapter drawerAdapter = new DrawerAdapter(this);
         drawerAdapter.setItemClickListener(new CommonRecyclerAdapter.ItemClickListener() {
             @Override
+            public void onHeaderClick() {
+
+            }
+
+            @Override
+            public void onFooterClick() {
+
+            }
+
+            @Override
             public void onItemClick(int position) {
                 drawerAdapter.setCurrentPos(position);
                 mCurrentDrawerPos = position;

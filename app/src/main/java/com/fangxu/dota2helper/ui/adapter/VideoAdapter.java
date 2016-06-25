@@ -22,65 +22,31 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder>{
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private List<VideoList.VideoEntity> mVideoEntityList = new ArrayList<>();
-
-    private ItemClickListener mItemClickListener = null;
-
-    public interface ItemClickListener{
-        void onItemClick(String title, String publishTime, String date, String vid, String background, String ykVid);
-    }
-
-    public VideoAdapter(Context context, ItemClickListener itemClickListener) {
-        mContext = context;
-        mItemClickListener = itemClickListener;
-        mLayoutInflater = LayoutInflater.from(mContext);
+public class VideoAdapter extends CommonRecyclerAdapter<VideoList.VideoEntity>{
+    public VideoAdapter(Context context) {
+        super(context);
     }
 
     public void updateData(List<VideoList.VideoEntity> videoEntityList, boolean append) {
         if (!append) {
-            mVideoEntityList.clear();
+            mData.clear();
         }
-        mVideoEntityList.addAll(videoEntityList);
+        mData.addAll(videoEntityList);
         notifyDataSetChanged();
     }
 
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_video, parent, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick((String)view.getTag(R.id.tag_title), (String)view.getTag(R.id.tag_publish_in)
-                            , (String)view.getTag(R.id.tag_date), (String)view.getTag(R.id.tag_id)
-                            , (String)view.getTag(R.id.tag_background), (String)view.getTag(R.id.tag_ykvid));
-                }
-            }
-        });
         return new VideoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(VideoViewHolder holder, int position) {
-        VideoList.VideoEntity entity = mVideoEntityList.get(position);
-        holder.itemView.setTag(R.id.tag_title, entity.getTitle());
-        holder.itemView.setTag(R.id.tag_publish_in, entity.getPublishin());
-        holder.itemView.setTag(R.id.tag_date, entity.getDate());
-        holder.itemView.setTag(R.id.tag_id, entity.getVid());
-        holder.itemView.setTag(R.id.tag_background, entity.getBackground());
-        holder.itemView.setTag(R.id.tag_ykvid, entity.getYkvid());
-        holder.fillView(entity);
+    public void onBindViewHolder(CommonViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
     }
 
-    @Override
-    public int getItemCount() {
-        return mVideoEntityList.size();
-    }
-
-    public class VideoViewHolder extends RecyclerView.ViewHolder{
+    public class VideoViewHolder extends CommonViewHolder{
         @Bind(R.id.iv_background)
         ImageView mBackground;
         @Bind(R.id.tv_title)
@@ -92,10 +58,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public VideoViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
 
-        public void fillView(VideoList.VideoEntity videoEntity) {
+        @Override
+        public void fillView(int position) {
+            VideoList.VideoEntity videoEntity = getItem(position);
             Glide.with(mContext).load(videoEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
             mTitle.setText(videoEntity.getTitle());
             String videoLength = videoEntity.getVideolength();

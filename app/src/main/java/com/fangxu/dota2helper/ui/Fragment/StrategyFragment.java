@@ -1,9 +1,7 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
@@ -11,6 +9,7 @@ import com.fangxu.dota2helper.bean.StrategyList;
 import com.fangxu.dota2helper.presenter.IStrategyView;
 import com.fangxu.dota2helper.presenter.StrategyPresenter;
 import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
+import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.StrategyAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -23,8 +22,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/4/11.
  */
-public class StrategyFragment extends RefreshBaseFragment implements
-        StrategyAdapter.ItemClickListener, IStrategyView {
+public class StrategyFragment extends RefreshBaseFragment implements IStrategyView {
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -38,7 +36,24 @@ public class StrategyFragment extends RefreshBaseFragment implements
 
     @Override
     public void initView(View view) {
-        mAdapter = new StrategyAdapter(getActivity(), this);
+        mAdapter = new StrategyAdapter(getActivity());
+        mAdapter.setItemClickListener(new CommonRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                StrategyList.StrategyEntity entity = mAdapter.getItem(position);
+                NewsDetailActivity.toNewsDetailActivity(getActivity(), entity.getDate(), entity.getNid());
+            }
+
+            @Override
+            public void onHeaderClick() {
+
+            }
+
+            @Override
+            public void onFooterClick() {
+
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -103,10 +118,5 @@ public class StrategyFragment extends RefreshBaseFragment implements
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void onItemClick(String date, String nid) {
-        NewsDetailActivity.toNewsDetailActivity(getActivity(), date, nid);
     }
 }

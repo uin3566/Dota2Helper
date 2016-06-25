@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/17.
  */
-public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<CommonRecyclerAdapter<T>.CommonViewHolder>{
+public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<CommonRecyclerAdapter<T>.CommonViewHolder> {
     protected static final int ITEM_HEADER = 101;
     protected static final int ITEM_NORMAL = 102;
     protected static final int ITEM_FOOTER = 103;
@@ -24,10 +24,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
-    protected View mHeader = null;
-    protected View mFooter = null;
+    private boolean mHasHeader;
+    private boolean mHasFooter;
 
-    protected abstract class CommonViewHolder extends RecyclerView.ViewHolder{
+    protected abstract class CommonViewHolder extends RecyclerView.ViewHolder {
         public CommonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -36,52 +36,28 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         public abstract void fillView(int position);
     }
 
-    protected class HeaderHolder extends CommonViewHolder{
-        public HeaderHolder(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        public void fillView(int position) {
-
-        }
-    }
-
-    protected class FooterHolder extends CommonViewHolder{
-        public FooterHolder(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        public void fillView(int position) {
-
-        }
-    }
-
     public CommonRecyclerAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void setHeader(View header) {
-        mHeader = header;
-        notifyDataSetChanged();
+    protected void setHasHeader(boolean hasHeader) {
+        mHasHeader = hasHeader;
     }
 
-    public void setFooter(View footer) {
-        mFooter = footer;
-        notifyDataSetChanged();
+    protected void setHasFooter(boolean hasFooter) {
+        mHasFooter = hasFooter;
     }
 
-    public boolean hasHeader() {
-        return mHeader != null;
+    protected void clickHeader() {
+
     }
 
-    public boolean hasFooter() {
-        return mFooter != null;
+    protected void clickFooter() {
+
     }
 
-    public void setData(List<T> data) {
+    protected void setData(List<T> data) {
         if (data == null || data.isEmpty()) {
             mData.clear();
         } else {
@@ -95,17 +71,17 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     public T getItem(int position) {
-        if (hasHeader() && hasFooter()) {//header and footer
-            if (position <=0 || position >= getItemCount() - 1) {
+        if (mHasHeader && mHasFooter) {//header and footer
+            if (position <= 0 || position >= getItemCount() - 1) {
                 return null;
             }
             return mData.get(position - 1);
-        } else if (hasHeader()) {//only header
+        } else if (mHasHeader) {//only header
             if (position <= 0 || position >= getItemCount()) {
                 return null;
             }
             return mData.get(position - 1);
-        } else if (hasFooter()) {//only footer
+        } else if (mHasFooter) {//only footer
             if (position < 0 || position >= getItemCount() - 1) {
                 return null;
             }
@@ -117,10 +93,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     @Override
     public int getItemViewType(int position) {
-        if (hasHeader() && position == 0) {
+        if (mHasHeader && position == 0) {
             return ITEM_HEADER;
         }
-        if (hasFooter() && position == getItemCount() - 1) {
+        if (mHasFooter && position == getItemCount() - 1) {
             return ITEM_FOOTER;
         }
         return ITEM_NORMAL;
@@ -129,29 +105,18 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     @Override
     public int getItemCount() {
         int dataSize = mData.size();
-        if (hasHeader()) {
-            if (hasFooter()) {
+        if (mHasHeader) {
+            if (mHasFooter) {
                 dataSize += 2;
             } else {
                 dataSize += 1;
             }
         } else {
-            if (hasFooter()) {
+            if (mHasFooter) {
                 dataSize += 1;
             }
         }
         return dataSize;
-    }
-
-    @Override
-    public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_HEADER) {
-            return new HeaderHolder(mHeader);
-        }
-        if (viewType == ITEM_FOOTER) {
-            return new FooterHolder(mFooter);
-        }
-        return null;
     }
 
     @Override
@@ -160,27 +125,31 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (hasHeader() && hasFooter()) {
+                    boolean clicked = false;
+                    if (mHasHeader && mHasFooter) {
                         if (position == 0) {
                             mItemClickListener.onHeaderClick();
+                            clickHeader();
+                            clicked = true;
                         } else if (position == getItemCount() - 1) {
                             mItemClickListener.onFooterClick();
-                        } else {
-                            mItemClickListener.onItemClick(position - 1);
+                            clickFooter();
+                            clicked = true;
                         }
-                    } else if (hasHeader()) {
+                    } else if (mHasHeader) {
                         if (position == 0) {
                             mItemClickListener.onHeaderClick();
-                        } else {
-                            mItemClickListener.onItemClick(position - 1);
+                            clickHeader();
+                            clicked = true;
                         }
-                    } else if (hasFooter()) {
+                    } else if (mHasFooter) {
                         if (position == getItemCount() - 1) {
                             mItemClickListener.onFooterClick();
-                        } else {
-                            mItemClickListener.onItemClick(position);
+                            clickFooter();
+                            clicked = true;
                         }
-                    } else {
+                    }
+                    if (!clicked) {
                         mItemClickListener.onItemClick(position);
                     }
                 }
@@ -189,9 +158,11 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         holder.fillView(position);
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void onItemClick(int position);
+
         void onHeaderClick();
+
         void onFooterClick();
     }
 }

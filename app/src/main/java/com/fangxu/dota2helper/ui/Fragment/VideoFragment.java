@@ -10,6 +10,7 @@ import com.fangxu.dota2helper.bean.VideoList;
 import com.fangxu.dota2helper.presenter.IVideoView;
 import com.fangxu.dota2helper.presenter.VideoPresenter;
 import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
+import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.VideoAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -22,7 +23,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoFragment extends RefreshBaseFragment implements IVideoView, VideoAdapter.ItemClickListener{
+public class VideoFragment extends RefreshBaseFragment implements IVideoView{
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -59,7 +60,31 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView, Vi
 
     @Override
     public void initView(View view) {
-        mAdapter = new VideoAdapter(getActivity(), this);
+        mAdapter = new VideoAdapter(getActivity());
+        mAdapter.setItemClickListener(new CommonRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                VideoList.VideoEntity videoEntity = mAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                intent.putExtra(VideoPlayerActivity.VIDEO_TITLE, videoEntity.getTitle());
+                intent.putExtra(VideoPlayerActivity.VIDEO_PUBLISH_TIME, videoEntity.getPublishin());
+                intent.putExtra(VideoPlayerActivity.VIDEO_DATE, videoEntity.getDate());
+                intent.putExtra(VideoPlayerActivity.VIDEO_VID, videoEntity.getVid());
+                intent.putExtra(VideoPlayerActivity.VIDEO_BACKGROUND, videoEntity.getBackground());
+                intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, videoEntity.getYkvid());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onHeaderClick() {
+
+            }
+
+            @Override
+            public void onFooterClick() {
+
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -96,17 +121,5 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView, Vi
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void onItemClick(String title, String publishTime, String date, String vid, String background, String ykVid) {
-        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-        intent.putExtra(VideoPlayerActivity.VIDEO_TITLE, title);
-        intent.putExtra(VideoPlayerActivity.VIDEO_PUBLISH_TIME, publishTime);
-        intent.putExtra(VideoPlayerActivity.VIDEO_DATE, date);
-        intent.putExtra(VideoPlayerActivity.VIDEO_VID, vid);
-        intent.putExtra(VideoPlayerActivity.VIDEO_BACKGROUND, background);
-        intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, ykVid);
-        startActivity(intent);
     }
 }

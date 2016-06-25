@@ -164,6 +164,10 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
+        clickBanner();
+    }
+
+    public void clickBanner() {
         NewsList.BannerEntity bannerEntity = mBannerEntityList.get(mCurIndex);
         NewsDetailActivity.toNewsDetailActivity(mContext, bannerEntity.getDate(), bannerEntity.getNid());
     }
@@ -226,8 +230,10 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
     }
 
     private void startAutoSwitch() {
-        removeCallbacks(mAutoSwitchRunnable);
-        postDelayed(mAutoSwitchRunnable, 3000);
+        if (!mBannerEntityList.isEmpty()) {
+            removeCallbacks(mAutoSwitchRunnable);
+            postDelayed(mAutoSwitchRunnable, 3000);
+        }
     }
 
     private void setSelectedIndicator() {

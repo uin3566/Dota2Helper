@@ -32,6 +32,7 @@ public class DrawerAdapter extends CommonRecyclerAdapter<Integer> {
 
     public void setCurrentPos(int currentPos) {
         mCurrentPos = currentPos;
+        notifyDataSetChanged();
     }
 
     @Override
