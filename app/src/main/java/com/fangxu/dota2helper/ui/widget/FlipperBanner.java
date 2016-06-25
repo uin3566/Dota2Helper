@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by xf on 2015/8/20.
  */
-public class FlipperBanner extends FrameLayout implements View.OnClickListener, View.OnTouchListener {
+public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
 
     private static final int SWITCH_INTERVAL = 4000;
 
@@ -36,20 +37,16 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
     private LinearLayout mDotContainer;
     private ViewFlipper mViewFlipper;
     private TextView mTitleTextView;
-    private float startX;
-    private float endX;
     private int mLastIndex;
     private int mCurIndex;
     private int mBannerCount;
-    private long mStartPressTime;
-    private long mEndPressTime;
-
-    private float startY;
 
     private boolean mShowTitle;
     private boolean mShowDot;
     private int mDotSelectedId;
     private int mDotNormalId;
+
+    private GestureDetector mGestureDetector;
 
     private List<NewsList.BannerEntity> mBannerEntityList = new ArrayList<>();
 
@@ -90,7 +87,8 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
         mTitleTextView = (TextView) view.findViewById(R.id.tv_title);
 
         setOnTouchListener(this);
-        setOnClickListener(this);
+
+        mGestureDetector = new GestureDetector(mContext, new GestureListener());
 
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.FlipperBanner, 0, 0);
         mShowTitle = ta.getBoolean(R.styleable.FlipperBanner_fb_show_title, false);
@@ -111,59 +109,13 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mStartPressTime = System.currentTimeMillis();
                 stopAutoSwitch();
-                startX = event.getX();
-                startY = event.getY();
-                getParent().requestDisallowInterceptTouchEvent(true);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float curX = event.getX();
-                float curY = event.getY();
-                float absDx = Math.abs(curX - startX);
-                float absDy = Math.abs(curY - startY);
-                if (absDx < absDy) {
-                    getParent().requestDisallowInterceptTouchEvent(false);
-                }
                 break;
             case MotionEvent.ACTION_UP:
-                mEndPressTime = System.currentTimeMillis();
                 startAutoSwitch();
-                endX = event.getX();
-                if (endX - startX > 100) {//right
-                    mViewFlipper.setInAnimation(mContext, R.anim.in_left_right);
-                    mViewFlipper.setOutAnimation(mContext, R.anim.out_left_right);
-                    mViewFlipper.showPrevious();
-                    mLastIndex = mCurIndex;
-                    mCurIndex--;
-                    if (mCurIndex == -1) {
-                        mCurIndex = mBannerCount - 1;
-                    }
-                    setSelectedIndicator();
-                } else if (endX - startX < -100) {//left
-                    mViewFlipper.setInAnimation(mContext, R.anim.in_right_left);
-                    mViewFlipper.setOutAnimation(mContext, R.anim.out_right_left);
-                    mViewFlipper.showNext();
-                    mLastIndex = mCurIndex;
-                    mCurIndex++;
-                    if (mCurIndex == mBannerCount) {
-                        mCurIndex = 0;
-                    }
-                    setSelectedIndicator();
-                }
                 break;
         }
-
-        if (mEndPressTime - mStartPressTime > 1000 || Math.abs(endX - startX) > 100) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        clickBanner();
+        return mGestureDetector.onTouchEvent(event);
     }
 
     public void clickBanner() {
@@ -207,7 +159,7 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
             }
         } else {
             for (int i = 0; i < mBannerCount; i++) {
-                ImageView imageView = (ImageView)mDotContainer.getChildAt(i);
+                ImageView imageView = (ImageView) mDotContainer.getChildAt(i);
                 imageView.setImageResource(mDotNormalId);
             }
         }
@@ -253,5 +205,67 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
 
         ((ImageView) mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
         ((ImageView) mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        final int FLING_MIN_DISTANCE = 100;
+        final int FLING_MIN_VELOCITY = 200;
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (distanceX > distanceY) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            } else {
+                getParent().requestDisallowInterceptTouchEvent(false);
+            }
+            return super.onScroll(e1, e2, distanceX, distanceY);
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            clickBanner();
+            return super.onSingleTapConfirmed(e);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (Math.abs(e1.getX() - e2.getX()) > Math.abs(e1.getY() - e2.getY())) {
+                boolean flinged = false;
+                if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE
+                        && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+                    // Fling left
+                    mViewFlipper.setInAnimation(mContext, R.anim.in_right_left);
+                    mViewFlipper.setOutAnimation(mContext, R.anim.out_right_left);
+                    mViewFlipper.showNext();
+                    mLastIndex = mCurIndex;
+                    mCurIndex++;
+                    if (mCurIndex == mBannerCount) {
+                        mCurIndex = 0;
+                    }
+                    flinged = true;
+                } else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE
+                        && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+                    // Fling right
+                    mViewFlipper.setInAnimation(mContext, R.anim.in_left_right);
+                    mViewFlipper.setOutAnimation(mContext, R.anim.out_left_right);
+                    mViewFlipper.showPrevious();
+                    mLastIndex = mCurIndex;
+                    mCurIndex--;
+                    if (mCurIndex == -1) {
+                        mCurIndex = mBannerCount - 1;
+                    }
+                    flinged = true;
+                }
+                if (flinged) {
+                    setSelectedIndicator();
+                }
+            }
+            return true;
+        }
     }
 }
