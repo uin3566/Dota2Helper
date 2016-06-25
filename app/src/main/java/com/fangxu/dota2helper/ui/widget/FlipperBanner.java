@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
@@ -27,6 +29,8 @@ import java.util.List;
  * Created by xf on 2015/8/20.
  */
 public class FlipperBanner extends FrameLayout implements View.OnClickListener, View.OnTouchListener {
+
+    private static final int SWITCH_INTERVAL = 4000;
 
     private Context mContext;
     private LinearLayout mDotContainer;
@@ -41,14 +45,9 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
     private long mEndPressTime;
 
     private float startY;
-    private float curX;
-    private float curY;
-    private float absDx;
-    private float absDy;
 
     private boolean mShowTitle;
     private boolean mShowDot;
-    private int mTitleBackgroundColor;
     private int mDotSelectedId;
     private int mDotNormalId;
 
@@ -69,7 +68,7 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
                 mLastIndex = 0;
             }
             setSelectedIndicator();
-            postDelayed(this, 3000);
+            postDelayed(this, SWITCH_INTERVAL);
         }
     };
 
@@ -96,13 +95,13 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.FlipperBanner, 0, 0);
         mShowTitle = ta.getBoolean(R.styleable.FlipperBanner_fb_show_title, false);
         mShowDot = ta.getBoolean(R.styleable.FlipperBanner_fb_show_dot, false);
-        mTitleBackgroundColor = ta.getColor(R.styleable.FlipperBanner_fb_title_background, 0x00000000);
+        int titleBackgroundColor = ta.getColor(R.styleable.FlipperBanner_fb_title_background, 0x00000000);
         mDotNormalId = ta.getResourceId(R.styleable.FlipperBanner_fb_dot_normal, mDotNormalId);
         mDotSelectedId = ta.getResourceId(R.styleable.FlipperBanner_fb_dot_selected, mDotSelectedId);
         ta.recycle();
 
         if (mShowTitle || mShowDot) {
-            bottomContainer.setBackgroundColor(mTitleBackgroundColor);
+            bottomContainer.setBackgroundColor(titleBackgroundColor);
         }
         mTitleTextView.setVisibility(mShowTitle ? VISIBLE : GONE);
         mDotContainer.setVisibility(mShowDot ? VISIBLE : GONE);
@@ -119,10 +118,10 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
                 getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
-                curX = event.getX();
-                curY = event.getY();
-                absDx = Math.abs(curX - startX);
-                absDy = Math.abs(curY - startY);
+                float curX = event.getX();
+                float curY = event.getY();
+                float absDx = Math.abs(curX - startX);
+                float absDy = Math.abs(curY - startY);
                 if (absDx < absDy) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }
@@ -179,6 +178,8 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
             for (int i = 0; i < size; i++) {
                 ImageView imageView = new ImageView(mContext);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                FrameLayout.LayoutParams lp = new LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                imageView.setLayoutParams(lp);
                 mViewFlipper.addView(imageView);
             }
             mLastIndex = 0;
@@ -210,12 +211,12 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
                 imageView.setImageResource(mDotNormalId);
             }
         }
-        setSelectedIndicator();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        setSelectedIndicator();
         startAutoSwitch();
     }
 
@@ -232,7 +233,7 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
     private void startAutoSwitch() {
         if (!mBannerEntityList.isEmpty()) {
             removeCallbacks(mAutoSwitchRunnable);
-            postDelayed(mAutoSwitchRunnable, 3000);
+            postDelayed(mAutoSwitchRunnable, SWITCH_INTERVAL);
         }
     }
 
@@ -241,8 +242,14 @@ public class FlipperBanner extends FrameLayout implements View.OnClickListener, 
         if (mShowTitle) {
             mTitleTextView.setText(bannerEntity.getTitle());
         }
+
         final ImageView imageView = (ImageView) mViewFlipper.getChildAt(mCurIndex);
-        Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().placeholder(R.drawable.image_background_default).into(imageView);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().into(imageView);
+            }
+        }, 500);
 
         ((ImageView) mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
         ((ImageView) mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);
