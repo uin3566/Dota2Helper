@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,16 +32,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
     protected void setSystemBarTintDrawable(Drawable tintDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
             SystemBarTintManager mTintManager = new SystemBarTintManager(this);
-            if (tintDrawable != null) {
-                mTintManager.setStatusBarTintEnabled(true);
-                mTintManager.setTintDrawable(tintDrawable);
-            } else {
-                mTintManager.setStatusBarTintEnabled(false);
-                mTintManager.setTintDrawable(null);
-            }
+            mTintManager.setStatusBarTintEnabled(true);
+            mTintManager.setNavigationBarTintEnabled(true);
+            mTintManager.setTintDrawable(tintDrawable);
         }
     }
 
