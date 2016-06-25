@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.ui.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -199,9 +200,12 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
         postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (mContext instanceof Activity && ((Activity) mContext).isFinishing()) {
+                    return;
+                }
                 Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().into(imageView);
             }
-        }, 500);
+        }, 800);
 
         ((ImageView) mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
         ((ImageView) mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);
