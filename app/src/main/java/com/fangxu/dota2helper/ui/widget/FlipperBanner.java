@@ -205,7 +205,7 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
                 }
                 Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().into(imageView);
             }
-        }, 800);
+        }, 600);
 
         ((ImageView) mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
         ((ImageView) mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_primary">#18171c</color>
-    <color name="color_primary_dark">#101209</color>
-    <color name="color_primary_activated">#303032</color>
+    <color name="color_primary_light">#252429</color>
 
     <color name="drawer_text_color">@color/white</color>
     <color name="tab_text_color">@color/white</color>
@@ -10,6 +9,7 @@
     <color name="title_text">#212121</color>
     <color name="content_text">#727272</color>
 
+    <color name="alpha_white">#1affffff</color>
     <color name="white">#ffffff</color>
     <color name="grey">#eeeeee</color>
     <color name="light_red">#f24b17</color>

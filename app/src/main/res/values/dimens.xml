@@ -8,6 +8,11 @@
     <dimen name="news_list_image_height">65dp</dimen>
     <dimen name="news_list_image_margin">@dimen/dimen_5dp</dimen>
 
+    <dimen name="splash_top_margin">90dp</dimen>
+    <dimen name="splash_bottom_padding">10dp</dimen>
+    <dimen name="splash_middle_top_margin">10dp</dimen>
+    <dimen name="splash_bottom_margin">20dp</dimen>
+
     <!-- player -->
     <dimen name="video_play_icon_size">30dp</dimen>
     <dimen name="video_player_height">203dp</dimen>
@@ -44,7 +49,7 @@
 
     <!-- drawer -->
     <dimen name="drawer_width">260dp</dimen>
-    <dimen name="drawer_top_image_height">140dp</dimen>
+    <dimen name="drawer_top_image_height">150dp</dimen>
     <dimen name="drawer_item_height">45dp</dimen>
     <dimen name="drawer_item_text_size">16sp</dimen>
     <dimen name="drawer_icon_margin">18dp</dimen>

@@ -10,15 +10,22 @@ import com.fangxu.dota2helper.MyApp;
  */
 public class ToastUtil {
     public static void showToast(Context context, String message) {
-        Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        if (context != null) {
+            Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void showToast(Context context, int strResId) {
         String str = getStringRes(context, strResId);
-        Toast.makeText(context.getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        if (str != null) {
+            Toast.makeText(context.getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private static String getStringRes(Context context, int strResId) {
-        return context.getApplicationContext().getResources().getString(strResId);
+        if (context != null) {
+            return context.getApplicationContext().getResources().getString(strResId);
+        }
+        return null;
     }
 }

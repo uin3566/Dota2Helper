@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/iv_drawer_top"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_top_image_height"
         android:layout_alignParentTop="true"

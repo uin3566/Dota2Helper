@@ -95,6 +95,9 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
 
     @Override
     public void hideProgress(boolean loadMore) {
+        if (mSwipeRefresh == null) {
+            return;
+        }
         if (loadMore) {
             mSwipeRefresh.setLoadingMore(false);
         } else {
