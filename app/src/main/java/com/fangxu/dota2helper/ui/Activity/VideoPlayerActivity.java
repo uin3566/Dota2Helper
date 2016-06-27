@@ -105,8 +105,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     }
 
     @Override
+    public int getTitleResId() {
+        return R.string.video_detail;
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
-        setTitle(R.string.video_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

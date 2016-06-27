@@ -47,8 +47,13 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     @Override
+    public int getTitleResId() {
+        return R.string.news_detail;
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
-        setTitle(R.string.news_detail);
+        mToolbar.setTitle(R.string.news_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

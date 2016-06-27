@@ -25,8 +25,12 @@ public class ProfileActivity extends BaseActivity {
     }
 
     @Override
+    public int getTitleResId() {
+        return R.string.profile;
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
-        setTitle(R.string.profile);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

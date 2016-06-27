@@ -25,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int getLayoutResId();
     public abstract void init(Bundle savedInstanceState);
     public abstract boolean applySystemBarDrawable();
+    public abstract int getTitleResId();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mToolbar = ButterKnife.findById(this, R.id.toolbar);
         if (null != mToolbar) {
+            mToolbar.setTitle(getTitleResId());
             setSupportActionBar(mToolbar);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

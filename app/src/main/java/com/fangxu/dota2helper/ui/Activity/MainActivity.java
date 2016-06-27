@@ -49,21 +49,25 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public int getTitleResId() {
+        return NavUtil.categoryList[mCurrentDrawerPos];
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                setTitle(R.string.app_name);
+                mToolbar.setTitle(R.string.app_name);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
+                mToolbar.setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
             }
         };
-        setTitle(NavUtil.categoryList[mCurrentDrawerPos]);
         actionBarDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 

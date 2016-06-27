@@ -34,6 +34,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
+    public int getTitleResId() {
+        return 0;
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
         mCopyright.setText(getCopyright());
         mVersionName.setText(getVersionName());
