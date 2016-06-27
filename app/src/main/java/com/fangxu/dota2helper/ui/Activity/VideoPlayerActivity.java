@@ -1,15 +1,10 @@
 package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.res.Configuration;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,11 +19,11 @@ import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.presenter.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
-import com.fangxu.dota2helper.ui.widget.GoogleCircleProgressView;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;
 import com.fangxu.dota2helper.ui.widget.SelectButton;
 import com.fangxu.dota2helper.ui.widget.YoukuPluginPlayer;
 import com.fangxu.dota2helper.util.BlurTransformation;
+import com.fangxu.dota2helper.util.DimenUtil;
 import com.fangxu.dota2helper.util.NumberConversion;
 import com.fangxu.dota2helper.util.ToastUtil;
 import com.youku.player.base.YoukuBasePlayerManager;
@@ -53,34 +48,20 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public static final String VIDEO_BACKGROUND = "video_background";
     public static final String VIDEO_YOUKU_VID="video_youku_vid";
 
-    @Bind(R.id.youku_player)
-    YoukuPlayerView mYoukuPlayerView;
-    @Bind(R.id.rl_blur_container)
-    RelativeLayout mBlurImageContainer;
-    @Bind(R.id.iv_blur)
-    ImageView mBlurImageView;
-    @Bind(R.id.tv_up)
-    TextView mUp;
-    @Bind(R.id.tv_down)
-    TextView mDown;
-    @Bind(R.id.tv_watch_count)
-    TextView mWatchCount;
-    @Bind(R.id.tv_title)
-    TextView mTitle;
-    @Bind(R.id.tv_publish_time)
-    TextView mPublishTime;
-    @Bind(R.id.rl_anthology_container)
-    RelativeLayout mAnthologyContainer;
-    @Bind(R.id.grid_layout)
-    GridLayout mGridLayout;
-    @Bind(R.id.scroll_list_view)
-    ScrollListView mListView;
-    @Bind(R.id.scroll_view)
-    ScrollView mScrollView;
-    @Bind(R.id.fl_progress_container)
-    FrameLayout mProgressContainer;
-    @Bind(R.id.tv_empty_list)
-    TextView mEmptyRelatedVideo;
+    @Bind(R.id.youku_player) YoukuPlayerView mYoukuPlayerView;
+    @Bind(R.id.rl_blur_container) RelativeLayout mBlurImageContainer;
+    @Bind(R.id.iv_blur) ImageView mBlurImageView;
+    @Bind(R.id.tv_up) TextView mUp;
+    @Bind(R.id.tv_down) TextView mDown;
+    @Bind(R.id.tv_watch_count) TextView mWatchCount;
+    @Bind(R.id.tv_title) TextView mTitle;
+    @Bind(R.id.tv_publish_time) TextView mPublishTime;
+    @Bind(R.id.rl_anthology_container) RelativeLayout mAnthologyContainer;
+    @Bind(R.id.grid_layout) GridLayout mGridLayout;
+    @Bind(R.id.scroll_list_view) ScrollListView mListView;
+    @Bind(R.id.scroll_view) ScrollView mScrollView;
+    @Bind(R.id.fl_progress_container) FrameLayout mProgressContainer;
+    @Bind(R.id.tv_empty_list) TextView mEmptyRelatedVideo;
 
     private YoukuBasePlayerManager mYoukuBasePlayerManager;
     private YoukuPlayer mYoukuPlayer;
@@ -96,7 +77,12 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     public boolean applySystemBarDrawable() {
-        return true;
+        return false;
+    }
+
+    @Override
+    protected void setTranslucentStatus(boolean on) {
+
     }
 
     @Override
@@ -347,6 +333,17 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
+        if (mBlurImageContainer.getVisibility() != View.VISIBLE) {
+            return;
+        }
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//            mBlurImageContainer.requestLayout();
+//        }
+//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DimenUtil.dp2px(this, 203)));
+//            mBlurImageContainer.requestLayout();
+//        }
     }
 
     @Override

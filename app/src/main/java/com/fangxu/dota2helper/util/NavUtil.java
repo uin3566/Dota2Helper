@@ -28,10 +28,10 @@ public class NavUtil {
     private static final String VIDEO_BISAI = "bisai";
     private static final String VIDEO_ADVANCED = "advanced";
 
-    public static final int categoryList[] = {R.string.news, R.string.strategy, R.string.update, R.string.video};
+    public static final int categoryList[] = {R.string.news, R.string.video, R.string.strategy, R.string.update};
 
-    public static final String fragmentList[] = {NewsFragment.class.getName(), StrategyContainerFragment.class.getName()
-            , UpdateFragment.class.getName(), VideoContainerFragment.class.getName()};
+    public static final String fragmentList[] = {NewsFragment.class.getName(), VideoContainerFragment.class.getName(),
+            StrategyContainerFragment.class.getName(), UpdateFragment.class.getName()};
 
     public static final String strategyTypeList[] = {STRATEGY_ALL, STRATEGY_NEWER, STRATEGY_STEP, STRATEGY_SKILL};
 

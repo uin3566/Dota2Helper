@@ -37,7 +37,8 @@
         <activity
             android:name=".ui.Activity.MainActivity"
             android:theme="@style/AppTheme.NoneTranslucent"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
 
         <activity
             android:name=".ui.Activity.NewsDetailActivity"

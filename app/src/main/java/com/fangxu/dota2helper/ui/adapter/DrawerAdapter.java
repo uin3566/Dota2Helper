@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/6/21.
  */
 public class DrawerAdapter extends CommonRecyclerAdapter<Integer> {
-    private final Integer[] iconId = new Integer[]{R.drawable.selector_news, R.drawable.selector_strategy,
-            R.drawable.selector_update, R.drawable.selector_videos};
+    private final Integer[] iconId = new Integer[]{R.drawable.selector_news, R.drawable.selector_videos,
+            R.drawable.selector_strategy, R.drawable.selector_update};
 
     private int mCurrentPos = 0;
 
