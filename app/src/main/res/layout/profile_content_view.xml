@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/grey"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_watched_video"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_item_height"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/base_margin"
+        android:text="@string/watch_video_history"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"/>
+
+    <TextView
+        android:id="@+id/tv_cache_video"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_item_height"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/base_margin"
+        android:text="@string/cached_video"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_item_height">
+
+        <TextView
+            android:id="@+id/tv_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_item_height"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/base_margin"
+            android:text="@string/clear_cache"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_my_github"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_item_height"
+        android:layout_marginTop="@dimen/base_margin"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/base_margin"
+        android:text="@string/my_github"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"/>
+
+    <TextView
+        android:id="@+id/tv_my_project"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_item_height"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/base_margin"
+        android:text="@string/my_project_mainpage"/>
+
+</LinearLayout>

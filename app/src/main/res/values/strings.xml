@@ -14,13 +14,19 @@
     <string name="update">更新</string>
     <string name="strategy">攻略</string>
     <string name="video">视频</string>
-    <string name="user">我的</string>
-    
+    <string name="profile">我的</string>
+
     <string name="anthology">选集</string>
     <string name="related_video">相关视频</string>
 
     <string name="splash_copyright">Copyright &#169; 2016 掌刀 All Rights Reserved\nPowered by Fang.Xu</string>
     <string name="splash_version">V %1$s</string>
+
+    <string name="watch_video_history">观看历史</string>
+    <string name="cached_video">缓存视频</string>
+    <string name="clear_cache">清空缓存</string>
+    <string name="my_github">我的GitHub</string>
+    <string name="my_project_mainpage">我的项目主页</string>
 
     <string-array name="strategy_type">
         <item name="strategy_all">全部</item>

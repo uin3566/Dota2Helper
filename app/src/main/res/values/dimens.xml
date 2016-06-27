@@ -57,6 +57,9 @@
     <dimen name="drawer_icon_size">24dp</dimen>
     <dimen name="drawer_text_margin">32dp</dimen>
 
+    <!-- profile -->
+    <dimen name="profile_item_height">50dp</dimen>
+
     <!-- google -->
     <dimen name="refresh_header_height_google">100dp</dimen>
     <dimen name="refresh_trigger_offset_google">100dp</dimen>

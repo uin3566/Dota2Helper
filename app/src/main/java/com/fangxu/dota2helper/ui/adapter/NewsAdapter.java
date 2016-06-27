@@ -101,7 +101,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         @Override
         public void fillView(int position) {
             NewsList.NewsEntity newsEntity = getItem(position);
-            Glide.with(mContext).load(newsEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
+            Glide.with(mContext).load(newsEntity.getBackground()).placeholder(R.drawable.img_background_default).into(mBackground);
             mTitle.setText(newsEntity.getTitle());
             mDescription.setText(newsEntity.getDescription());
             mTime.setText(newsEntity.getTime());

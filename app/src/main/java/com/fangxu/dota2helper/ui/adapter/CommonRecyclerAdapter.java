@@ -26,7 +26,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     private boolean mHasHeader;
     private boolean mHasFooter;
 
-    //¼òµ¥·À¶¶¶¯
+    //ç®€å•é˜²æŠ–åŠ¨
     private static final int quickClickInterval = 800;
     private long mClickHeaderTime;
     private long mClickItemTime;

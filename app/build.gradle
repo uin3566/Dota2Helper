@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.fangxu.dota2helper"
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -44,6 +44,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.github.frank-zhu:pullzoomview:1.0.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

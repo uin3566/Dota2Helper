@@ -106,7 +106,7 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     public void init(Bundle savedInstanceState) {
-        mToolbar.setTitle(R.string.video_detail);
+        setTitle(R.string.video_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

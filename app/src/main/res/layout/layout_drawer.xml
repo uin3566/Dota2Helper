@@ -14,8 +14,10 @@
         android:src="@drawable/drawer_top_image"/>
 
     <LinearLayout
-        android:id="@+id/ll_drawer_mine"
+        android:id="@+id/ll_drawer_profile"
         android:layout_width="wrap_content"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
         android:layout_height="@dimen/drawer_user_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -36,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/base_little_margin"
             android:gravity="center_vertical"
-            android:text="@string/user"
+            android:text="@string/profile"
             android:textColor="@color/drawer_text_color"
             android:textSize="@dimen/drawer_item_text_size"
             android:textStyle="bold"/>
@@ -46,7 +48,7 @@
         android:id="@+id/rv_drawer_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll_drawer_mine"
+        android:layout_above="@id/ll_drawer_profile"
         android:layout_below="@id/iv_drawer_top"
         android:background="@android:color/transparent"
         android:overScrollMode="never"

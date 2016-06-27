@@ -1,8 +1,6 @@
 package com.fangxu.dota2helper.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,14 +8,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
-import com.fangxu.dota2helper.bean.StrategyList;
 import com.fangxu.dota2helper.bean.VideoList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/4/19.
@@ -63,7 +58,7 @@ public class VideoAdapter extends CommonRecyclerAdapter<VideoList.VideoEntity>{
         @Override
         public void fillView(int position) {
             VideoList.VideoEntity videoEntity = getItem(position);
-            Glide.with(mContext).load(videoEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
+            Glide.with(mContext).load(videoEntity.getBackground()).placeholder(R.drawable.img_background_default).into(mBackground);
             mTitle.setText(videoEntity.getTitle());
             String videoLength = videoEntity.getVideolength();
             videoLength = "-1".equals(videoLength) ? "--:--" : videoLength;

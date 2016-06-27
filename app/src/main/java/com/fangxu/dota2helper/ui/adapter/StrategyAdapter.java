@@ -1,8 +1,6 @@
 package com.fangxu.dota2helper.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,11 +10,9 @@ import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.StrategyList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by lenov0 on 2016/4/17.
@@ -60,7 +56,7 @@ public class StrategyAdapter extends CommonRecyclerAdapter<StrategyList.Strategy
         @Override
         public void fillView(int position) {
             StrategyList.StrategyEntity strategyEntity = getItem(position);
-            Glide.with(mContext).load(strategyEntity.getBackground()).placeholder(R.drawable.image_background_default).into(mBackground);
+            Glide.with(mContext).load(strategyEntity.getBackground()).placeholder(R.drawable.img_background_default).into(mBackground);
             mTitle.setText(strategyEntity.getTitle());
             mDescription.setText(strategyEntity.getDescription());
         }

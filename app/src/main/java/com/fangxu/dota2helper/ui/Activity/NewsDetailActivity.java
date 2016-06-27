@@ -48,7 +48,7 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        mToolbar.setTitle(R.string.news_detail);
+        setTitle(R.string.news_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
