@@ -26,8 +26,6 @@ public class NewsDetailActivity extends BaseActivity {
     public static final String NEWS_DATE = "news_date";
     public static final String NEWS_NID = "news_nid";
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
     @Bind(R.id.wv_news_detail)
     WebView mWebView;
 
@@ -39,6 +37,11 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     @Override
+    public boolean applySystemBarDrawable() {
+        return true;
+    }
+
+    @Override
     public int getLayoutResId() {
         return R.layout.activity_news_detail;
     }
@@ -46,8 +49,6 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         mToolbar.setTitle(R.string.news_detail);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

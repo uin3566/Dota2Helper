@@ -15,15 +15,15 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/splash_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/splash1" />
+        android:src="@drawable/splash1"/>
 
     <TextView
         android:id="@+id/splash_app_name"
@@ -35,7 +35,7 @@
         android:text="@string/app_name"
         android:textColor="@android:color/white"
         android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/splash_copyright"
@@ -63,7 +63,7 @@
             android:gravity="center"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
     </LinearLayout>
 
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ViewFlipper
+    <com.fangxu.dota2helper.ui.widget.AnimListenerViewFlipper
         android:id="@+id/vf_banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

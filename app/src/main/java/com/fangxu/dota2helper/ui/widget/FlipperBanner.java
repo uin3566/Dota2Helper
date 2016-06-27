@@ -30,13 +30,13 @@ import java.util.List;
 /**
  * Created by xf on 2015/8/20.
  */
-public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
+public class FlipperBanner extends FrameLayout implements View.OnTouchListener, AnimListenerViewFlipper.InAnimationListener{
 
     private static final int SWITCH_INTERVAL = 4000;
 
     private Context mContext;
     private LinearLayout mDotContainer;
-    private ViewFlipper mViewFlipper;
+    private AnimListenerViewFlipper mViewFlipper;
     private TextView mTitleTextView;
     private int mLastIndex;
     private int mCurIndex;
@@ -82,7 +82,8 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
     private void init(Context context, AttributeSet attrs) {
         mContext = context;
         View view = LayoutInflater.from(mContext).inflate(R.layout.layout_flipper_banner, this);
-        mViewFlipper = (ViewFlipper) view.findViewById(R.id.vf_banner);
+        mViewFlipper = (AnimListenerViewFlipper) view.findViewById(R.id.vf_banner);
+        mViewFlipper.setInAnimationListener(this);
         mDotContainer = (LinearLayout) view.findViewById(R.id.ll_dot_container);
         LinearLayout bottomContainer = (LinearLayout) view.findViewById(R.id.ll_bottom_container);
         mTitleTextView = (TextView) view.findViewById(R.id.tv_title);
@@ -138,8 +139,15 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
             mLastIndex = 0;
             mCurIndex = 0;
         }
+
         mBannerEntityList = bannerEntityList;
         mBannerCount = mViewFlipper.getChildCount();
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadBannerBackground();
+            }
+        }, 300);
         addDots();
     }
 
@@ -164,12 +172,26 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
                 imageView.setImageResource(mDotNormalId);
             }
         }
+        setSelectedIndicator();
+    }
+
+    private void loadBannerBackground() {
+        if (mContext instanceof Activity && ((Activity) mContext).isFinishing()) {
+            return;
+        }
+        ImageView imageView = (ImageView)mViewFlipper.getChildAt(mCurIndex);
+        NewsList.BannerEntity bannerEntity = mBannerEntityList.get(mCurIndex);
+        Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().into(imageView);
+    }
+
+    @Override
+    public void onAnimationEnded() {
+        loadBannerBackground();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        setSelectedIndicator();
         startAutoSwitch();
     }
 
@@ -195,17 +217,6 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener{
         if (mShowTitle) {
             mTitleTextView.setText(bannerEntity.getTitle());
         }
-
-        final ImageView imageView = (ImageView) mViewFlipper.getChildAt(mCurIndex);
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mContext instanceof Activity && ((Activity) mContext).isFinishing()) {
-                    return;
-                }
-                Glide.with(mContext).load(bannerEntity.getBackground()).crossFade().into(imageView);
-            }
-        }, 600);
 
         ((ImageView) mDotContainer.getChildAt(mLastIndex)).setImageResource(mDotNormalId);
         ((ImageView) mDotContainer.getChildAt(mCurIndex)).setImageResource(mDotSelectedId);

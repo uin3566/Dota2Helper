@@ -36,6 +36,7 @@
 
         <activity
             android:name=".ui.Activity.MainActivity"
+            android:theme="@style/AppTheme.NoneTranslucent"
             android:screenOrientation="portrait" />
 
         <activity

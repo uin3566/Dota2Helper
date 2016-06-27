@@ -29,6 +29,11 @@ public class SplashActivity extends BaseActivity {
     private static final int[] splashResId = {R.drawable.splash1, R.drawable.splash2, R.drawable.splash3, R.drawable.splash4};
 
     @Override
+    public boolean applySystemBarDrawable() {
+        return false;
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
         mCopyright.setText(getCopyright());
         mVersionName.setText(getVersionName());

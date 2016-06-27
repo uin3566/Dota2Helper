@@ -26,8 +26,6 @@ import butterknife.Bind;
  * Created by Xuf on 2016/4/3.
  */
 public class MainActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.rv_drawer_recycler)
@@ -40,13 +38,17 @@ public class MainActivity extends BaseActivity {
     private Map<Integer, String> mFragmentNameMap = new HashMap<>();
 
     @Override
+    public boolean applySystemBarDrawable() {
+        return true;
+    }
+
+    @Override
     public int getLayoutResId() {
         return R.layout.activity_main;
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        setSupportActionBar(mToolbar);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -134,5 +136,4 @@ public class MainActivity extends BaseActivity {
         }
         return fragment;
     }
-
 }

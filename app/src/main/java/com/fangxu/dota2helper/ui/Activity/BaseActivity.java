@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -19,39 +20,59 @@ import butterknife.ButterKnife;
  * Created by Xuf on 2016/4/3.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    protected Toolbar mToolbar;
 
     public abstract int getLayoutResId();
     public abstract void init(Bundle savedInstanceState);
+    public abstract boolean applySystemBarDrawable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSystemBarTintDrawable(getResources().getDrawable(R.drawable.drawable_primary));
+        setTranslucentStatus(true);
+        if (applySystemBarDrawable()) {
+            setSystemBarTintDrawable(getResources().getDrawable(R.drawable.drawable_primary));
+        }
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
+        mToolbar = ButterKnife.findById(this, R.id.toolbar);
+        if (null != mToolbar) {
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         init(savedInstanceState);
     }
 
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
+    /**
+     * use SytemBarTintManager
+     *
+     * @param tintDrawable
+     */
     protected void setSystemBarTintDrawable(Drawable tintDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
             SystemBarTintManager mTintManager = new SystemBarTintManager(this);
-            mTintManager.setStatusBarTintEnabled(true);
-            mTintManager.setNavigationBarTintEnabled(true);
-            mTintManager.setTintDrawable(tintDrawable);
+            if (tintDrawable != null) {
+                mTintManager.setStatusBarTintEnabled(true);
+                mTintManager.setTintDrawable(tintDrawable);
+            } else {
+                mTintManager.setStatusBarTintEnabled(false);
+                mTintManager.setTintDrawable(null);
+            }
+        }
+    }
+
+    protected void setTranslucentStatus(boolean on) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window win = getWindow();
+            WindowManager.LayoutParams winParams = win.getAttributes();
+            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if (on) {
+                winParams.flags |= bits;
+            } else {
+                winParams.flags &= ~bits;
+            }
+            win.setAttributes(winParams);
         }
     }
 

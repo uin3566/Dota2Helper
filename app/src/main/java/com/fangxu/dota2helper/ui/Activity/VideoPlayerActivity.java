@@ -55,8 +55,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
 
     @Bind(R.id.youku_player)
     YoukuPlayerView mYoukuPlayerView;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
     @Bind(R.id.rl_blur_container)
     RelativeLayout mBlurImageContainer;
     @Bind(R.id.iv_blur)
@@ -97,6 +95,11 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     private VideoDetailPresenter mPresenter;
 
     @Override
+    public boolean applySystemBarDrawable() {
+        return true;
+    }
+
+    @Override
     public int getLayoutResId() {
         return R.layout.activity_video_detail;
     }
@@ -104,8 +107,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void init(Bundle savedInstanceState) {
         mToolbar.setTitle(R.string.video_detail);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
