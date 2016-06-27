@@ -147,7 +147,7 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener, 
             public void run() {
                 loadBannerBackground();
             }
-        }, 300);
+        }, 500);
         addDots();
     }
 
@@ -251,8 +251,7 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener, 
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (Math.abs(e1.getX() - e2.getX()) > Math.abs(e1.getY() - e2.getY())) {
                 boolean flinged = false;
-                if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE
-                        && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+                if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
                     // Fling left
                     mViewFlipper.setInAnimation(mContext, R.anim.in_right_left);
                     mViewFlipper.setOutAnimation(mContext, R.anim.out_right_left);
@@ -263,8 +262,7 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener, 
                         mCurIndex = 0;
                     }
                     flinged = true;
-                } else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE
-                        && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+                } else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
                     // Fling right
                     mViewFlipper.setInAnimation(mContext, R.anim.in_left_right);
                     mViewFlipper.setOutAnimation(mContext, R.anim.out_left_right);

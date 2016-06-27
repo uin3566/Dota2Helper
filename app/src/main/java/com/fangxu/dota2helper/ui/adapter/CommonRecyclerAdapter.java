@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,12 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     protected LayoutInflater mLayoutInflater;
     private boolean mHasHeader;
     private boolean mHasFooter;
+
+    //¼òµ¥·À¶¶¶¯
+    private static final int quickClickInterval = 800;
+    private long mClickHeaderTime;
+    private long mClickItemTime;
+    private long mClickFooterTime;
 
     protected abstract class CommonViewHolder extends RecyclerView.ViewHolder {
         public CommonViewHolder(View itemView) {
@@ -49,11 +54,11 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         mHasFooter = hasFooter;
     }
 
-    protected void clickHeader() {
+    protected void onClickHeader() {
 
     }
 
-    protected void clickFooter() {
+    protected void onClickFooter() {
 
     }
 
@@ -89,6 +94,32 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         } else {//no header and no footer
             return mData.get(position);
         }
+    }
+
+    private void headerClick() {
+        if (System.currentTimeMillis() - mClickHeaderTime <= quickClickInterval) {
+            return;
+        }
+        mItemClickListener.onHeaderClick();
+        onClickHeader();
+        mClickHeaderTime = System.currentTimeMillis();
+    }
+
+    private void itemClick(int position) {
+        if (System.currentTimeMillis() - mClickItemTime <= quickClickInterval) {
+            return;
+        }
+        mItemClickListener.onItemClick(position);
+        mClickItemTime = System.currentTimeMillis();
+    }
+
+    private void footerClick() {
+        if (System.currentTimeMillis() - mClickFooterTime <= quickClickInterval) {
+            return;
+        }
+        mItemClickListener.onFooterClick();
+        onClickFooter();
+        mClickFooterTime = System.currentTimeMillis();
     }
 
     @Override
@@ -128,29 +159,25 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
                     boolean clicked = false;
                     if (mHasHeader && mHasFooter) {
                         if (position == 0) {
-                            mItemClickListener.onHeaderClick();
-                            clickHeader();
                             clicked = true;
+                            headerClick();
                         } else if (position == getItemCount() - 1) {
-                            mItemClickListener.onFooterClick();
-                            clickFooter();
                             clicked = true;
+                            footerClick();
                         }
                     } else if (mHasHeader) {
                         if (position == 0) {
-                            mItemClickListener.onHeaderClick();
-                            clickHeader();
                             clicked = true;
+                            headerClick();
                         }
                     } else if (mHasFooter) {
                         if (position == getItemCount() - 1) {
-                            mItemClickListener.onFooterClick();
-                            clickFooter();
                             clicked = true;
+                            footerClick();
                         }
                     }
                     if (!clicked) {
-                        mItemClickListener.onItemClick(position);
+                        itemClick(position);
                     }
                 }
             });

@@ -11,7 +11,6 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.ui.widget.FlipperBanner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -46,8 +45,8 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
     }
 
     @Override
-    protected void clickHeader() {
-        super.clickHeader();
+    protected void onClickHeader() {
+        super.onClickHeader();
         FlipperBanner flipperBanner = (FlipperBanner)mBannerHolder.itemView;
         flipperBanner.clickBanner();
     }
