@@ -340,7 +340,6 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)getResources().getDimension(R.dimen.video_player_height)));
             mBlurImageContainer.requestLayout();
-            mScrollView.requestLayout();
         }
     }
 
