@@ -19,35 +19,49 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main{
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+        }
+    }
 }
 
 repositories {
     maven { url "https://jitpack.io" }
 }
 
+ext {
+    supportVersion = '23.1.1'
+    retrofit2Version = '2.0.2'
+    rxjavaVersion = '1.1.0'
+    leakcannaryVertion = '1.4-beta2'
+    smarttablayoutVersion = '1.6.0@aar'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile "com.android.support:gridlayout-v7:23.1.1"
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile "com.android.support:appcompat-v7:${supportVersion}"
+    compile "com.android.support:recyclerview-v7:${supportVersion}"
+    compile "com.android.support:gridlayout-v7:${supportVersion}"
+    compile "com.android.support:cardview-v7:${supportVersion}"
+    compile "com.android.support:design:${supportVersion}"
+    compile "com.ogaclejapan.smarttablayout:library:${smarttablayoutVersion}"
+    compile "com.ogaclejapan.smarttablayout:utils-v4:${smarttablayoutVersion}"
+    compile "com.squareup.retrofit2:retrofit:${retrofit2Version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit2Version}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofit2Version}"
+    compile "com.squareup.retrofit2:converter-scalars:${retrofit2Version}"
+    compile "io.reactivex:rxandroid:${rxjavaVersion}"
+    compile "io.reactivex:rxjava:${rxjavaVersion}"
+    compile "org.greenrobot:greendao:2.2.1"
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.Aspsine:SwipeToLoadLayout:v1.0.2'
-    compile 'com.ogaclejapan.smarttablayout:library:1.6.0@aar'
-    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.0@aar'
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.github.frank-zhu:pullzoomview:1.0.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcannaryVertion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcannaryVertion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcannaryVertion}"
     compile project(':youkuPlayerOpenSDK')
 }
