@@ -130,8 +130,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             @Override
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
-                YoukuPluginPlayer pluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, backgroundUrl);
-                addPlugins(pluginPlayer);
+                YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, backgroundUrl);
+                addPlugins(youkuPluginPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
             }
@@ -333,17 +333,15 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
-        if (mBlurImageContainer.getVisibility() != View.VISIBLE) {
-            return;
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mBlurImageContainer.requestLayout();
         }
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//            mBlurImageContainer.requestLayout();
-//        }
-//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DimenUtil.dp2px(this, 203)));
-//            mBlurImageContainer.requestLayout();
-//        }
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)getResources().getDimension(R.dimen.video_player_height)));
+            mBlurImageContainer.requestLayout();
+            mScrollView.requestLayout();
+        }
     }
 
     @Override
