@@ -41,7 +41,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"/>
 
         <activity
-            android:name=".ui.Activity.NewsDetailActivity"
+            android:name=".ui.Activity.ArticalDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -49,6 +49,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <activity android:name=".ui.Activity.ProfileActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.Activity.MyWebPageActivity"
                   android:screenOrientation="portrait"/>
     </application>
 

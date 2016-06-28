@@ -8,7 +8,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.presenter.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
-import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -108,7 +108,7 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     @Override
     public void onItemClick(int position) {
         NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-        NewsDetailActivity.toNewsDetailActivity(getActivity(), newsEntity.getDate(), newsEntity.getNid());
+        ArticalDetailActivity.toNewsDetailActivity(getActivity(), newsEntity.getDate(), newsEntity.getNid());
     }
 
     @Override

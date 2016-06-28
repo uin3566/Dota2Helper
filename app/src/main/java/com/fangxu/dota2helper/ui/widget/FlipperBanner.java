@@ -4,24 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.util.DimenUtil;
 
 import java.util.ArrayList;
@@ -122,7 +117,7 @@ public class FlipperBanner extends FrameLayout implements View.OnTouchListener, 
 
     public void clickBanner() {
         NewsList.BannerEntity bannerEntity = mBannerEntityList.get(mCurIndex);
-        NewsDetailActivity.toNewsDetailActivity(mContext, bannerEntity.getDate(), bannerEntity.getNid());
+        ArticalDetailActivity.toNewsDetailActivity(mContext, bannerEntity.getDate(), bannerEntity.getNid());
     }
 
     public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {

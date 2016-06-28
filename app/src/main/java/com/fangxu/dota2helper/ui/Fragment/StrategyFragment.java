@@ -8,7 +8,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.StrategyList;
 import com.fangxu.dota2helper.presenter.IStrategyView;
 import com.fangxu.dota2helper.presenter.StrategyPresenter;
-import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.StrategyAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
@@ -41,7 +41,7 @@ public class StrategyFragment extends RefreshBaseFragment implements IStrategyVi
             @Override
             public void onItemClick(int position) {
                 StrategyList.StrategyEntity entity = mAdapter.getItem(position);
-                NewsDetailActivity.toNewsDetailActivity(getActivity(), entity.getDate(), entity.getNid());
+                ArticalDetailActivity.toNewsDetailActivity(getActivity(), entity.getDate(), entity.getNid());
             }
 
             @Override

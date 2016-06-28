@@ -9,7 +9,7 @@
         android:id="@+id/tv_watched_video"
         android:layout_width="match_parent"
         android:layout_height="@dimen/profile_item_height"
-        android:background="@color/white"
+        android:background="@drawable/selector_white_grey"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/base_margin"
         android:text="@string/watch_video_history"/>
@@ -22,7 +22,7 @@
         android:id="@+id/tv_cache_video"
         android:layout_width="match_parent"
         android:layout_height="@dimen/profile_item_height"
-        android:background="@color/white"
+        android:background="@drawable/selector_white_grey"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/base_margin"
         android:text="@string/cached_video"/>
@@ -33,24 +33,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_item_height">
+        android:layout_height="@dimen/profile_item_height"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_clear_cache"
             android:layout_width="match_parent"
             android:layout_height="@dimen/profile_item_height"
-            android:background="@color/white"
+            android:background="@drawable/selector_white_grey"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/base_margin"
             android:text="@string/clear_cache"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_margin"/>
+
     <TextView
         android:id="@+id/tv_my_github"
         android:layout_width="match_parent"
         android:layout_height="@dimen/profile_item_height"
-        android:layout_marginTop="@dimen/base_margin"
-        android:background="@color/white"
+        android:background="@drawable/selector_white_grey"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/base_margin"
         android:text="@string/my_github"/>
@@ -63,7 +67,7 @@
         android:id="@+id/tv_my_project"
         android:layout_width="match_parent"
         android:layout_height="@dimen/profile_item_height"
-        android:background="@color/white"
+        android:background="@drawable/selector_white_grey"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/base_margin"
         android:text="@string/my_project_mainpage"/>

@@ -38,7 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mToolbar = ButterKnife.findById(this, R.id.toolbar);
         if (null != mToolbar) {
-            mToolbar.setTitle(getTitleResId());
+            if (getTitleResId() != 0) {
+                mToolbar.setTitle(getTitleResId());
+            }
             setSupportActionBar(mToolbar);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -26,7 +26,9 @@
     <string name="cached_video">缓存视频</string>
     <string name="clear_cache">清空缓存</string>
     <string name="my_github">我的GitHub</string>
+    <string name="my_github_url">https://github.com/uin3566</string>
     <string name="my_project_mainpage">我的项目主页</string>
+    <string name="my_project_mainpage_url">https://github.com/uin3566/Dota2Helper</string>
 
     <string-array name="strategy_type">
         <item name="strategy_all">全部</item>
