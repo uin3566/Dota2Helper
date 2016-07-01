@@ -21,6 +21,7 @@ import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;
 import com.fangxu.dota2helper.ui.widget.SelectButton;
+import com.fangxu.dota2helper.ui.widget.YoukuPluginADPlayer;
 import com.fangxu.dota2helper.ui.widget.YoukuPluginPlayer;
 import com.fangxu.dota2helper.util.BlurTransformation;
 import com.fangxu.dota2helper.util.DimenUtil;
@@ -131,7 +132,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
                 YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, backgroundUrl);
-                addPlugins(youkuPluginPlayer);
+                YoukuPluginADPlayer youkuPluginADPlayer = new YoukuPluginADPlayer(this, mediaPlayerDelegate, backgroundUrl);
+                addPlugins(youkuPluginPlayer, youkuPluginADPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
             }
