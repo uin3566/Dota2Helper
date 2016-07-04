@@ -82,7 +82,7 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/play_btn_play_big_detail"
+            android:src="@drawable/ic_video_play"
             android:visibility="gone" />
 
         <RelativeLayout
