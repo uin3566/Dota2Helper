@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
+import com.fangxu.dota2helper.greendao.DaoMaster;
+import com.fangxu.dota2helper.greendao.GreenNews;
+import com.fangxu.dota2helper.greendao.GreenNewsDao;
 import com.fangxu.dota2helper.network.AppNetWork;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.dao.query.DeleteQuery;
+import de.greenrobot.dao.query.Query;
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -19,7 +26,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by lenov0 on 2016/4/9.
  */
-public class NewsInteractor extends BaseInteractor{
+public class NewsInteractor extends BaseInteractor {
     private static final String TAG = "test task id";
     private NewsCallback mCallback;
     private String mLastNewsNid;
@@ -35,9 +42,57 @@ public class NewsInteractor extends BaseInteractor{
         RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.newsTaskId);
     }
 
+    public void getCachedNews() {
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(Observable.create(new Observable.OnSubscribe<NewsList>() {
+            @Override
+            public void call(Subscriber<? super NewsList> subscriber) {
+                NewsList newsList = getGreenDaoNews();
+                subscriber.onNext(newsList);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<NewsList>() {
+                    @Override
+                    public void call(NewsList newsList) {
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                }));
+    }
+
+    private NewsList getGreenDaoNews() {
+        NewsList newsList = null;
+        GreenNewsDao greenNewsDao = MyApp.getGreenDaoHelper().getSession().getGreenNewsDao();
+        Query query = greenNewsDao.queryBuilder().build();
+        List<GreenNews> list = query.list();
+        if (list != null && !list.isEmpty()) {
+            newsList = MyApp.getGson().fromJson(list.get(0).getNewslistjson(), NewsList.class);
+        }
+        return newsList;
+    }
+
+    private void cacheGreenDaoNews(NewsList newsList) {
+        GreenNewsDao greenNewsDao = MyApp.getGreenDaoHelper().getSession().getGreenNewsDao();
+        greenNewsDao.queryBuilder().buildDelete().executeDeleteWithoutDetachingEntities();
+        String jsonData = MyApp.getGson().toJson(newsList);
+        GreenNews greenNews = new GreenNews(null, jsonData);
+        greenNewsDao.insert(greenNews);
+    }
+
     public void queryNews() {
         RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().refreshNews()
                 .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<NewsList>() {
+                    @Override
+                    public void call(NewsList newsList) {
+                        cacheGreenDaoNews(newsList);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
