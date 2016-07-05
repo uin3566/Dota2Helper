@@ -31,6 +31,14 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
         }
     }
 
+    public void getNewsCache() {
+        ((NewsInteractor)mInteractor).getCachedNews();
+    }
+
+    public void getUpdateCache () {
+        ((NewsInteractor)mInteractor).getCachedUpdates();
+    }
+
     public void doRefresh() {
         if (mType == NEWS) {
             ((NewsInteractor)mInteractor).queryNews();
@@ -45,6 +53,20 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
         } else {
             ((NewsInteractor)mInteractor).queryMoreUpdates();
         }
+    }
+
+    @Override
+    public void onGetCache(List<NewsList.BannerEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews) {
+        if (!updateNews) {
+            mCallback.setBanner(bannerEntityList);
+        }
+        mCallback.setNewsList(newsEntityList, false);
+        mCallback.onCacheLoaded();
+    }
+
+    @Override
+    public void onCacheEmpty() {
+        mCallback.onCacheLoaded();
     }
 
     @Override

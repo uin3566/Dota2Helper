@@ -8,6 +8,7 @@ import java.util.List;
  * Created by lenov0 on 2016/4/9.
  */
 public interface INewsView {
+    void onCacheLoaded();
     void setBanner(List<NewsList.BannerEntity> bannerEntityList);
     void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append);
     void setRefreshFailed(boolean loadMore);

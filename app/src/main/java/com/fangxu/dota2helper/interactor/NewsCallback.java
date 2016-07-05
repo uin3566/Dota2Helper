@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface NewsCallback {
     void onGetBanner(List<NewsList.BannerEntity> bannerEntityList);
+    void onGetCache(List<NewsList.BannerEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews);
+    void onCacheEmpty();
     void onUpdateSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore);
     void onUpdateFailed(boolean loadmore);
 }

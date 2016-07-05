@@ -75,12 +75,7 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView{
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
+        mPresenter.getUpdateCache();
     }
 
     @Override
@@ -101,6 +96,16 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView{
     @Override
     public void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append) {
         mAdapter.updateData(newsEntityList, append);
+    }
+
+    @Override
+    public void onCacheLoaded() {
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
     }
 
     @Override

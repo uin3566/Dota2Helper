@@ -2,6 +2,7 @@ package com.fangxu.dota2helper.interactor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
 
 import com.fangxu.dota2helper.MyApp;
@@ -10,6 +11,8 @@ import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.greendao.DaoMaster;
 import com.fangxu.dota2helper.greendao.GreenNews;
 import com.fangxu.dota2helper.greendao.GreenNewsDao;
+import com.fangxu.dota2helper.greendao.GreenUpdate;
+import com.fangxu.dota2helper.greendao.GreenUpdateDao;
 import com.fangxu.dota2helper.network.AppNetWork;
 
 import java.util.List;
@@ -55,12 +58,16 @@ public class NewsInteractor extends BaseInteractor {
                 .subscribe(new Action1<NewsList>() {
                     @Override
                     public void call(NewsList newsList) {
-
+                        if (newsList != null) {
+                            mCallback.onGetCache(newsList.getBanner(), newsList.getNews(), false);
+                        } else {
+                            mCallback.onCacheEmpty();
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        mCallback.onCacheEmpty();
                     }
                 }));
     }
@@ -130,9 +137,61 @@ public class NewsInteractor extends BaseInteractor {
                 }));
     }
 
+    public void getCachedUpdates() {
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(Observable.create(new Observable.OnSubscribe<NewsList>() {
+            @Override
+            public void call(Subscriber<? super NewsList> subscriber) {
+                NewsList newsList = getGreenDaoUpdates();
+                subscriber.onNext(newsList);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<NewsList>() {
+                    @Override
+                    public void call(NewsList newsList) {
+                        if (newsList != null) {
+                            mCallback.onGetCache(newsList.getBanner(), newsList.getNews(), true);
+                        } else {
+                            mCallback.onCacheEmpty();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mCallback.onCacheEmpty();
+                    }
+                }));
+    }
+
+    public NewsList getGreenDaoUpdates() {
+        NewsList newsList = null;
+        GreenUpdateDao greenUpdateDao = MyApp.getGreenDaoHelper().getSession().getGreenUpdateDao();
+        Query query = greenUpdateDao.queryBuilder().build();
+        List<GreenUpdate> greenUpdates = query.list();
+        if (greenUpdates != null && !greenUpdates.isEmpty()) {
+            newsList = MyApp.getGson().fromJson(greenUpdates.get(0).getUpdatelistjson(), NewsList.class);
+        }
+        return newsList;
+    }
+
+    public void cacheGreenDaoUpdates(NewsList newsList) {
+        GreenUpdateDao greenUpdateDao = MyApp.getGreenDaoHelper().getSession().getGreenUpdateDao();
+        greenUpdateDao.queryBuilder().buildDelete().executeDeleteWithoutDetachingEntities();
+        String jsonData = MyApp.getGson().toJson(newsList);
+        GreenUpdate greenUpdate = new GreenUpdate(null, jsonData);
+        greenUpdateDao.insert(greenUpdate);
+    }
+
     public void queryUpdates() {
         RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsTaskId).add(AppNetWork.INSTANCE.getNewsApi().refreshUpdates()
                 .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<NewsList>() {
+                    @Override
+                    public void call(NewsList newsList) {
+                        cacheGreenDaoUpdates(newsList);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<NewsList>() {
                     @Override
