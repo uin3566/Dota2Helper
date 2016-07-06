@@ -45,12 +45,7 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
 
     @Override
     protected void onFragmentFirstVisible() {
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
+        mPresenter.loadCacheVideos();
     }
 
     @Override
@@ -97,6 +92,16 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
     @Override
     public void onRefresh() {
         mPresenter.doRefresh();
+    }
+
+    @Override
+    public void onCacheLoaded() {
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
     }
 
     @Override

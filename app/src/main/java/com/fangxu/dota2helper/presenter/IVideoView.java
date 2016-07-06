@@ -12,4 +12,5 @@ public interface IVideoView {
     void setRefreshFailed(boolean loadMore);
     void hideProgress(boolean loadMore);
     void showNoMoreToast();
+    void onCacheLoaded();
 }

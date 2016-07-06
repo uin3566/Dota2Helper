@@ -21,6 +21,10 @@ public class VideoPresenter extends BasePresenter implements VideoCallback{
         mInteractor = new VideoInteractor(activity, this);
     }
 
+    public void loadCacheVideos() {
+        ((VideoInteractor)mInteractor).getCachedVideos(mType);
+    }
+
     @Override
     public void destroy() {
         mInteractor.destroy();
@@ -32,6 +36,17 @@ public class VideoPresenter extends BasePresenter implements VideoCallback{
 
     public void doLoadMore() {
         ((VideoInteractor)mInteractor).queryMoreVideos(mType);
+    }
+
+    @Override
+    public void onCacheEmpty() {
+        mCallback.onCacheLoaded();
+    }
+
+    @Override
+    public void onGetCachedVideo(List<VideoList.VideoEntity> videoEntityList) {
+        mCallback.setVideoList(videoEntityList, false);
+        mCallback.onCacheLoaded();
     }
 
     @Override

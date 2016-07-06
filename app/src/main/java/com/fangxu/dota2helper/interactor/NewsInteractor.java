@@ -75,8 +75,7 @@ public class NewsInteractor extends BaseInteractor {
     private NewsList getGreenDaoNews() {
         NewsList newsList = null;
         GreenNewsDao greenNewsDao = MyApp.getGreenDaoHelper().getSession().getGreenNewsDao();
-        Query query = greenNewsDao.queryBuilder().build();
-        List<GreenNews> list = query.list();
+        List<GreenNews> list = greenNewsDao.queryBuilder().build().list();
         if (list != null && !list.isEmpty()) {
             newsList = MyApp.getGson().fromJson(list.get(0).getNewslistjson(), NewsList.class);
         }
@@ -167,8 +166,7 @@ public class NewsInteractor extends BaseInteractor {
     public NewsList getGreenDaoUpdates() {
         NewsList newsList = null;
         GreenUpdateDao greenUpdateDao = MyApp.getGreenDaoHelper().getSession().getGreenUpdateDao();
-        Query query = greenUpdateDao.queryBuilder().build();
-        List<GreenUpdate> greenUpdates = query.list();
+        List<GreenUpdate> greenUpdates = greenUpdateDao.queryBuilder().build().list();
         if (greenUpdates != null && !greenUpdates.isEmpty()) {
             newsList = MyApp.getGson().fromJson(greenUpdates.get(0).getUpdatelistjson(), NewsList.class);
         }

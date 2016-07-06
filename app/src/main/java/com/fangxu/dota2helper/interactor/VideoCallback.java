@@ -10,4 +10,6 @@ import java.util.List;
 public interface VideoCallback {
     void onUpdateSuccessed(List<VideoList.VideoEntity> videoEntityList, boolean loadmore);
     void onUpdateFailed(boolean loadmore);
+    void onGetCachedVideo(List<VideoList.VideoEntity> videoEntityList);
+    void onCacheEmpty();
 }
