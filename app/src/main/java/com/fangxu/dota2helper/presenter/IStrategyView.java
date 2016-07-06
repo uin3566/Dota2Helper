@@ -13,4 +13,5 @@ public interface IStrategyView {
     void setRefreshFailed(boolean loadMore);
     void hideProgress(boolean loadMore);
     void showNoMoreToast();
+    void onCacheLoaded();
 }

@@ -60,7 +60,7 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
         mAdapter.setItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mPresenter.getNewsCache();
+        mPresenter.loadNewsCache();
     }
 
     @Override

@@ -3,11 +3,19 @@ package com.fangxu.dota2helper.interactor;
 import android.app.Activity;
 import android.util.Log;
 
+import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.StrategyList;
+import com.fangxu.dota2helper.greendao.GreenStrategy;
+import com.fangxu.dota2helper.greendao.GreenStrategyDao;
 import com.fangxu.dota2helper.network.AppNetWork;
 
+import java.util.List;
+
+import de.greenrobot.dao.query.DeleteQuery;
+import de.greenrobot.dao.query.Query;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -31,9 +39,60 @@ public class StrategyInteractor extends BaseInteractor{
         RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.strategyTaskId);
     }
 
-    public void queryStrategies(String type) {
+    public void getCachedStrategies(final String type) {
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.strategyTaskId).add(Observable.create(new Observable.OnSubscribe<StrategyList>() {
+            @Override
+            public void call(Subscriber<? super StrategyList> subscriber) {
+                StrategyList strategyList = getCachedGreenDaoStrategies(type);
+                subscriber.onNext(strategyList);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<StrategyList>() {
+            @Override
+            public void call(StrategyList strategyList) {
+                if (strategyList != null) {
+                    mCallback.onGetCachedStrategies(strategyList.getStrategies());
+                } else {
+                    mCallback.onCachedStrategiesEmpty();
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                mCallback.onCachedStrategiesEmpty();
+            }
+        }));
+    }
+
+    private void cacheGreenDaoStrategies(StrategyList strategyList, String type) {
+        GreenStrategyDao greenStrategyDao = MyApp.getGreenDaoHelper().getSession().getGreenStrategyDao();
+        greenStrategyDao.queryBuilder().where(GreenStrategyDao.Properties.Strategytype.eq(type)).buildDelete().executeDeleteWithoutDetachingEntities();
+        String jsonData = MyApp.getGson().toJson(strategyList);
+        GreenStrategy greenStrategy = new GreenStrategy(null, jsonData, type);
+        greenStrategyDao.insert(greenStrategy);
+    }
+
+    private StrategyList getCachedGreenDaoStrategies(String type) {
+        StrategyList strategyList = null;
+        GreenStrategyDao greenStrategyDao = MyApp.getGreenDaoHelper().getSession().getGreenStrategyDao();
+        List<GreenStrategy> list = greenStrategyDao.queryBuilder().where(GreenStrategyDao.Properties.Strategytype.eq(type)).build().list();
+        if (list != null && !list.isEmpty()) {
+            strategyList = MyApp.getGson().fromJson(list.get(0).getStrategylistjson(), StrategyList.class);
+        }
+        return strategyList;
+    }
+
+    public void queryStrategies(final String type) {
         RxCenter.INSTANCE.getCompositeSubscription(TaskIds.strategyTaskId).add(AppNetWork.INSTANCE.getNewsApi()
                 .refreshStrategies(type)
+                .doOnNext(new Action1<StrategyList>() {
+                    @Override
+                    public void call(StrategyList strategyList) {
+                        cacheGreenDaoStrategies(strategyList, type);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<StrategyList>() {

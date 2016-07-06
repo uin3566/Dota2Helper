@@ -21,12 +21,27 @@ public class StrategyPresenter extends BasePresenter implements StrategyCallback
         mInteractor = new StrategyInteractor(activity, this);
     }
 
+    public void loadStrategyCache() {
+        ((StrategyInteractor)mInteractor).getCachedStrategies(mType);
+    }
+
     public void doRefresh() {
         ((StrategyInteractor)mInteractor).queryStrategies(mType);
     }
 
     public void doLoadMore() {
         ((StrategyInteractor)mInteractor).queryMoreStrategies(mType);
+    }
+
+    @Override
+    public void onCachedStrategiesEmpty() {
+        mCallback.onCacheLoaded();
+    }
+
+    @Override
+    public void onGetCachedStrategies(List<StrategyList.StrategyEntity> strategyEntityList) {
+        mCallback.setStrategyList(strategyEntityList, false);
+        mCallback.onCacheLoaded();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
         }
     }
 
-    public void getNewsCache() {
+    public void loadNewsCache() {
         ((NewsInteractor)mInteractor).getCachedNews();
     }
 

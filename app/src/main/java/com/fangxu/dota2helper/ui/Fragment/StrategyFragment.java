@@ -78,12 +78,7 @@ public class StrategyFragment extends RefreshBaseFragment implements IStrategyVi
 
     @Override
     protected void onFragmentFirstVisible() {
-        mSwipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-        });
+        mPresenter.loadStrategyCache();
     }
 
     @Override
@@ -94,6 +89,16 @@ public class StrategyFragment extends RefreshBaseFragment implements IStrategyVi
     @Override
     public void onLoadMore() {
         mPresenter.doLoadMore();
+    }
+
+    @Override
+    public void onCacheLoaded() {
+        mSwipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+        });
     }
 
     @Override
