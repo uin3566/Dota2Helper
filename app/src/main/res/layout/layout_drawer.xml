@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_primary">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_primary"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/iv_drawer_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_top_image_height"
         android:layout_alignParentTop="true"
-        android:clickable="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/drawer_top_image"/>
+        android:src="@drawable/drawer_top_image" />
 
     <LinearLayout
         android:id="@+id/ll_drawer_profile"
         android:layout_width="wrap_content"
-        android:paddingLeft="@dimen/base_margin"
-        android:paddingRight="@dimen/base_margin"
         android:layout_height="@dimen/drawer_user_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/base_margin"
         android:layout_marginRight="@dimen/drawer_icon_margin"
-        android:clickable="true">
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin">
 
         <ImageView
             android:id="@+id/iv_drawer_icon"
             android:layout_width="@dimen/drawer_icon_size"
             android:layout_height="@dimen/drawer_icon_size"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/selector_user"/>
+            android:src="@drawable/selector_user" />
 
         <TextView
             android:id="@+id/tv_drawer_text"
@@ -41,7 +40,7 @@
             android:text="@string/profile"
             android:textColor="@color/drawer_text_color"
             android:textSize="@dimen/drawer_item_text_size"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -52,5 +51,5 @@
         android:layout_below="@id/iv_drawer_top"
         android:background="@android:color/transparent"
         android:overScrollMode="never"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 </RelativeLayout>
