@@ -9,7 +9,8 @@
     <color name="title_text">#212121</color>
     <color name="content_text">#727272</color>
 
-    <color name="alpha_white">#1affffff</color>
+    <color name="alpha_white_0">#1affffff</color>
+    <color name="alpha_white_1">#8affffff</color>
     <color name="white">#ffffff</color>
     <color name="grey">#eeeeee</color>
     <color name="grey_light">#f5f5f5</color>

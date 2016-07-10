@@ -3,6 +3,7 @@ package com.fangxu.dota2helper.ui.widget;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Handler;
@@ -26,7 +27,9 @@ import com.baseproject.utils.Util;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.util.BlurTransformation;
+import com.youku.player.ApiManager;
 import com.youku.player.Track;
+import com.youku.player.VideoQuality;
 import com.youku.player.apiservice.ICacheInfo;
 import com.youku.player.base.GoplayException;
 import com.youku.player.base.Orientation;
@@ -42,6 +45,8 @@ import com.youku.player.util.PlayCode;
 import com.youku.player.util.PlayerUtil;
 import com.youku.uplayer.MPPErrorCode;
 
+import java.util.List;
+
 /**
  * 简单的播放控制插件
  *
@@ -56,6 +61,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private RelativeLayout controlLayout;
     private ImageView play_pauseButton;// 播放暂停按钮
     private ImageButton full_screenButton;// 全屏按钮
+    private VideoQualityTextView video_quality;
+    private LinearLayout video_quality_container;
     private String id;// 上页传递id video/show
 
     private LinearLayout mContainerLayout;// 整个布局layout
@@ -72,6 +79,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private RelativeLayout loadingInfoLayout;
     private SeekBar infoSeekBar;
     private String videoBackground;
+
+    private List<VideoQuality> mVideoQualityList;
+    private VideoQuality mCurQuality;
 
     // private Loading playLoading;
 
@@ -186,6 +196,14 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         }
     }
 
+    private void hideShowQualityContainer(boolean hide) {
+        if (hide) {
+            video_quality_container.setVisibility(GONE);
+        } else {
+            video_quality_container.setVisibility(VISIBLE);
+        }
+    }
+
     // 初始化播放区控件
 
     /**
@@ -272,6 +290,20 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         });
         full_screenButton = (ImageButton) containerView
                 .findViewById(R.id.ib_detail_play_full);
+
+        video_quality_container = (LinearLayout) containerView.findViewById(R.id.ll_video_quality_container);
+
+        video_quality = (VideoQualityTextView) containerView.findViewById(R.id.tv_video_quality);
+        video_quality.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (video_quality_container.getVisibility() == GONE) {
+                    hideShowQualityContainer(false);
+                } else if (video_quality_container.getVisibility() == VISIBLE) {
+                    hideShowQualityContainer(true);
+                }
+            }
+        });
 
         full_screenButton.setOnClickListener(new OnClickListener() {
 
@@ -785,6 +817,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         if (controlLayout.getVisibility() == View.VISIBLE) {
             controlLayout.setVisibility(View.GONE);
             play_pauseButton.setVisibility(View.GONE);
+            hideShowQualityContainer(true);
         } else {
 //			Logger.d("sgh","plugin_small, from local: " + mMediaPlayerDelegate.videoInfo.getPlayType());
             if (mMediaPlayerDelegate.videoInfo != null && StaticsUtil.PLAY_TYPE_LOCAL
@@ -854,8 +887,10 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     }
 
     private void hideControl() {
-        if (null != controlLayout)
+        if (null != controlLayout) {
             controlLayout.setVisibility(View.GONE);
+        }
+        hideShowQualityContainer(true);
     }
 
     private void showControl() {
@@ -1397,15 +1432,15 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
 			 * @Override public void run() { disableController();
 			 * showRetryLayout(); } }); break; }
 			 */
-			/*
-			 * case MSG_TIME_OUT: { ((Activity) mActivity).runOnUiThread(new
+            /*
+             * case MSG_TIME_OUT: { ((Activity) mActivity).runOnUiThread(new
 			 * Runnable() {
 			 * 
 			 * @Override public void run() { disableController();
 			 * showRetryLayout(); } }); break; }
 			 */
-			/*
-			 * case MSG_COMPLETE: ((Activity) mActivity).runOnUiThread(new
+            /*
+             * case MSG_COMPLETE: ((Activity) mActivity).runOnUiThread(new
 			 * Runnable() {
 			 * 
 			 * @Override public void run() { if (null != videoBar)
@@ -1454,8 +1489,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         }
 
         // 本地播放询问是否在线
-		/*
-		 * if ( StaticsUtil.PLAY_TYPE_LOCAL
+        /*
+         * if ( StaticsUtil.PLAY_TYPE_LOCAL
 		 * .equals(mMediaPlayerDelegate.videoInfo.getPlayType())) { IDownload
 		 * download = YoukuService.getService(IDownload.class); DownloadInfo
 		 * info = download.getDownloadInfo(
@@ -1887,11 +1922,61 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         }
     }
 
+    private boolean changeQuality(VideoQuality videoQuality) {
+        if (videoQuality == mCurQuality) {
+            return true;
+        }
+        int result = ApiManager.getInstance().changeVideoQuality(videoQuality, mBasePlayerManager);
+        if (result != 0) {
+            mCurQuality = videoQuality;
+            video_quality.setQuality(mCurQuality);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void onRealVideoStart() {
         isRealVideoStart = true;
         isLoading = false;
         enableController();
+
+        int currentQuality = mMediaPlayerDelegate.videoInfo.getCurrentQuality();
+        mVideoQualityList = ApiManager.getInstance().getSupportedVideoQuality(mBasePlayerManager);
+        if (mVideoQualityList.size() > 1) {
+            video_quality_container.removeAllViews();
+            for (int i = 0; i < mVideoQualityList.size(); i++) {
+                VideoQuality quality = mVideoQualityList.get(i);
+                final VideoQualityTextView qualityTextView = new VideoQualityTextView(mActivity);
+                if (i == 0) {
+                    mCurQuality = quality;
+                    qualityTextView.setTextColor(R.color.white);
+                }
+                qualityTextView.setQuality(quality);
+                qualityTextView.setBackgroundColor(Color.parseColor("#BF000000"));
+                if (i == 0) {
+                    qualityTextView.setDividerVisibility(false);
+                }
+                qualityTextView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        VideoQuality selectQuality = qualityTextView.getQuality();
+                        changeQuality(selectQuality);
+                        hideShowQualityContainer(true);
+                    }
+                });
+                video_quality_container.addView(qualityTextView);
+            }
+            if (currentQuality != mCurQuality.ordinal()) {
+                ApiManager.getInstance().changeVideoQuality(mCurQuality, mBasePlayerManager);
+            }
+            video_quality.setQuality(mCurQuality);
+            video_quality.setDividerVisibility(false);
+        } else {
+            video_quality.setVisibility(GONE);
+            hideShowQualityContainer(true);
+        }
     }
 
     @Override

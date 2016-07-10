@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,6 +24,15 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_video_full" />
 
+        <com.fangxu.dota2helper.ui.widget.VideoQualityTextView
+            android:id="@+id/tv_video_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_toLeftOf="@id/ib_detail_play_full"
+            android:gravity="center_vertical"
+            app:vqt_text_color="@color/white" />
+
         <TextView
             android:id="@+id/total_time"
             style="@style/player_total_time_text"
@@ -31,19 +41,20 @@
             android:layout_alignBottom="@id/ib_detail_play_full"
             android:layout_alignTop="@id/ib_detail_play_full"
             android:layout_marginRight="@dimen/detail_play_progress_margin_left"
-            android:layout_toLeftOf="@id/ib_detail_play_full"
+            android:layout_toLeftOf="@id/tv_video_quality"
             android:gravity="center"
             android:text="00:00"
+            android:textColor="@color/white"
             android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/ib_detail_play_control"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="@dimen/detail_play_progress_margin_left"
-            android:paddingRight="@dimen/detail_play_progress_margin_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/detail_play_progress_margin_left"
+            android:paddingRight="@dimen/detail_play_progress_margin_left"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_pause" />
 
@@ -53,13 +64,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ib_detail_play_full"
-            android:layout_toRightOf="@id/ib_detail_play_control"
             android:layout_alignTop="@id/ib_detail_play_full"
+            android:layout_toRightOf="@id/ib_detail_play_control"
             android:gravity="center"
             android:text="00:00"
+            android:textColor="@color/white"
             android:textSize="10sp" />
 
         <LinearLayout
+            android:id="@+id/ll_progress_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ib_detail_play_full"
@@ -76,11 +89,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:progressDrawable="@drawable/yp_progress_holo_light"
                 android:thumb="@drawable/ic_progress_round" />
         </LinearLayout>
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_video_quality_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl_seek"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="41dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+    </LinearLayout>
 
 </RelativeLayout>

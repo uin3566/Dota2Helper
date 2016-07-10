@@ -32,4 +32,8 @@
         <attr name="fb_dot_selected" format="reference"/>
         <attr name="fb_dot_normal" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="VideoQualityTextView">
+        <attr name="vqt_text_color" format="color|reference"/>
+    </declare-styleable>
 </resources>

@@ -39,7 +39,8 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoPlayerActivity extends BaseActivity implements IVideoDetailView, RelatedVideoAdapter.RelatedVideoClickListener {
+public class VideoPlayerActivity extends BaseActivity implements IVideoDetailView
+        , RelatedVideoAdapter.RelatedVideoClickListener {
     public static final String VIDEO_TITLE = "video_title";
     public static final String VIDEO_PUBLISH_TIME = "video_publish_time";
     public static final String VIDEO_DATE = "video_date";

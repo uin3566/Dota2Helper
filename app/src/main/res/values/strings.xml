@@ -19,6 +19,11 @@
     <string name="anthology">选集</string>
     <string name="related_video">相关视频</string>
 
+    <string name="standard">标  清</string>
+    <string name="high">高  清</string>
+    <string name="super_high">超  清</string>
+    <string name="p1080">1080p</string>
+
     <string name="splash_copyright">Copyright &#169; 2016 掌刀 All Rights Reserved\nPowered by Fang.Xu</string>
     <string name="splash_version">V %1$s</string>
 
