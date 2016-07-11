@@ -46,7 +46,6 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mAdapter.destroy();
         mPresenter.destroy();
     }
 

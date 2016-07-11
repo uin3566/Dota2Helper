@@ -25,9 +25,9 @@ import butterknife.Bind;
  */
 public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
     private List<NewsList.BannerEntity> mBannerEntityList;
-    private BannerHolder mBannerHolder;
+    private ConvenientBanner<NewsList.BannerEntity> mBannerView;
 
-    private static final long BANNER_SWITCH_TIME = 3000;
+    private static final long BANNER_SWITCH_TIME = 5000;
 
     public NewsAdapter(Context context) {
         super(context);
@@ -37,9 +37,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         mBannerEntityList = bannerEntityList;
         if (mBannerEntityList == null || mBannerEntityList.isEmpty()) {
             setHasHeader(false);
-            if (mBannerHolder != null) {
-                mBannerHolder.mConvenientBanner.stopTurning();
-            }
+            mBannerView = null;
         } else {
             setHasHeader(true);
         }
@@ -54,12 +52,6 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         notifyDataSetChanged();
     }
 
-    public void destroy() {
-        if (mBannerHolder != null) {
-            mBannerHolder.mConvenientBanner.stopTurning();
-        }
-    }
-
     @Override
     protected void onClickHeader() {
         super.onClickHeader();
@@ -70,8 +62,16 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         View view;
         if (viewType == ITEM_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_banner, parent, false);
-            mBannerHolder = new BannerHolder(view);
-            return mBannerHolder;
+            mBannerView = (ConvenientBanner)view.findViewById(R.id.banner);
+            mBannerView.setPages(new CBViewHolderCreator<BannerItemView>() {
+                @Override
+                public BannerItemView createHolder() {
+                    return new BannerItemView();
+                }
+            }, mBannerEntityList)
+                    .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_selected})
+                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+            return new BannerHolder(mBannerView);
         } else if (viewType == ITEM_NORMAL) {
             view = mLayoutInflater.inflate(R.layout.item_news, parent, false);
             return new NewsViewHolder(view);
@@ -85,20 +85,8 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
     }
 
     public class BannerHolder extends CommonViewHolder {
-        @Bind(R.id.banner)
-        ConvenientBanner<NewsList.BannerEntity> mConvenientBanner;
-
         public BannerHolder(View itemView) {
             super(itemView);
-            mConvenientBanner.setPages(new CBViewHolderCreator<BannerItemView>() {
-                @Override
-                public BannerItemView createHolder() {
-                    return new BannerItemView();
-                }
-            }, mBannerEntityList)
-                    .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_selected})
-                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                    .startTurning(BANNER_SWITCH_TIME);
         }
 
         @Override
