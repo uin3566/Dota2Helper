@@ -42,9 +42,11 @@ public class VideoQualityTextView extends LinearLayout {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoQualityTextView, 0, 0);
         int textColor = ta.getColor(R.styleable.VideoQualityTextView_vqt_text_color, 0x8affffff);
+        int backgroundColor = ta.getColor(R.styleable.VideoQualityTextView_vqt_text_view_background, 0xbf000000);
         ta.recycle();
 
         mQualityTextView.setTextColor(textColor);
+        mQualityTextView.setBackgroundColor(backgroundColor);
     }
 
     public void setTextColor(int resId) {

@@ -80,7 +80,6 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private SeekBar infoSeekBar;
     private String videoBackground;
 
-    private List<VideoQuality> mVideoQualityList;
     private VideoQuality mCurQuality;
 
     // private Loading playLoading;
@@ -1943,21 +1942,20 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         enableController();
 
         int currentQuality = mMediaPlayerDelegate.videoInfo.getCurrentQuality();
-        mVideoQualityList = ApiManager.getInstance().getSupportedVideoQuality(mBasePlayerManager);
-        if (mVideoQualityList.size() > 1) {
+        List<VideoQuality> videoQualityList = ApiManager.getInstance().getSupportedVideoQuality(mBasePlayerManager);
+        if (videoQualityList.size() > 1) {
             video_quality_container.removeAllViews();
-            for (int i = 0; i < mVideoQualityList.size(); i++) {
-                VideoQuality quality = mVideoQualityList.get(i);
+            for (int i = 0; i < videoQualityList.size(); i++) {
+                VideoQuality quality = videoQualityList.get(i);
                 final VideoQualityTextView qualityTextView = new VideoQualityTextView(mActivity);
-                if (i == 0) {
+                if (quality.ordinal() == currentQuality) {
                     mCurQuality = quality;
                     qualityTextView.setTextColor(R.color.white);
                 }
-                qualityTextView.setQuality(quality);
-                qualityTextView.setBackgroundColor(Color.parseColor("#BF000000"));
                 if (i == 0) {
                     qualityTextView.setDividerVisibility(false);
                 }
+                qualityTextView.setQuality(quality);
                 qualityTextView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1967,9 +1965,6 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                     }
                 });
                 video_quality_container.addView(qualityTextView);
-            }
-            if (currentQuality != mCurQuality.ordinal()) {
-                ApiManager.getInstance().changeVideoQuality(mCurQuality, mBasePlayerManager);
             }
             video_quality.setQuality(mCurQuality);
             video_quality.setDividerVisibility(false);

@@ -35,5 +35,6 @@
 
     <declare-styleable name="VideoQualityTextView">
         <attr name="vqt_text_color" format="color|reference"/>
+        <attr name="vqt_text_view_background" format="color|reference"/>
     </declare-styleable>
 </resources>

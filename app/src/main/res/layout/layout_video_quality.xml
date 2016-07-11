@@ -8,7 +8,7 @@
         android:id="@+id/v_divider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#BF090909" />
+        android:background="#BF595959" />
 
     <TextView
         android:id="@+id/tv_quality"
