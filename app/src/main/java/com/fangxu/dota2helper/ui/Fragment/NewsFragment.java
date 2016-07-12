@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.presenter.INewsView;
@@ -46,6 +47,7 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mAdapter.destroy();
         mPresenter.destroy();
     }
 

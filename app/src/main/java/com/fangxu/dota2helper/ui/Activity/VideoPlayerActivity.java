@@ -81,8 +81,8 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     }
 
     @Override
-    protected void setTranslucentStatus(boolean on) {
-
+    protected boolean applyTranslucentStatus() {
+        return false;
     }
 
     @Override

@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--<com.fangxu.dota2helper.ui.widget.FlipperBanner-->
-    <!--android:id="@+id/banner"-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/banner_height"-->
-    <!--app:fb_dot_normal="@drawable/dot_normal"-->
-    <!--app:fb_dot_selected="@drawable/dot_selected"-->
-    <!--app:fb_show_dot="true"-->
-    <!--app:fb_show_title="true"-->
-    <!--app:fb_title_background="@color/black_half_transparent"/>-->
+<!--android:id="@+id/banner"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="@dimen/banner_height"-->
+<!--app:fb_dot_normal="@drawable/dot_normal"-->
+<!--app:fb_dot_selected="@drawable/dot_selected"-->
+<!--app:fb_show_dot="true"-->
+<!--app:fb_show_title="true"-->
+<!--app:fb_title_background="@color/black_half_transparent"/>-->
 
-<com.bigkoo.convenientbanner.ConvenientBanner
+<!--<com.bigkoo.convenientbanner.ConvenientBanner-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:id="@+id/banner"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="@dimen/banner_height"/>-->
+
+<com.fangxu.dota2helper.ui.widget.SimpleImageBanner
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:id="@+id/banner"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/banner_height"/>
-
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/banner_height"
+    banner:bb_delay="2"
+    banner:bb_indicatorGravity="RIGHT"
+    banner:bb_isAutoScrollEnable="true"
+    banner:bb_isIndicatorShow="true"
+    banner:bb_isLoopEnable="true"
+    banner:bb_indicatorCornerRadius="3dp"
+    banner:bb_indicatorGap="8dp"
+    banner:bb_indicatorHeight="6dp"
+    banner:bb_indicatorSelectColor="#ffffff"
+    banner:bb_indicatorStyle="CORNER_RECTANGLE"
+    banner:bb_indicatorUnselectColor="#88ffffff"
+    banner:bb_indicatorWidth="6dp"/>

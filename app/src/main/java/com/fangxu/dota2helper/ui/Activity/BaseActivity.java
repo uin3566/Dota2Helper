@@ -22,15 +22,19 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar mToolbar;
 
-    public abstract int getLayoutResId();
-    public abstract void init(Bundle savedInstanceState);
-    public abstract boolean applySystemBarDrawable();
-    public abstract int getTitleResId();
+    protected abstract int getLayoutResId();
+    protected abstract void init(Bundle savedInstanceState);
+    protected abstract boolean applySystemBarDrawable();
+    protected abstract int getTitleResId();
+
+    protected boolean applyTranslucentStatus() {
+        return true;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTranslucentStatus(true);
+        setTranslucentStatus(applyTranslucentStatus());
         if (applySystemBarDrawable()) {
             setSystemBarTintDrawable(getResources().getDrawable(R.drawable.drawable_primary));
         }
@@ -53,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param tintDrawable
      */
-    protected void setSystemBarTintDrawable(Drawable tintDrawable) {
+    private void setSystemBarTintDrawable(Drawable tintDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager mTintManager = new SystemBarTintManager(this);
             if (tintDrawable != null) {
@@ -66,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setTranslucentStatus(boolean on) {
+    private void setTranslucentStatus(boolean on) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window win = getWindow();
             WindowManager.LayoutParams winParams = win.getAttributes();
