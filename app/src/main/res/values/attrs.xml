@@ -25,14 +25,6 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="FlipperBanner">
-        <attr name="fb_show_title" format="boolean"/>
-        <attr name="fb_show_dot" format="boolean"/>
-        <attr name="fb_title_background" format="color|reference"/>
-        <attr name="fb_dot_selected" format="reference"/>
-        <attr name="fb_dot_normal" format="reference"/>
-    </declare-styleable>
-
     <declare-styleable name="VideoQualityTextView">
         <attr name="vqt_text_color" format="color|reference"/>
         <attr name="vqt_text_view_background" format="color|reference"/>

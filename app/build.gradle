@@ -54,7 +54,6 @@ dependencies {
     compile "io.reactivex:rxandroid:${rxjavaVersion}"
     compile "io.reactivex:rxjava:${rxjavaVersion}"
     compile "org.greenrobot:greendao:2.2.1"
-    compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.Aspsine:SwipeToLoadLayout:v1.0.2'
