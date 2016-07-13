@@ -2,20 +2,14 @@ package com.fangxu.dota2helper.ui.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/12.
@@ -35,7 +29,8 @@ public class SimpleImageBanner extends BaseIndicatorBanner<NewsList.BannerEntity
 
     @Override
     public void onTitleSlect(TextView tv, int position) {
-
+        NewsList.BannerEntity bannerEntity = mDatas.get(position);
+        tv.setText(bannerEntity.getTitle());
     }
 
     @Override

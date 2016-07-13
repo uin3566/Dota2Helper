@@ -6,12 +6,15 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
+import com.fangxu.dota2helper.eventbus.BusProvider;
+import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
 import com.fangxu.dota2helper.presenter.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -25,8 +28,9 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     RecyclerView mRecyclerView;
 
     private NewsAdapter mAdapter;
-
     private NewsPresenter mPresenter;
+
+    private boolean mSelected;
 
     public static NewsFragment newInstance() {
         return new NewsFragment();
@@ -39,15 +43,42 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
 
     @Override
     public void init() {
+        BusProvider.getInstance().register(this);
         mPresenter = new NewsPresenter(getActivity(), this);
         setRetainInstance(true);
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (mSelected) {
+            mAdapter.pauseBanner();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mSelected) {
+            mAdapter.resumeBanner();
+        }
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
-        mAdapter.destroy();
+        BusProvider.getInstance().unregister(this);
         mPresenter.destroy();
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void onSelected(NewsFragmentSelectionEvent event) {
+        this.mSelected = event.mSelected;
+        if (this.mSelected) {
+            mAdapter.resumeBanner();
+        } else {
+            mAdapter.pauseBanner();
+        }
     }
 
     @Override

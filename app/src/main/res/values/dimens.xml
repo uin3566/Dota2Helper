@@ -41,7 +41,7 @@
     <dimen name="dimen_10dp">10dp</dimen>
 
     <dimen name="banner_item_title_height">25dp</dimen>
-    <dimen name="banner_height">170dp</dimen>
+    <dimen name="banner_height">190dp</dimen>
 
     <!-- SmartTab -->
     <dimen name="smart_tab_indicator_width">60dp</dimen>

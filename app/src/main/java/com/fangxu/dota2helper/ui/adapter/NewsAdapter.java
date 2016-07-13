@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.widget.SimpleImageBanner;
+import com.flyco.banner.anim.select.ZoomInEnter;
 import com.flyco.banner.widget.Banner.base.BaseBanner;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import butterknife.Bind;
  */
 public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
     private List<NewsList.BannerEntity> mBannerEntityList;
+    private BannerHolder mBannerHolder;
 
     public NewsAdapter(Context context) {
         super(context);
@@ -31,6 +34,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         mBannerEntityList = bannerEntityList;
         if (mBannerEntityList == null || mBannerEntityList.isEmpty()) {
             setHasHeader(false);
+            mBannerHolder = null;
         } else {
             setHasHeader(true);
         }
@@ -45,8 +49,16 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         notifyDataSetChanged();
     }
 
-    public void destroy () {
+    public void resumeBanner() {
+        if (mBannerHolder != null) {
+            mBannerHolder.mBanner.startScroll();
+        }
+    }
 
+    public void pauseBanner() {
+        if (mBannerHolder != null) {
+            mBannerHolder.mBanner.pauseScroll();
+        }
     }
 
     @Override
@@ -59,7 +71,8 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
         View view;
         if (viewType == ITEM_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_banner, parent, false);
-            return new BannerHolder(view);
+            mBannerHolder = new BannerHolder(view);
+            return mBannerHolder;
         } else if (viewType == ITEM_NORMAL) {
             view = mLayoutInflater.inflate(R.layout.item_news, parent, false);
             return new NewsViewHolder(view);
@@ -78,7 +91,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
 
         public BannerHolder(View itemView) {
             super(itemView);
-            mBanner.setSource(mBannerEntityList).startScroll();
+            mBanner.setSource(mBannerEntityList).setSelectAnimClass(ZoomInEnter.class).startScroll();
             mBanner.setOnItemClickL(new BaseBanner.OnItemClickL() {
                 @Override
                 public void onItemClick(int i) {

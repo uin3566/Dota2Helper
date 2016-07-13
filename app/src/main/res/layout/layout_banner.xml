@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.fangxu.dota2helper.ui.widget.SimpleImageBanner xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:banner="http://schemas.android.com/apk/res-auto"
+<com.fangxu.dota2helper.ui.widget.SimpleImageBanner
     android:id="@+id/banner"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/banner_height"
+    banner:bb_barColor="@color/black_half_transparent"
+    banner:bb_barPaddingBottom="@dimen/dimen_3dp"
+    banner:bb_barPaddingTop="@dimen/dimen_3dp"
+    banner:bb_indicatorGap="@dimen/dimen_5dp"
     banner:bb_indicatorGravity="RIGHT"
+    banner:bb_indicatorHeight="@dimen/dimen_5dp"
     banner:bb_indicatorSelectRes="@drawable/dot_selected"
     banner:bb_indicatorStyle="DRAWABLE_RESOURCE"
     banner:bb_indicatorUnselectRes="@drawable/dot_normal"
+    banner:bb_indicatorWidth="@dimen/dimen_5dp"
     banner:bb_isAutoScrollEnable="true"
-    banner:bb_indicatorGap="@dimen/dimen_4dp"
     banner:bb_isIndicatorShow="true"
-    banner:bb_isLoopEnable="true" />
+    banner:bb_isLoopEnable="true"
+    banner:bb_isTitleShow="true"
+    banner:bb_period="3"
+    banner:bb_textColor="@color/white"
+    banner:bb_textSize="@dimen/title_text_size"/>

@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.fangxu.dota2helper.eventbus.BusProvider;
+import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
@@ -140,6 +142,11 @@ public class MainActivity extends BaseActivity {
             }
         }
         mCurrentShowFragment = to;
+        if (mCurrentShowFragment instanceof NewsFragment) {
+            BusProvider.getInstance().post(new NewsFragmentSelectionEvent(true));
+        } else {
+            BusProvider.getInstance().post(new NewsFragmentSelectionEvent(false));
+        }
     }
 
     private Fragment getFragmentByName(String name) {
