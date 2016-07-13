@@ -1,16 +1,21 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
+import com.fangxu.dota2helper.interactor.TaskIds;
+import com.fangxu.dota2helper.network.AppNetWork;
 import com.fangxu.dota2helper.presenter.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -19,6 +24,9 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Xuf on 2016/4/3.
@@ -142,10 +150,38 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
         }
     }
 
+    @Subscribe
+    public void onBannerItemClick(NewsList.BannerEntity bannerEntity) {
+        toDetail(bannerEntity.getDate(), bannerEntity.getNid());
+    }
+
     @Override
     public void onItemClick(int position) {
         NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-        ArticalDetailActivity.toNewsDetailActivity(getActivity(), newsEntity.getDate(), newsEntity.getNid());
+        toDetail(newsEntity.getDate(), newsEntity.getNid());
+    }
+
+    private void toDetail(String date, String nid) {
+        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsDetailTaskId).add(AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        if (s.length() < 15) {
+                            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                            intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, s);
+                            startActivity(intent);
+                        } else {
+                            ArticalDetailActivity.toNewsDetailActivity(getActivity(), s);
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.showToast(getActivity().getApplicationContext(), "error");
+                    }
+                }));
     }
 
     @Override

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
+import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
+import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.widget.SimpleImageBanner;
 import com.flyco.banner.anim.select.ZoomInEnter;
@@ -96,7 +98,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
                 @Override
                 public void onItemClick(int i) {
                     NewsList.BannerEntity bannerEntity = mBannerEntityList.get(i);
-                    ArticalDetailActivity.toNewsDetailActivity(mContext, bannerEntity.getDate(), bannerEntity.getNid());
+                    BusProvider.getInstance().post(new BannerItemClickEvent(bannerEntity));
                 }
             });
         }

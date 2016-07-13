@@ -21,11 +21,18 @@ import rx.schedulers.Schedulers;
 public class ArticalDetailActivity extends BaseWebActivity {
     public static final String NEWS_DATE = "news_date";
     public static final String NEWS_NID = "news_nid";
+    public static final String NEWS_HTML = "news_html";
 
     public static void toNewsDetailActivity(Context context, String date, String nid) {
         Intent intent = new Intent(context, ArticalDetailActivity.class);
         intent.putExtra(NEWS_DATE, date);
         intent.putExtra(NEWS_NID, nid);
+        context.startActivity(intent);
+    }
+
+    public static void toNewsDetailActivity(Context context, String html) {
+        Intent intent = new Intent(context, ArticalDetailActivity.class);
+        intent.putExtra(NEWS_HTML, html);
         context.startActivity(intent);
     }
 
@@ -55,21 +62,26 @@ public class ArticalDetailActivity extends BaseWebActivity {
     }
 
     private void loadDetail() {
-        String date = getIntent().getStringExtra(NEWS_DATE);
-        String nid = getIntent().getStringExtra(NEWS_NID);
-        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsDetailTaskId).add(AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        mWebView.loadDataWithBaseURL(null, s, "text/html", "UTF-8", null);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        ToastUtil.showToast(getApplicationContext(), "error");
-                    }
-                }));
+        String html = getIntent().getStringExtra(NEWS_HTML);
+        if (html != null) {
+            mWebView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+        } else {
+            String date = getIntent().getStringExtra(NEWS_DATE);
+            String nid = getIntent().getStringExtra(NEWS_NID);
+            RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsDetailTaskId).add(AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            mWebView.loadDataWithBaseURL(null, s, "text/html", "UTF-8", null);
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            ToastUtil.showToast(getApplicationContext(), "error");
+                        }
+                    }));
+        }
     }
 }

@@ -162,7 +162,9 @@ public class VideoPlayerActivity extends BaseActivity implements IVideoDetailVie
     private void queryVideoSetInfo() {
         String date = getIntent().getStringExtra(VIDEO_DATE);
         String vid = getIntent().getStringExtra(VIDEO_VID);
-        mPresenter.queryVideoSetInformation(date, vid);
+        if (date != null && vid != null) {
+            mPresenter.queryVideoSetInformation(date, vid);
+        }
     }
 
     private void queryRelatedVideo(String youkuVid) {
