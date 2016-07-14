@@ -1,5 +1,7 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +10,8 @@ import android.view.View;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
+import com.fangxu.dota2helper.callback.LoadNewsDetailCallback;
+import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
 import com.fangxu.dota2helper.interactor.TaskIds;
@@ -151,7 +155,8 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     }
 
     @Subscribe
-    public void onBannerItemClick(NewsList.BannerEntity bannerEntity) {
+    public void onBannerItemClick(BannerItemClickEvent event) {
+        NewsList.BannerEntity bannerEntity = event.mBannerEntity;
         toDetail(bannerEntity.getDate(), bannerEntity.getNid());
     }
 
@@ -162,26 +167,23 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     }
 
     private void toDetail(String date, String nid) {
-        RxCenter.INSTANCE.getCompositeSubscription(TaskIds.newsDetailTaskId).add(AppNetWork.INSTANCE.getDetailsApi().getNewsDetail(date, nid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        if (s.length() < 15) {
-                            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                            intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, s);
-                            startActivity(intent);
-                        } else {
-                            ArticalDetailActivity.toNewsDetailActivity(getActivity(), s);
-                        }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        ToastUtil.showToast(getActivity().getApplicationContext(), "error");
-                    }
-                }));
+        ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, date, nid, new LoadNewsDetailCallback() {
+            @Override
+            public void onLoadedSuccess(boolean toVideoActivity, String content) {
+                if (toVideoActivity) {
+                    Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                    intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, content);
+                    startActivity(intent);
+                } else {
+                    ArticalDetailActivity.toNewsDetailActivity(getActivity(), content);
+                }
+            }
+
+            @Override
+            public void onLoadedFailed() {
+                ToastUtil.showToast(getActivity(), "error");
+            }
+        });
     }
 
     @Override

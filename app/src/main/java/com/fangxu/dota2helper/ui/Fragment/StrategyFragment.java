@@ -41,7 +41,7 @@ public class StrategyFragment extends RefreshBaseFragment implements IStrategyVi
             @Override
             public void onItemClick(int position) {
                 StrategyList.StrategyEntity entity = mAdapter.getItem(position);
-                ArticalDetailActivity.toNewsDetailActivity(getActivity(), entity.getDate(), entity.getNid());
+                ArticalDetailActivity.toNewsDetailActivity(getActivity(), false, entity.getDate(), entity.getNid(), null);
             }
 
             @Override

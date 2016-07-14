@@ -60,7 +60,7 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView{
             @Override
             public void onItemClick(int position) {
                 NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-                ArticalDetailActivity.toNewsDetailActivity(getActivity(), newsEntity.getDate(), newsEntity.getNid());
+                ArticalDetailActivity.toNewsDetailActivity(getActivity(), false, newsEntity.getDate(), newsEntity.getNid(), null);
             }
 
             @Override
