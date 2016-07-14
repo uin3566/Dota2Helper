@@ -7,3 +7,5 @@
 .DS_Store
 /build
 /youkuPlayerOpenSDK/build
+/youkuPlayerOpenSDK/youkuPlayerOpenSDK.iml
+/app/app.iml
