@@ -50,6 +50,10 @@
             android:theme="@style/AppTheme.NoneTranslucent"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
+        <activity android:name=".ui.Activity.NewsVideoActivity"
+            android:theme="@style/AppTheme.NoneTranslucent"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
         <activity android:name=".ui.Activity.ProfileActivity"
                   android:screenOrientation="portrait"/>
 

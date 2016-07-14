@@ -29,8 +29,17 @@ public class NewsList {
     public static class BannerEntity{
         private String background;
         private String title;
+        private String description;
         private String date;
         private String nid;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public String getBackground() {
             return background;

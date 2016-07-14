@@ -19,6 +19,7 @@ import com.fangxu.dota2helper.network.AppNetWork;
 import com.fangxu.dota2helper.presenter.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
+import com.fangxu.dota2helper.ui.Activity.NewsVideoActivity;
 import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
@@ -157,22 +158,24 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     @Subscribe
     public void onBannerItemClick(BannerItemClickEvent event) {
         NewsList.BannerEntity bannerEntity = event.mBannerEntity;
-        toDetail(bannerEntity.getDate(), bannerEntity.getNid());
+        toDetail(bannerEntity.getDate(), bannerEntity.getNid(), bannerEntity.getTitle(), bannerEntity.getBackground(), bannerEntity.getDescription());
     }
 
     @Override
     public void onItemClick(int position) {
         NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-        toDetail(newsEntity.getDate(), newsEntity.getNid());
+        toDetail(newsEntity.getDate(), newsEntity.getNid(), newsEntity.getTitle(), newsEntity.getBackground(), newsEntity.getDescription());
     }
 
-    private void toDetail(String date, String nid) {
+    private void toDetail(String date, String nid, final String title, final String background, String description) {
         ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, date, nid, new LoadNewsDetailCallback() {
             @Override
             public void onLoadedSuccess(boolean toVideoActivity, String content) {
                 if (toVideoActivity) {
-                    Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                    intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, content);
+                    Intent intent = new Intent(getActivity(), NewsVideoActivity.class);
+                    intent.putExtra(NewsVideoActivity.VIDEO_YOUKU_VID, content);
+                    intent.putExtra(NewsVideoActivity.VIDEO_BACKGROUND, background);
+                    intent.putExtra(NewsVideoActivity.VIDEO_TITLE, title);
                     startActivity(intent);
                 } else {
                     ArticalDetailActivity.toNewsDetailActivity(getActivity(), content);
