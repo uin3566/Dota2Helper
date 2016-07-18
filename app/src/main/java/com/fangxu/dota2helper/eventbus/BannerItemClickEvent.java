@@ -6,9 +6,9 @@ import com.fangxu.dota2helper.bean.NewsList;
  * Created by dear33 on 2016/7/14.
  */
 public class BannerItemClickEvent {
-    public NewsList.BannerEntity mBannerEntity;
+    public NewsList.NewsEntity mBannerEntity;
 
-    public BannerItemClickEvent(NewsList.BannerEntity bannerEntity) {
+    public BannerItemClickEvent(NewsList.NewsEntity bannerEntity) {
         mBannerEntity = bannerEntity;
     }
 }

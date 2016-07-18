@@ -8,8 +8,8 @@ import java.util.List;
  * Created by lenov0 on 2016/4/9.
  */
 public interface NewsCallback {
-    void onGetBanner(List<NewsList.BannerEntity> bannerEntityList);
-    void onGetCache(List<NewsList.BannerEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews);
+    void onGetBanner(List<NewsList.NewsEntity> bannerEntityList);
+    void onGetCache(List<NewsList.NewsEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews);
     void onCacheEmpty();
     void onUpdateSuccessed(List<NewsList.NewsEntity> newsEntityList, boolean loadmore);
     void onUpdateFailed(boolean loadmore);

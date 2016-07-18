@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
@@ -25,9 +26,12 @@ import butterknife.OnClick;
  */
 public abstract class BaseVideoActivity extends BaseActivity {
     public static final String VIDEO_TITLE = "video_title";
+    public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_BACKGROUND = "video_background";
     public static final String VIDEO_YOUKU_VID = "video_youku_vid";
 
+    @Bind(R.id.tv_title)
+    TextView mTitle;
     @Bind(R.id.iv_blur)
     ImageView mBlurImageView;
     @Bind(R.id.youku_player)
@@ -65,6 +69,7 @@ public abstract class BaseVideoActivity extends BaseActivity {
         });
 
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
+        mTitle.setText(getIntent().getStringExtra(VIDEO_TITLE));
         initPlayer();
     }
 

@@ -32,7 +32,6 @@ import butterknife.OnClick;
 public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDetailView
         , RelatedVideoAdapter.RelatedVideoClickListener {
     public static final String VIDEO_PUBLISH_TIME = "video_publish_time";
-    public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_VID = "video_nid";
 
     @Bind(R.id.tv_up)
@@ -41,8 +40,6 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
     TextView mDown;
     @Bind(R.id.tv_watch_count)
     TextView mWatchCount;
-    @Bind(R.id.tv_title)
-    TextView mTitle;
     @Bind(R.id.tv_publish_time)
     TextView mPublishTime;
     @Bind(R.id.rl_anthology_container)
@@ -76,7 +73,6 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
         mListView.setAdapter(mAdapter);
         mListView.setFocusable(false);
 
-        mTitle.setText(getIntent().getStringExtra(VIDEO_TITLE));
         mPublishTime.setText(getIntent().getStringExtra(VIDEO_PUBLISH_TIME));
 
         mPresenter = new VideoDetailPresenter(this, this);

@@ -41,7 +41,7 @@ public class VideoDetailPresenter extends BasePresenter implements VideoDetailCa
     @Override
     public void onGetVideoSetSuccess(VideoSetList videoSetList) {
         int videoCount = videoSetList.getVideoSet().size();
-        if (videoCount == 1) {
+        if (videoCount == 0 || videoCount == 1) {
             mCallback.setAnthologyGridGone();
         } else {
             mCallback.setVideoList(videoSetList.getVideoSet());

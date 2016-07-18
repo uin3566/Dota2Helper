@@ -25,14 +25,14 @@ import butterknife.Bind;
  * Created by Administrator on 2016/6/21.
  */
 public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
-    private List<NewsList.BannerEntity> mBannerEntityList;
+    private List<NewsList.NewsEntity> mBannerEntityList;
     private BannerHolder mBannerHolder;
 
     public NewsAdapter(Context context) {
         super(context);
     }
 
-    public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {
+    public void setBanner(List<NewsList.NewsEntity> bannerEntityList) {
         mBannerEntityList = bannerEntityList;
         if (mBannerEntityList == null || mBannerEntityList.isEmpty()) {
             setHasHeader(false);
@@ -97,7 +97,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
             mBanner.setOnItemClickL(new BaseBanner.OnItemClickL() {
                 @Override
                 public void onItemClick(int i) {
-                    NewsList.BannerEntity bannerEntity = mBannerEntityList.get(i);
+                    NewsList.NewsEntity bannerEntity = mBannerEntityList.get(i);
                     BusProvider.getInstance().post(new BannerItemClickEvent(bannerEntity));
                 }
             });

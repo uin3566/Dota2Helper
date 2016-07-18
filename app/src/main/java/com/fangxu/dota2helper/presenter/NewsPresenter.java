@@ -56,7 +56,7 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
     }
 
     @Override
-    public void onGetCache(List<NewsList.BannerEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews) {
+    public void onGetCache(List<NewsList.NewsEntity> bannerEntityList, List<NewsList.NewsEntity> newsEntityList, boolean updateNews) {
         if (!updateNews) {
             mCallback.setBanner(bannerEntityList);
         }
@@ -70,7 +70,7 @@ public class NewsPresenter extends BasePresenter implements NewsCallback{
     }
 
     @Override
-    public void onGetBanner(List<NewsList.BannerEntity> bannerEntityList) {
+    public void onGetBanner(List<NewsList.NewsEntity> bannerEntityList) {
         mCallback.setBanner(bannerEntityList);
     }
 

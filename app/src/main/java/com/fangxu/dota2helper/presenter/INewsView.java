@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface INewsView {
     void onCacheLoaded();
-    void setBanner(List<NewsList.BannerEntity> bannerEntityList);
+    void setBanner(List<NewsList.NewsEntity> bannerEntityList);
     void setNewsList(List<NewsList.NewsEntity> newsEntityList, boolean append);
     void setRefreshFailed(boolean loadMore);
     void hideProgress(boolean loadMore);

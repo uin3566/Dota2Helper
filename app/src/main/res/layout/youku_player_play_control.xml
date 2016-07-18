@@ -32,7 +32,7 @@
             android:layout_toLeftOf="@id/ib_detail_play_full"
             android:gravity="center_vertical"
             app:vqt_text_color="@color/white"
-            app:vqt_text_view_background="#bf000000"/>
+            app:vqt_text_view_background="@color/transparent"/>
 
         <TextView
             android:id="@+id/total_time"

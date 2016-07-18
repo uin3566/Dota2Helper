@@ -89,7 +89,7 @@ public class UpdateFragment extends RefreshBaseFragment implements INewsView{
     }
 
     @Override
-    public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {
+    public void setBanner(List<NewsList.NewsEntity> bannerEntityList) {
 
     }
 

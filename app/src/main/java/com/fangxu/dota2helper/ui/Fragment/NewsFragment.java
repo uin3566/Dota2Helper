@@ -119,7 +119,7 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     }
 
     @Override
-    public void setBanner(List<NewsList.BannerEntity> bannerEntityList) {
+    public void setBanner(List<NewsList.NewsEntity> bannerEntityList) {
         mAdapter.setBanner(bannerEntityList);
     }
 
@@ -157,17 +157,19 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
 
     @Subscribe
     public void onBannerItemClick(BannerItemClickEvent event) {
-        NewsList.BannerEntity bannerEntity = event.mBannerEntity;
-        toDetail(bannerEntity.getDate(), bannerEntity.getNid(), bannerEntity.getTitle(), bannerEntity.getBackground(), bannerEntity.getDescription());
+        NewsList.NewsEntity bannerEntity = event.mBannerEntity;
+        toDetail(bannerEntity.getDate(), bannerEntity.getNid(), bannerEntity.getTitle()
+                , bannerEntity.getBackground(), bannerEntity.getDescription(), bannerEntity.getTime());
     }
 
     @Override
     public void onItemClick(int position) {
         NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-        toDetail(newsEntity.getDate(), newsEntity.getNid(), newsEntity.getTitle(), newsEntity.getBackground(), newsEntity.getDescription());
+        toDetail(newsEntity.getDate(), newsEntity.getNid(), newsEntity.getTitle()
+                , newsEntity.getBackground(), newsEntity.getDescription(), newsEntity.getTime());
     }
 
-    private void toDetail(String date, String nid, final String title, final String background, String description) {
+    private void toDetail(final String date, String nid, final String title, final String background, final String description, final String time) {
         ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, date, nid, new LoadNewsDetailCallback() {
             @Override
             public void onLoadedSuccess(boolean toVideoActivity, String content) {
@@ -176,6 +178,8 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
                     intent.putExtra(NewsVideoActivity.VIDEO_YOUKU_VID, content);
                     intent.putExtra(NewsVideoActivity.VIDEO_BACKGROUND, background);
                     intent.putExtra(NewsVideoActivity.VIDEO_TITLE, title);
+                    intent.putExtra(NewsVideoActivity.VIDEO_DESCRIPTION, description);
+                    intent.putExtra(NewsVideoActivity.VIDEO_DATE, time);
                     startActivity(intent);
                 } else {
                     ArticalDetailActivity.toNewsDetailActivity(getActivity(), content);
