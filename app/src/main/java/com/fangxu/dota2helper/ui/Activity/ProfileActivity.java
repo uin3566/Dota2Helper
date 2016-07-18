@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ecloud.pulltozoomview.PullToZoomScrollViewEx;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.ui.widget.ProfileItemLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,8 +48,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mZoomScrollViewEx.setZoomView(zoomView);
         mZoomScrollViewEx.setScrollContentView(contentView);
 
-        TextView toMyGithub = ButterKnife.findById(contentView, R.id.tv_my_github);
-        TextView toMyProject = ButterKnife.findById(contentView, R.id.tv_my_project);
+        ProfileItemLayout toMyGithub = ButterKnife.findById(contentView, R.id.pil_my_github);
+        ProfileItemLayout toMyProject = ButterKnife.findById(contentView, R.id.pil_my_project);
         toMyGithub.setOnClickListener(this);
         toMyProject.setOnClickListener(this);
 
@@ -67,10 +68,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.tv_my_github:
+            case R.id.pil_my_github:
                 MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_GITHUB);
                 break;
-            case R.id.tv_my_project:
+            case R.id.pil_my_project:
                 MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_PROJECT);
                 break;
         }

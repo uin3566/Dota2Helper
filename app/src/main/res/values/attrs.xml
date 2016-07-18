@@ -29,4 +29,8 @@
         <attr name="vqt_text_color" format="color|reference"/>
         <attr name="vqt_text_view_background" format="color|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="ProfileItemLayout">
+        <attr name="pil_text" format="string|reference"/>
+    </declare-styleable>
 </resources>

@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.fangxu.dota2helper.R;
 import com.youku.player.VideoQuality;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by dear33 on 2016/7/10.
  */
@@ -37,8 +39,8 @@ public class VideoQualityTextView extends LinearLayout {
         mContext = context;
 
         LayoutInflater.from(context).inflate(R.layout.layout_video_quality, this);
-        mQualityTextView = (TextView) findViewById(R.id.tv_quality);
-        mDivider = findViewById(R.id.v_divider);
+        mQualityTextView = ButterKnife.findById(this, R.id.tv_quality);
+        mDivider =  ButterKnife.findById(this, R.id.v_divider);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoQualityTextView, 0, 0);
         int textColor = ta.getColor(R.styleable.VideoQualityTextView_vqt_text_color, 0x8affffff);
