@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -50,8 +49,8 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
     ScrollListView mListView;
     @Bind(R.id.scroll_view)
     ScrollView mScrollView;
-    @Bind(R.id.fl_progress_container)
-    FrameLayout mProgressContainer;
+    @Bind(R.id.fl_empty_view)
+    FrameLayout mEmptyBackground;
     @Bind(R.id.tv_empty_list)
     TextView mEmptyRelatedVideo;
 
@@ -123,7 +122,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
 
     @Override
     public void hideProgressBar() {
-        mProgressContainer.setVisibility(View.INVISIBLE);
+        mEmptyBackground.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -179,7 +178,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
     @Override
     public void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid) {
         if (queryVideoDetail) {
-            mProgressContainer.setVisibility(View.VISIBLE);
+            mEmptyBackground.setVisibility(View.VISIBLE);
             queryDetailAndRelatedList(mVid);
         }
         mYoukuVidMap.put(index, youkuVid);

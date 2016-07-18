@@ -267,17 +267,10 @@
         </ScrollView>
 
         <FrameLayout
-            android:id="@+id/fl_progress_container"
+            android:id="@+id/fl_empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey">
-
-            <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-                android:layout_width="@dimen/load_video_detail_progress_size"
-                android:layout_height="@dimen/load_video_detail_progress_size"
-                android:layout_gravity="center"
-                app:mlpb_progress_color="@color/color_primary"
-                app:mlpb_progress_stoke_width="@dimen/dimen_3dp" />
 
         </FrameLayout>
 
