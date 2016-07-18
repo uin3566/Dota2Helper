@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.VideoList;
-import com.fangxu.dota2helper.presenter.IVideoView;
+import com.fangxu.dota2helper.callback.IVideoView;
 import com.fangxu.dota2helper.presenter.VideoPresenter;
 import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;

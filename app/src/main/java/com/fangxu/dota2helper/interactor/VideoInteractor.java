@@ -6,6 +6,7 @@ import android.util.Log;
 import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.VideoList;
+import com.fangxu.dota2helper.callback.VideoCallback;
 import com.fangxu.dota2helper.greendao.GreenVideo;
 import com.fangxu.dota2helper.greendao.GreenVideoDao;
 import com.fangxu.dota2helper.network.AppNetWork;
@@ -17,7 +18,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Administrator on 2016/4/19.

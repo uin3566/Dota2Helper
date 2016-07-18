@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.presenter.INewsView;
+import com.fangxu.dota2helper.callback.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;

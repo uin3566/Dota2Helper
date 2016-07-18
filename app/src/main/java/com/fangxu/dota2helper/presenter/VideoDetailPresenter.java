@@ -5,7 +5,8 @@ import android.app.Activity;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
-import com.fangxu.dota2helper.interactor.VideoDetailCallback;
+import com.fangxu.dota2helper.callback.IVideoDetailView;
+import com.fangxu.dota2helper.callback.VideoDetailCallback;
 import com.fangxu.dota2helper.interactor.VideoDetailInteractor;
 import com.fangxu.dota2helper.util.NumberConversion;
 

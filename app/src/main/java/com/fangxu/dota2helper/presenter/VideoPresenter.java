@@ -3,7 +3,8 @@ package com.fangxu.dota2helper.presenter;
 import android.app.Activity;
 
 import com.fangxu.dota2helper.bean.VideoList;
-import com.fangxu.dota2helper.interactor.VideoCallback;
+import com.fangxu.dota2helper.callback.IVideoView;
+import com.fangxu.dota2helper.callback.VideoCallback;
 import com.fangxu.dota2helper.interactor.VideoInteractor;
 
 import java.util.List;

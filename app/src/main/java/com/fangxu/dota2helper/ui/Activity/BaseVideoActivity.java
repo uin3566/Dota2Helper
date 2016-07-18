@@ -2,6 +2,7 @@ package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.callback.VideoStateCallback;
 import com.fangxu.dota2helper.ui.widget.YoukuPluginPlayer;
 import com.fangxu.dota2helper.util.BlurTransformation;
 import com.youku.player.base.YoukuBasePlayerManager;
@@ -24,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by dear33 on 2016/7/14.
  */
-public abstract class BaseVideoActivity extends BaseActivity {
+public abstract class BaseVideoActivity extends BaseActivity implements VideoStateCallback{
     public static final String VIDEO_TITLE = "video_title";
     public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_BACKGROUND = "video_background";
@@ -43,6 +45,7 @@ public abstract class BaseVideoActivity extends BaseActivity {
     protected YoukuBasePlayerManager mYoukuBasePlayerManager;
     protected YoukuPlayer mYoukuPlayer;
     protected boolean mIsPlayerReady = false;
+    protected long mCurrentPlayTimeMills;
 
     @Override
     public boolean applySystemBarDrawable() {
@@ -87,6 +90,7 @@ public abstract class BaseVideoActivity extends BaseActivity {
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
                 YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, backgroundUrl);
+                youkuPluginPlayer.setVideoStateCallback(BaseVideoActivity.this);
                 addPlugins(youkuPluginPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
@@ -113,6 +117,17 @@ public abstract class BaseVideoActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         mYoukuPlayerView.initialize(mYoukuBasePlayerManager);
+    }
+
+    @Override
+    public void onVideoStart() {
+        Log.i("testVideoCallback", "onVideoStart");
+    }
+
+    @Override
+    public void onProgressChanged(long currentTimeMillis) {
+        Log.i("testVideoCallback", "currentTimeMillis=" + currentTimeMillis);
+        mCurrentPlayTimeMills = currentTimeMillis;
     }
 
     @OnClick(R.id.iv_play)

@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.StrategyList;
-import com.fangxu.dota2helper.presenter.IStrategyView;
+import com.fangxu.dota2helper.callback.IStrategyView;
 import com.fangxu.dota2helper.presenter.StrategyPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;

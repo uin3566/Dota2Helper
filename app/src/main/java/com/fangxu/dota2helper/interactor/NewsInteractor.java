@@ -1,14 +1,12 @@
 package com.fangxu.dota2helper.interactor;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Looper;
 import android.util.Log;
 
 import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.greendao.DaoMaster;
+import com.fangxu.dota2helper.callback.NewsCallback;
 import com.fangxu.dota2helper.greendao.GreenNews;
 import com.fangxu.dota2helper.greendao.GreenNewsDao;
 import com.fangxu.dota2helper.greendao.GreenUpdate;
@@ -17,14 +15,11 @@ import com.fangxu.dota2helper.network.AppNetWork;
 
 import java.util.List;
 
-import de.greenrobot.dao.query.DeleteQuery;
-import de.greenrobot.dao.query.Query;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by lenov0 on 2016/4/9.

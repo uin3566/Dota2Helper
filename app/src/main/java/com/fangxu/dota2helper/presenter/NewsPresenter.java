@@ -1,10 +1,10 @@
 package com.fangxu.dota2helper.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.interactor.NewsCallback;
+import com.fangxu.dota2helper.callback.INewsView;
+import com.fangxu.dota2helper.callback.NewsCallback;
 import com.fangxu.dota2helper.interactor.NewsInteractor;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
 import com.fangxu.dota2helper.ui.Fragment.UpdateFragment;

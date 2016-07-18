@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoSetList;
-import com.fangxu.dota2helper.presenter.IVideoDetailView;
+import com.fangxu.dota2helper.callback.IVideoDetailView;
 import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;

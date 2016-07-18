@@ -8,6 +8,7 @@ import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
+import com.fangxu.dota2helper.callback.VideoDetailCallback;
 import com.fangxu.dota2helper.network.AppNetWork;
 
 import java.util.List;

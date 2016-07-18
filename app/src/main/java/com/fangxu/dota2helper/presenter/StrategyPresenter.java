@@ -3,7 +3,8 @@ package com.fangxu.dota2helper.presenter;
 import android.app.Activity;
 
 import com.fangxu.dota2helper.bean.StrategyList;
-import com.fangxu.dota2helper.interactor.StrategyCallback;
+import com.fangxu.dota2helper.callback.IStrategyView;
+import com.fangxu.dota2helper.callback.StrategyCallback;
 import com.fangxu.dota2helper.interactor.StrategyInteractor;
 
 import java.util.List;

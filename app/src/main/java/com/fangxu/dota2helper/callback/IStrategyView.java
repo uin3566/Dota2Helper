@@ -1,4 +1,4 @@
-package com.fangxu.dota2helper.presenter;
+package com.fangxu.dota2helper.callback;
 
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.bean.StrategyList;

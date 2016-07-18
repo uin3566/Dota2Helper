@@ -1,4 +1,4 @@
-package com.fangxu.dota2helper.interactor;
+package com.fangxu.dota2helper.callback;
 
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;

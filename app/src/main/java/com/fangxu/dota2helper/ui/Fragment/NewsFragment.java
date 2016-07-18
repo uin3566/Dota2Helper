@@ -1,26 +1,20 @@
 package com.fangxu.dota2helper.ui.Fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
-import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.NewsList;
 import com.fangxu.dota2helper.callback.LoadNewsDetailCallback;
 import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
-import com.fangxu.dota2helper.interactor.TaskIds;
-import com.fangxu.dota2helper.network.AppNetWork;
-import com.fangxu.dota2helper.presenter.INewsView;
+import com.fangxu.dota2helper.callback.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
 import com.fangxu.dota2helper.ui.Activity.NewsVideoActivity;
-import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -29,9 +23,6 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 import butterknife.Bind;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Xuf on 2016/4/3.

@@ -26,6 +26,7 @@ import com.baseproject.utils.UIUtils;
 import com.baseproject.utils.Util;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.callback.VideoStateCallback;
 import com.fangxu.dota2helper.util.BlurTransformation;
 import com.youku.player.ApiManager;
 import com.youku.player.Track;
@@ -82,6 +83,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
 
     private VideoQuality mCurQuality;
 
+    private VideoStateCallback mVideoStateCallback;
+
     // private Loading playLoading;
 
     public YoukuPluginPlayer(YoukuBasePlayerManager basePlayerManager,
@@ -113,6 +116,10 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
             video_id = mediaPlayerDelegate.videoInfo.getVid();
         addView(containerView);
         initPlayLayout();
+    }
+
+    public void setVideoStateCallback(VideoStateCallback callback) {
+        mVideoStateCallback = callback;
     }
 
     /**
@@ -759,13 +766,15 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
-
             if (Util.hasInternet())
                 if (fromUser) {
                     Logger.d(TAG, "onProgressChanged: " + progress);
                     seekBar.setProgress(progress);
                     currentTime.setText(PlayerUtil.getFormatTime(progress));
                 }
+            if (mVideoStateCallback != null) {
+                mVideoStateCallback.onProgressChanged(progress);
+            }
             changePlayPause();
         }
 
@@ -1940,6 +1949,10 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         isRealVideoStart = true;
         isLoading = false;
         enableController();
+
+        if (mVideoStateCallback != null) {
+            mVideoStateCallback.onVideoStart();
+        }
 
         int currentQuality = mMediaPlayerDelegate.videoInfo.getCurrentQuality();
         List<VideoQuality> videoQualityList = ApiManager.getInstance().getSupportedVideoQuality(mBasePlayerManager);
