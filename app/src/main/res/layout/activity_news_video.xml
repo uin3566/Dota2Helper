@@ -13,10 +13,10 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_5dp"
         android:layout_marginLeft="@dimen/dimen_10dp"
         android:layout_marginRight="@dimen/dimen_10dp"
         android:layout_marginTop="@dimen/dimen_5dp"
-        android:layout_marginBottom="@dimen/dimen_5dp"
         android:gravity="center"
         android:includeFontPadding="false"
         android:lineSpacingExtra="@dimen/dimen_2dp"
@@ -26,11 +26,11 @@
 
     <TextView
         android:id="@+id/tv_date"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_5dp"
+        android:textColor="@color/black"
         android:textSize="@dimen/news_video_room_date_size"
         android:textStyle="bold"/>
 
@@ -51,7 +51,8 @@
         android:layout_marginLeft="@dimen/dimen_10dp"
         android:layout_marginRight="@dimen/dimen_10dp"
         android:layout_marginTop="@dimen/dimen_10dp"
-        android:lineSpacingExtra="@dimen/dimen_2dp"
+        android:lineSpacingExtra="@dimen/dimen_3dp"
+        android:textColor="@color/black_light"
         android:textSize="@dimen/news_video_room_content_size"/>
 
     <com.youku.player.base.YoukuPlayerView

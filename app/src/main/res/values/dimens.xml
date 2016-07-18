@@ -29,7 +29,7 @@
     <dimen name="content_text_size">12sp</dimen>
     <dimen name="news_video_room_title_size">20sp</dimen>
     <dimen name="news_video_room_date_size">12sp</dimen>
-    <dimen name="news_video_room_content_size">14sp</dimen>
+    <dimen name="news_video_room_content_size">16sp</dimen>
 
     <!-- CardView -->
     <dimen name="card_view_dimen">@dimen/dimen_0dp</dimen>

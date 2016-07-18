@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailInteractor extends BaseInteractor{
+public class VideoDetailInteractor extends BaseInteractor {
     private static final String TAG = "test task id";
     private VideoDetailCallback mCallback;
     private VideoDetailInfo mDetailInfo = null;
@@ -116,7 +116,7 @@ public class VideoDetailInteractor extends BaseInteractor{
                         if (o instanceof VideoDetailInfo) {
                             mDetailInfo = (VideoDetailInfo) o;
                         } else {
-                            mVideoList = ((RelatedVideoList)o).getVideos();
+                            mVideoList = ((RelatedVideoList) o).getVideos();
                         }
                     }
                 });
