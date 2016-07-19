@@ -18,40 +18,41 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/7/19.
  */
-public class FloatHistoryVideoAdapter extends CommonRecyclerAdapter<GreenWatchedVideo> implements
-        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>{
-    public FloatHistoryVideoAdapter(Context context) {
+public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatchedVideo> implements
+        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+    private Context mContext;
+
+    public FloatWatchedVideoAdapter(Context context) {
         super(context);
+        mContext = context;
     }
 
     @Override
     public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_watched_video, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_watched_video, parent, false);
         return new VideoItemHolder(view);
     }
 
     @Override
     public long getHeaderId(int i) {
-        if (i == 0) {
-            return -1;
-        } else {
-            return getItem(i).getVideoyoukuvid().charAt(0);
-        }
+        return getItem(i).getVideoyoukuvid().charAt(0);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_float_view, viewGroup, false);
-        return new RecyclerView.ViewHolder(view) {};
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_float_view, viewGroup, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        TextView textView = (TextView)viewHolder.itemView;
+        TextView textView = (TextView) viewHolder.itemView;
         textView.setText(String.valueOf(getItem(i).getVideoyoukuvid().charAt(0)));
+        textView.setBackgroundColor(mContext.getResources().getColor(R.color.alpha_white_1));
     }
 
-    private class VideoItemHolder extends CommonViewHolder {
+    public class VideoItemHolder extends CommonViewHolder {
         @Bind(R.id.iv_background)
         ImageView mBackground;
         @Bind(R.id.tv_title)
@@ -75,10 +76,10 @@ public class FloatHistoryVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             boolean isVideoEnded = greenWatchedVideo.getVideoEnded();
             String ret;
             if (isVideoEnded) {
-                ret = "ÒÑ¿´Íê";
+                ret = "å·²çœ‹å®Œ";
             } else {
-                int percent = (int)((float) greenWatchedVideo.getVideoplaytime() / (float) greenWatchedVideo.getVideoduration() * 100);
-                ret = "ÒÑ¹Û¿´ÖÁ" + percent + "%";
+                int percent = (int) ((float) greenWatchedVideo.getVideoplaytime() / (float) greenWatchedVideo.getVideoduration() * 100);
+                ret = "å·²è§‚çœ‹è‡³" + percent + "%";
             }
             return ret;
         }

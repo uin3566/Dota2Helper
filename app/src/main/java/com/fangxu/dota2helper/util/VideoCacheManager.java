@@ -6,6 +6,8 @@ import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
+import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.greendao.GreenWatchedVideoDao;
 import com.fangxu.dota2helper.interactor.TaskIds;
 
 import java.util.List;
@@ -49,8 +51,8 @@ public enum VideoCacheManager {
                 subscriber.onNext(queryHistoryVideo());
                 subscriber.onCompleted();
             }
-        }).observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<GreenWatchedVideo>>() {
                     @Override
                     public void call(List<GreenWatchedVideo> greenWatchedVideos) {

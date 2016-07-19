@@ -6,7 +6,7 @@
     xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/banner_height"
-    banner:bb_barColor="@color/black_half_transparent"
+    banner:bb_barColor="@color/alpha_black"
     banner:bb_barPaddingBottom="@dimen/dimen_3dp"
     banner:bb_barPaddingTop="@dimen/dimen_3dp"
     banner:bb_indicatorGap="@dimen/base_little_margin"

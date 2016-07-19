@@ -18,10 +18,10 @@
     <color name="light_red">#f24b17</color>
     <color name="dark_red">#c62828</color>
     <color name="black">#000000</color>
+    <color name="alpha_black">#80000000</color>
     <color name="black_light">#0e0e0e</color>
 
     <color name="color_webview_progressbar">#80ffffff</color>
 
     <color name="transparent">#00ffffff</color>
-    <color name="black_half_transparent">#80000000</color>
 </resources>

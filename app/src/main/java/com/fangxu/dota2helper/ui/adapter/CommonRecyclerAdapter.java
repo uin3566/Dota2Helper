@@ -62,7 +62,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     }
 
-    protected void setData(List<T> data) {
+    public void setData(List<T> data) {
         if (data == null || data.isEmpty()) {
             mData.clear();
         } else {
