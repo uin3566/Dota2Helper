@@ -1386,6 +1386,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         if (null != mMediaPlayerDelegate.videoInfo
                 && mMediaPlayerDelegate.videoInfo.getPlayType() != StaticsUtil.PLAY_TYPE_LOCAL) {
             goEndPage();
+            if (mVideoStateCallback != null) {
+                mVideoStateCallback.onVideoEnd();
+            }
         } else {
             mMediaPlayerDelegate.finishActivity();
         }
@@ -1951,7 +1954,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         enableController();
 
         if (mVideoStateCallback != null) {
-            mVideoStateCallback.onVideoStart();
+            int duration = mMediaPlayerDelegate.videoInfo.getDurationMills();
+            mVideoStateCallback.onVideoStart(duration);
         }
 
         int currentQuality = mMediaPlayerDelegate.videoInfo.getCurrentQuality();

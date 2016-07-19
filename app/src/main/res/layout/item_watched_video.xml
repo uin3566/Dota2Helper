@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_view_dimen"
+                android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/rl_background_container"
+        android:layout_width="@dimen/related_video_list_image_width"
+        android:layout_height="@dimen/news_list_image_height"
+        android:layout_marginBottom="@dimen/news_list_image_margin"
+        android:layout_marginTop="@dimen/news_list_image_margin">
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_primary"
+            android:scaleType="centerCrop"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_toRightOf="@id/rl_background_container"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textColor="@color/title_text"
+            android:textSize="@dimen/title_text_size"/>
+
+        <TextView
+            android:id="@+id/tv_watched_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_little_margin"
+            android:textSize="@dimen/content_text_size"/>
+    </LinearLayout>
+
+</RelativeLayout>

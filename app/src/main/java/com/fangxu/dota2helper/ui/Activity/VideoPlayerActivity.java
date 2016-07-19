@@ -11,13 +11,14 @@ import android.widget.TextView;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoSetList;
-import com.fangxu.dota2helper.callback.IVideoDetailView;
-import com.fangxu.dota2helper.presenter.VideoDetailPresenter;
+import com.fangxu.dota2helper.callback.IVideoPlayerView;
+import com.fangxu.dota2helper.presenter.VideoPlayerPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;
 import com.fangxu.dota2helper.ui.widget.SelectButton;
 import com.fangxu.dota2helper.util.NumberConversion;
 import com.fangxu.dota2helper.util.ToastUtil;
+import com.fangxu.dota2helper.util.VideoCacheManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDetailView
+public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlayerView
         , RelatedVideoAdapter.RelatedVideoClickListener {
     public static final String VIDEO_PUBLISH_TIME = "video_publish_time";
     public static final String VIDEO_VID = "video_nid";
@@ -59,7 +60,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
 
     private Map<Integer, String> mYoukuVidMap = new HashMap<>();
 
-    private VideoDetailPresenter mPresenter;
+    private VideoPlayerPresenter mPresenter;
 
     @Override
     public int getLayoutResId() {
@@ -74,7 +75,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
 
         mPublishTime.setText(getIntent().getStringExtra(VIDEO_PUBLISH_TIME));
 
-        mPresenter = new VideoDetailPresenter(this, this);
+        mPresenter = new VideoPlayerPresenter(this, this);
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
         queryVideoSetInfo();
         super.init(savedInstanceState);
@@ -98,6 +99,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
 
     private void onSelectButtonClicked(SelectButton selectButton) {
         if (selectButton.getIndex() != mCurrentSelectedIndex) {
+            onVidWillChange();
             mVid = mYoukuVidMap.get(selectButton.getIndex());
             if (mVid == null || mVid.isEmpty()) {
                 ToastUtil.showToast(VideoPlayerActivity.this, "数据准备中，请稍后再试");
@@ -108,16 +110,35 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
                 queryDetailAndRelatedList(mVid);
                 mYoukuPlayer.playVideo(mVid);
                 mBlurImageContainer.setVisibility(View.INVISIBLE);
+                onVidChanged();
             }
         }
     }
 
     private void setVideoDetail(String title, String published, int watchedCount, int upCount, int downCount) {
+        mTitle = title;
         String watchCount = NumberConversion.bigNumber(watchedCount) + "次播放";
         String up = NumberConversion.bigNumber(upCount);
         String down = NumberConversion.bigNumber(downCount);
         String publishTime = "发布于" + published;
         setVideoDetail(title, publishTime, watchCount, up, down);
+    }
+
+    private void onVidWillChange() {
+        cacheWatchedVideo();
+    }
+
+    private void onVidChanged() {
+        mIsVideoStarted = false;
+    }
+
+    @Override
+    protected void cacheWatchedVideo() {
+        super.cacheWatchedVideo();
+        if (mIsVideoStarted) {
+            VideoCacheManager.INSTANCE.cacheWatchedVideo(mVid, mBackgroundUrl, mTitle
+                    , mVideoDurationMillis, mCurrentPlayTimeMills, mIsVideoEnded);
+        }
     }
 
     @Override
@@ -127,13 +148,17 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
 
     @Override
     public void onRelatedVideoClicked(RelatedVideoList.RelatedVideoEntity entity) {
+        onVidWillChange();
         mVid = entity.getId();
+        mTitle = entity.getTitle();
+        mBackgroundUrl = entity.getThumbnail();
         queryRelatedVideo(mVid);
         setVideoDetail(entity.getTitle(), entity.getPublished(), entity.getView_count(), entity.getUp_count(), entity.getDown_count());
         mYoukuPlayer.playVideo(mVid);
         mBlurImageContainer.setVisibility(View.INVISIBLE);
         mAnthologyContainer.setVisibility(View.GONE);
         mScrollView.smoothScrollTo(0, 0);
+        onVidChanged();
     }
 
     @Override
@@ -190,16 +215,11 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoDeta
     }
 
     @Override
-    public void onVideoInvalid(String invalid) {
-        ToastUtil.showToast(this, invalid);
-    }
-
-    @Override
     public void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount) {
         mWatchCount.setText(watchedCount);
         mUp.setText(upCount);
         mDown.setText(downCount);
-        mTitle.setText(title);
+        mTitleTextView.setText(title);
         mPublishTime.setText(published);
     }
 

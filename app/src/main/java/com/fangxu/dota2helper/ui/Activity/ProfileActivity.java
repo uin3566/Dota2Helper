@@ -74,6 +74,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.pil_my_project:
                 MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_PROJECT);
                 break;
+            case R.id.pil_watched_history:
+                break;
         }
     }
 

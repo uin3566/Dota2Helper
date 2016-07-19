@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public interface VideoDetailCallback {
+public interface VideoPlayerCallback {
     public void onGetVideoSetSuccess(VideoSetList videoSetList);
     public void onGetVideoSetFailed();
     public void onGetVideoDetailSuccess(VideoDetailInfo videoDetailInfo);

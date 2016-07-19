@@ -8,7 +8,7 @@ import com.fangxu.dota2helper.RxCenter;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
-import com.fangxu.dota2helper.callback.VideoDetailCallback;
+import com.fangxu.dota2helper.callback.VideoPlayerCallback;
 import com.fangxu.dota2helper.network.AppNetWork;
 
 import java.util.List;
@@ -23,14 +23,14 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailInteractor extends BaseInteractor {
+public class VideoPlayerInteractor extends BaseInteractor {
     private static final String TAG = "test task id";
-    private VideoDetailCallback mCallback;
+    private VideoPlayerCallback mCallback;
     private VideoDetailInfo mDetailInfo = null;
     private List<RelatedVideoList.RelatedVideoEntity> mVideoList = null;
 
-    public VideoDetailInteractor(Activity activity, VideoDetailCallback videoDetailCallback) {
-        mCallback = videoDetailCallback;
+    public VideoPlayerInteractor(Activity activity, VideoPlayerCallback videoPlayerCallback) {
+        mCallback = videoPlayerCallback;
         Log.i(TAG, activity.getClass().getName() + ", taskId=" + activity.getTaskId());
     }
 

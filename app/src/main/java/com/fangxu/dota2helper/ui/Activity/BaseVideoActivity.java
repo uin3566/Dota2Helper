@@ -26,14 +26,15 @@ import butterknife.OnClick;
 /**
  * Created by dear33 on 2016/7/14.
  */
-public abstract class BaseVideoActivity extends BaseActivity implements VideoStateCallback{
+public abstract class BaseVideoActivity extends BaseActivity implements VideoStateCallback {
+    private static final String TAG = "BaseVideoActivity";
     public static final String VIDEO_TITLE = "video_title";
     public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_BACKGROUND = "video_background";
     public static final String VIDEO_YOUKU_VID = "video_youku_vid";
 
     @Bind(R.id.tv_title)
-    TextView mTitle;
+    TextView mTitleTextView;
     @Bind(R.id.iv_blur)
     ImageView mBlurImageView;
     @Bind(R.id.youku_player)
@@ -42,10 +43,21 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
     RelativeLayout mBlurImageContainer;
 
     protected String mVid = null;
+    protected String mTitle;
+    protected String mBackgroundUrl;
+
     protected YoukuBasePlayerManager mYoukuBasePlayerManager;
     protected YoukuPlayer mYoukuPlayer;
     protected boolean mIsPlayerReady = false;
-    protected long mCurrentPlayTimeMills;
+
+    protected int mCurrentPlayTimeMills;
+    protected int mVideoDurationMillis;
+    protected boolean mIsVideoStarted = false;
+    protected boolean mIsVideoEnded = false;
+
+    protected void cacheWatchedVideo() {
+
+    }
 
     @Override
     public boolean applySystemBarDrawable() {
@@ -72,13 +84,14 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
         });
 
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
-        mTitle.setText(getIntent().getStringExtra(VIDEO_TITLE));
+        mTitle = getIntent().getStringExtra(VIDEO_TITLE);
+        mTitleTextView.setText(mTitle);
         initPlayer();
     }
 
     private void initPlayer() {
-        final String backgroundUrl = getIntent().getStringExtra(VIDEO_BACKGROUND);
-        Glide.with(this).load(backgroundUrl).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(this, 20)).into(mBlurImageView);
+        mBackgroundUrl = getIntent().getStringExtra(VIDEO_BACKGROUND);
+        Glide.with(this).load(mBackgroundUrl).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(this, 20)).into(mBlurImageView);
         mYoukuBasePlayerManager = new YoukuBasePlayerManager(this) {
             @Override
             public void setPadHorizontalLayout() {
@@ -89,7 +102,7 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
             @Override
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
-                YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, backgroundUrl);
+                YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, mBackgroundUrl);
                 youkuPluginPlayer.setVideoStateCallback(BaseVideoActivity.this);
                 addPlugins(youkuPluginPlayer);
                 mYoukuPlayer = player;
@@ -120,13 +133,23 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
     }
 
     @Override
-    public void onVideoStart() {
-        Log.i("testVideoCallback", "onVideoStart");
+    public void onVideoStart(int durationMillis) {
+        Log.i(TAG, "onVideoStart, durationMillis=" + durationMillis);
+        mVideoDurationMillis = durationMillis;
+        mIsVideoStarted = true;
+        mIsVideoEnded = false;
     }
 
     @Override
-    public void onProgressChanged(long currentTimeMillis) {
-        Log.i("testVideoCallback", "currentTimeMillis=" + currentTimeMillis);
+    public void onVideoEnd() {
+        Log.i(TAG, "onVideoEnd");
+        mIsVideoStarted = false;
+        mIsVideoEnded = true;
+    }
+
+    @Override
+    public void onProgressChanged(int currentTimeMillis) {
+        Log.i(TAG, "currentTimeMillis=" + currentTimeMillis);
         mCurrentPlayTimeMills = currentTimeMillis;
     }
 
@@ -148,6 +171,7 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
     protected void onPause() {
         super.onPause();
         mYoukuBasePlayerManager.onPause();
+        cacheWatchedVideo();
     }
 
     @Override

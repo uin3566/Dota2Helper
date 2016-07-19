@@ -37,7 +37,6 @@
         android:ellipsize="end"
         android:includeFontPadding="false"
         android:singleLine="true"
-        android:text="减肥的开始了几十fjkdfklsjk块的了解放路上"
         android:textColor="@color/title_text"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold" />
@@ -48,8 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/rl_background_container"
         android:layout_alignLeft="@id/tv_title"
-        android:layout_marginBottom="@dimen/dimen_5dp"
-        android:text="490万次播放"
+        android:layout_marginBottom="@dimen/base_little_margin"
         android:textColor="@color/content_text"
         android:textSize="@dimen/content_text_size" />
 
@@ -59,7 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_title"
         android:layout_centerVertical="true"
-        android:text="时长:35:23"
         android:textColor="@color/content_text"
         android:textSize="@dimen/content_text_size"/>
 

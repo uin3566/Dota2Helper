@@ -149,28 +149,26 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     @Subscribe
     public void onBannerItemClick(BannerItemClickEvent event) {
         NewsList.NewsEntity bannerEntity = event.mBannerEntity;
-        toDetail(bannerEntity.getDate(), bannerEntity.getNid(), bannerEntity.getTitle()
-                , bannerEntity.getBackground(), bannerEntity.getDescription(), bannerEntity.getTime());
+        toDetail(bannerEntity);
     }
 
     @Override
     public void onItemClick(int position) {
         NewsList.NewsEntity newsEntity = mAdapter.getItem(position);
-        toDetail(newsEntity.getDate(), newsEntity.getNid(), newsEntity.getTitle()
-                , newsEntity.getBackground(), newsEntity.getDescription(), newsEntity.getTime());
+        toDetail(newsEntity);
     }
 
-    private void toDetail(final String date, String nid, final String title, final String background, final String description, final String time) {
-        ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, date, nid, new LoadNewsDetailCallback() {
+    private void toDetail(final NewsList.NewsEntity newsEntity) {
+        ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, newsEntity.getDate(), newsEntity.getNid(), new LoadNewsDetailCallback() {
             @Override
             public void onLoadedSuccess(boolean toVideoActivity, String content) {
                 if (toVideoActivity) {
                     Intent intent = new Intent(getActivity(), NewsVideoActivity.class);
                     intent.putExtra(NewsVideoActivity.VIDEO_YOUKU_VID, content);
-                    intent.putExtra(NewsVideoActivity.VIDEO_BACKGROUND, background);
-                    intent.putExtra(NewsVideoActivity.VIDEO_TITLE, title);
-                    intent.putExtra(NewsVideoActivity.VIDEO_DESCRIPTION, description);
-                    intent.putExtra(NewsVideoActivity.VIDEO_DATE, time);
+                    intent.putExtra(NewsVideoActivity.VIDEO_BACKGROUND, newsEntity.getBackground());
+                    intent.putExtra(NewsVideoActivity.VIDEO_TITLE, newsEntity.getTitle());
+                    intent.putExtra(NewsVideoActivity.VIDEO_DESCRIPTION, newsEntity.getDescription());
+                    intent.putExtra(NewsVideoActivity.VIDEO_DATE, newsEntity.getTime());
                     startActivity(intent);
                 } else {
                     ArticalDetailActivity.toNewsDetailActivity(getActivity(), content);

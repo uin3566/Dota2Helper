@@ -5,9 +5,9 @@ import android.app.Activity;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoDetailInfo;
 import com.fangxu.dota2helper.bean.VideoSetList;
-import com.fangxu.dota2helper.callback.IVideoDetailView;
-import com.fangxu.dota2helper.callback.VideoDetailCallback;
-import com.fangxu.dota2helper.interactor.VideoDetailInteractor;
+import com.fangxu.dota2helper.callback.IVideoPlayerView;
+import com.fangxu.dota2helper.callback.VideoPlayerCallback;
+import com.fangxu.dota2helper.interactor.VideoPlayerInteractor;
 import com.fangxu.dota2helper.util.NumberConversion;
 
 import java.util.List;
@@ -15,28 +15,28 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class VideoDetailPresenter extends BasePresenter implements VideoDetailCallback {
-    private IVideoDetailView mCallback;
+public class VideoPlayerPresenter extends BasePresenter implements VideoPlayerCallback {
+    private IVideoPlayerView mCallback;
 
-    public VideoDetailPresenter(Activity activity, IVideoDetailView iVideoDetailView) {
-        mCallback = iVideoDetailView;
-        mInteractor = new VideoDetailInteractor(activity, this);
+    public VideoPlayerPresenter(Activity activity, IVideoPlayerView iVideoPlayerView) {
+        mCallback = iVideoPlayerView;
+        mInteractor = new VideoPlayerInteractor(activity, this);
     }
 
     public void queryVideoSetInformation(String date, String vid) {
-        ((VideoDetailInteractor)mInteractor).queryVideoSetInfo(date, vid);
+        ((VideoPlayerInteractor)mInteractor).queryVideoSetInfo(date, vid);
     }
 
     public void queryYoukuVid(int index, String date, String vid) {
-        ((VideoDetailInteractor)mInteractor).queryYoukuVid(index, date, vid);
+        ((VideoPlayerInteractor)mInteractor).queryYoukuVid(index, date, vid);
     }
 
     public void queryRelatedYoukuVideo(String vid) {
-        ((VideoDetailInteractor)mInteractor).queryRelatedVideoList(vid);
+        ((VideoPlayerInteractor)mInteractor).queryRelatedVideoList(vid);
     }
 
     public void queryDetailAndRelated(String vid) {
-        ((VideoDetailInteractor)mInteractor).queryDetailAndRelated(vid);
+        ((VideoPlayerInteractor)mInteractor).queryDetailAndRelated(vid);
     }
 
     @Override

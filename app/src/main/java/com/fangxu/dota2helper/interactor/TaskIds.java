@@ -9,4 +9,5 @@ public interface TaskIds {
     int strategyTaskId = 2;
     int newsTaskId = 3;
     int newsDetailTaskId = 4;
+    int videoCacheTaskId = 5;
 }

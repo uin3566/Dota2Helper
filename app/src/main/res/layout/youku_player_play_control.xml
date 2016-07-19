@@ -28,7 +28,7 @@
             android:id="@+id/tv_video_quality"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/dimen_5dp"
+            android:layout_marginRight="@dimen/base_little_margin"
             android:layout_toLeftOf="@id/ib_detail_play_full"
             android:gravity="center_vertical"
             app:vqt_text_color="@color/white"

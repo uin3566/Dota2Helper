@@ -3,11 +3,10 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.VideoCacheManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,13 +43,22 @@ public class NewsVideoActivity extends BaseVideoActivity {
             ButterKnife.findById(this, R.id.v_divider).setVisibility(View.GONE);
             mDateTextView.setVisibility(View.GONE);
             mDescription.setVisibility(View.GONE);
-            mTitle.setVisibility(View.GONE);
+            mTitleTextView.setVisibility(View.GONE);
         }
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             ButterKnife.findById(this, R.id.v_divider).setVisibility(View.VISIBLE);
             mDateTextView.setVisibility(View.VISIBLE);
             mDescription.setVisibility(View.VISIBLE);
-            mTitle.setVisibility(View.VISIBLE);
+            mTitleTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void cacheWatchedVideo() {
+        super.cacheWatchedVideo();
+        if (mIsVideoStarted) {
+            VideoCacheManager.INSTANCE.cacheWatchedVideo(mVid, mBackgroundUrl, mTitle
+                    , mVideoDurationMillis, mCurrentPlayTimeMills, mIsVideoEnded);
         }
     }
 

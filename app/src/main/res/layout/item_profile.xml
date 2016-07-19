@@ -18,7 +18,7 @@
         android:layout_height="@dimen/profile_right_arrow_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/dimen_5dp"
+        android:layout_marginRight="@dimen/base_little_margin"
         android:src="@drawable/ic_right"/>
 
 </RelativeLayout>

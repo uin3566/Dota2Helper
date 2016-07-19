@@ -7,6 +7,7 @@
               android:orientation="vertical">
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
+        android:id="@+id/pil_watched_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:pil_text="@string/watch_video_history"/>

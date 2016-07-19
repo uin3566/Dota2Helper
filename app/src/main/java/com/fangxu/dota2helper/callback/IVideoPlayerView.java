@@ -9,12 +9,11 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public interface IVideoDetailView {
+public interface IVideoPlayerView {
     void setVideoList(List<VideoSetList.VideoDateVidEntity> videoList);
     void setAnthologyGridGone();
     void setYoukuVid(boolean queryVideoDetail, int index, String youkuVid);
     void onGetInfoFailed(String error);
-    void onVideoInvalid(String invalid);
     void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount);
     void setRelatedVideoList(List<RelatedVideoList.RelatedVideoEntity> relatedVideoList);
     void setNoRelatedVideo();

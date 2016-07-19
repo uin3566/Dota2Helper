@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/rl_background_container"
             android:layout_alignLeft="@id/tv_title"
-            android:layout_marginBottom="@dimen/dimen_5dp"
+            android:layout_marginBottom="@dimen/base_little_margin"
             android:text="时长:35:23"
             android:textColor="@color/content_text"
             android:textSize="@dimen/content_text_size"/>

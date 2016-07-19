@@ -54,6 +54,9 @@
             android:theme="@style/AppTheme.NoneTranslucent"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
 
+        <activity android:name=".ui.Activity.WatchedVideoActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.Activity.ProfileActivity"
                   android:screenOrientation="portrait"/>
 
