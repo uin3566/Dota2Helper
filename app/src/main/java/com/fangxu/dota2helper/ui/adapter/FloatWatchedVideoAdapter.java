@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.util.DateUtil;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import butterknife.Bind;
@@ -21,10 +22,12 @@ import butterknife.Bind;
 public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatchedVideo> implements
         StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
+    private DateUtil mDateUtil;
 
     public FloatWatchedVideoAdapter(Context context) {
         super(context);
         mContext = context;
+        mDateUtil = new DateUtil();
     }
 
     @Override
@@ -35,7 +38,17 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
 
     @Override
     public long getHeaderId(int i) {
-        return getItem(i).getVideoyoukuvid().charAt(0);
+        GreenWatchedVideo video = getItem(i);
+        long watchedTime = video.getVideowatchtime();
+        if (mDateUtil.isToday(watchedTime)) {
+            return 1;
+        } else if (mDateUtil.isInSevenDays(watchedTime)) {
+            return 2;
+        } else if (mDateUtil.isOutSevenDays(watchedTime)) {
+            return 3;
+        } else {
+            return -1;
+        }
     }
 
     @Override
@@ -48,8 +61,22 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         TextView textView = (TextView) viewHolder.itemView;
-        textView.setText(String.valueOf(getItem(i).getVideoyoukuvid().charAt(0)));
-        textView.setBackgroundColor(mContext.getResources().getColor(R.color.alpha_white_1));
+        long watchedTime = getItem(i).getVideowatchtime();
+        textView.setText(mDateUtil.getTimeText(watchedTime));
+        textView.setCompoundDrawablesWithIntrinsicBounds(getDrawable(watchedTime), 0, 0, 0);
+        textView.setCompoundDrawablePadding(mContext.getResources().getDimensionPixelSize(R.dimen.base_little_margin));
+    }
+
+    private int getDrawable(long watchedTime) {
+        if (mDateUtil.isToday(watchedTime)) {
+            return R.drawable.small_circle_blue;
+        } else if (mDateUtil.isInSevenDays(watchedTime)) {
+            return R.drawable.small_circle_red;
+        } else if (mDateUtil.isOutSevenDays(watchedTime)) {
+            return R.drawable.small_circle_orange;
+        } else {
+            return R.drawable.small_circle_orange;
+        }
     }
 
     public class VideoItemHolder extends CommonViewHolder {

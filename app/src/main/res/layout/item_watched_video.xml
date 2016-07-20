@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
-    android:paddingLeft="@dimen/dimen_10dp"
-    android:paddingRight="@dimen/dimen_10dp">
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin">
 
     <RelativeLayout
         android:id="@+id/rl_background_container"

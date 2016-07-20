@@ -19,9 +19,11 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/6/27.
  */
-public class ProfileActivity extends BaseActivity implements View.OnClickListener{
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.pull_to_zoom_scroll_view)
     PullToZoomScrollViewEx mZoomScrollViewEx;
+
+    private long mLastClickTime = 0;
 
     @Override
     public int getLayoutResId() {
@@ -70,6 +72,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+        if (System.currentTimeMillis() - mLastClickTime <= 500) {
+            return;
+        }
+        mLastClickTime = System.currentTimeMillis();
         switch (view.getId()) {
             case R.id.pil_my_github:
                 MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_GITHUB);

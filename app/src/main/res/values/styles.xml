@@ -22,6 +22,12 @@
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
         <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextAppearance">@style/ToolbarMenuTextStyle</item>
+    </style>
+
+    <style name="ToolbarMenuTextStyle">
+        <item name="android:textSize">@dimen/title_text_size</item>
     </style>
 
 </resources>

@@ -27,7 +27,8 @@
     <string name="splash_copyright">Copyright &#169; 2016 掌刀 All Rights Reserved\nPowered by Fang.Xu</string>
     <string name="splash_version">V %1$s</string>
 
-    <string name="watch_video_history">观看历史</string>
+    <string name="watch_video_history">观看记录</string>
+    <string name="edit">编辑</string>
     <string name="cached_video">缓存视频</string>
     <string name="clear_cache">清空缓存</string>
     <string name="my_github">我的GitHub</string>

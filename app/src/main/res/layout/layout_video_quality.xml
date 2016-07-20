@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:gravity="center"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
         android:textSize="12sp" />
 
 </LinearLayout>

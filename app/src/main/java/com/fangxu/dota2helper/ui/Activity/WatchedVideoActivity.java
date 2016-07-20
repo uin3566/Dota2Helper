@@ -3,6 +3,9 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.fangxu.dota2helper.R;
@@ -42,6 +45,16 @@ public class WatchedVideoActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int menuItemId = item.getItemId();
+                if (menuItemId == R.id.action_edit) {
+
+                }
+                return true;
+            }
+        });
 
         mAdapter = new FloatWatchedVideoAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -58,6 +71,12 @@ public class WatchedVideoActivity extends BaseActivity {
         });
 
         VideoCacheManager.INSTANCE.getWatchedVideo();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_watched_video, menu);
+        return true;
     }
 
     @Subscribe
