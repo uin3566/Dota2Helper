@@ -23,11 +23,17 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
         StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private DateUtil mDateUtil;
+    private boolean mIsEditState = false;
 
     public FloatWatchedVideoAdapter(Context context) {
         super(context);
         mContext = context;
         mDateUtil = new DateUtil();
+    }
+
+    public void updateState(boolean isEditState) {
+        mIsEditState = isEditState;
+        notifyDataSetChanged();
     }
 
     @Override

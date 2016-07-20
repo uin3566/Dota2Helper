@@ -29,6 +29,7 @@
 
     <string name="watch_video_history">观看记录</string>
     <string name="edit">编辑</string>
+    <string name="cancel">取消</string>
     <string name="cached_video">缓存视频</string>
     <string name="clear_cache">清空缓存</string>
     <string name="my_github">我的GitHub</string>

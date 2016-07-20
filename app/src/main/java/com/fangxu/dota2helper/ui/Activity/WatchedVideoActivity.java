@@ -29,6 +29,7 @@ public class WatchedVideoActivity extends BaseActivity {
     RecyclerView mRecyclerView;
 
     private FloatWatchedVideoAdapter mAdapter;
+    private boolean mIsEditState = false;
 
     @Override
     protected int getLayoutResId() {
@@ -50,7 +51,8 @@ public class WatchedVideoActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
                 if (menuItemId == R.id.action_edit) {
-
+                    mIsEditState = !mIsEditState;
+                    updateMenuTitle(item);
                 }
                 return true;
             }
@@ -71,6 +73,14 @@ public class WatchedVideoActivity extends BaseActivity {
         });
 
         VideoCacheManager.INSTANCE.getWatchedVideo();
+    }
+
+    private void updateMenuTitle(MenuItem item) {
+        if (mIsEditState) {
+            item.setTitle(R.string.cancel);
+        } else {
+            item.setTitle(R.string.edit);
+        }
     }
 
     @Override
