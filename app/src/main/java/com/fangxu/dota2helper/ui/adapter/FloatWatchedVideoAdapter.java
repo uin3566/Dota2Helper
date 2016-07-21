@@ -11,8 +11,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.fangxu.dota2helper.util.DateUtil;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -20,20 +24,40 @@ import butterknife.Bind;
  * Created by Administrator on 2016/7/19.
  */
 public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatchedVideo> implements
-        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, CommonRecyclerAdapter.ItemClickListener {
     private Context mContext;
     private DateUtil mDateUtil;
     private boolean mIsEditState = false;
+
+    private List<GreenWatchedVideo> mSelectedVideos;
 
     public FloatWatchedVideoAdapter(Context context) {
         super(context);
         mContext = context;
         mDateUtil = new DateUtil();
+        mSelectedVideos = new ArrayList<>();
+        setItemClickListener(this);
     }
 
     public void updateState(boolean isEditState) {
         mIsEditState = isEditState;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        mSelectedVideos.add(getItem(position));
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void onHeaderClick() {
+
+    }
+
+    @Override
+    public void onFooterClick() {
+
     }
 
     @Override
@@ -92,6 +116,8 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
         TextView mTitle;
         @Bind(R.id.tv_watched_percent)
         TextView mWatchedPercent;
+        @Bind(R.id.tb_select)
+        TickButton mTickButton;
 
         public VideoItemHolder(View itemView) {
             super(itemView);
@@ -103,6 +129,16 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             mTitle.setText(greenWatchedVideo.getVideotitle());
             Glide.with(mContext).load(greenWatchedVideo.getVideobackground()).placeholder(R.drawable.img_background_default).into(mBackground);
             mWatchedPercent.setText(getWatchedPercentText(greenWatchedVideo));
+            if (mIsEditState) {
+                mTickButton.setVisibility(View.VISIBLE);
+            } else {
+                mTickButton.setVisibility(View.GONE);
+            }
+            if (mSelectedVideos.contains(greenWatchedVideo)) {
+                mTickButton.setSelected(true);
+            } else {
+                mTickButton.setSelected(false);
+            }
         }
 
         private String getWatchedPercentText(GreenWatchedVideo greenWatchedVideo) {

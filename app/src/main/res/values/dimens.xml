@@ -64,6 +64,7 @@
     <!-- profile -->
     <dimen name="profile_item_height">50dp</dimen>
     <dimen name="profile_right_arrow_size">18dp</dimen>
+    <dimen name="select_tick_size">15dp</dimen>
 
     <!-- google -->
     <dimen name="refresh_header_height_google">100dp</dimen>

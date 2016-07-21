@@ -33,4 +33,9 @@
     <declare-styleable name="ProfileItemLayout">
         <attr name="pil_text" format="string|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="TickButton">
+        <attr name="tb_unselect_background" format="reference"/>
+        <attr name="tb_select_background" format="reference"/>
+    </declare-styleable>
 </resources>

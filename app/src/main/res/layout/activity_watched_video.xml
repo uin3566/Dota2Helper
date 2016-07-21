@@ -9,10 +9,21 @@
         android:id="@+id/toolbar"
         layout="@layout/layout_toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_watched_videos"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_watched_videos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <FrameLayout
+            android:id="@+id/fl_empty_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 
 </LinearLayout>

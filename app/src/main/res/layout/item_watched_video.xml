@@ -1,31 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackground"
-    android:paddingLeft="@dimen/base_margin"
-    android:paddingRight="@dimen/base_margin">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingLeft="@dimen/base_margin"
+                android:paddingRight="@dimen/base_margin">
+
+    <com.fangxu.dota2helper.ui.widget.TickButton
+        android:id="@+id/tb_select"
+        android:layout_width="@dimen/select_tick_size"
+        android:layout_height="@dimen/select_tick_size"
+        android:layout_marginRight="@dimen/base_little_margin"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        app:tb_select_background="@drawable/ic_tick_filled"
+        app:tb_unselect_background="@drawable/shape_tick_empty"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rl_background_container"
         android:layout_width="@dimen/related_video_list_image_width"
         android:layout_height="@dimen/news_list_image_height"
         android:layout_marginBottom="@dimen/news_list_image_margin"
-        android:layout_marginTop="@dimen/news_list_image_margin">
+        android:layout_marginTop="@dimen/news_list_image_margin"
+        android:layout_toRightOf="@id/tb_select">
 
         <ImageView
             android:id="@+id/iv_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_primary"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_0.5dp"
         android:layout_below="@id/rl_background_container"
-        android:background="@color/grey_light" />
+        android:background="@color/grey_light"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,14 +56,14 @@
             android:includeFontPadding="false"
             android:maxLines="2"
             android:textColor="@color/title_text"
-            android:textSize="@dimen/title_text_size" />
+            android:textSize="@dimen/title_text_size"/>
 
         <TextView
             android:id="@+id/tv_watched_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_little_margin"
-            android:textSize="@dimen/content_text_size" />
+            android:textSize="@dimen/content_text_size"/>
     </LinearLayout>
 
 </RelativeLayout>

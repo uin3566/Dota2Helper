@@ -7,11 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.squareup.otto.Subscribe;
@@ -27,6 +29,8 @@ import butterknife.Bind;
 public class WatchedVideoActivity extends BaseActivity {
     @Bind(R.id.recycler_watched_videos)
     RecyclerView mRecyclerView;
+    @Bind(R.id.fl_empty_view)
+    FrameLayout mEmptyView;
 
     private FloatWatchedVideoAdapter mAdapter;
     private boolean mIsEditState = false;
@@ -53,6 +57,7 @@ public class WatchedVideoActivity extends BaseActivity {
                 if (menuItemId == R.id.action_edit) {
                     mIsEditState = !mIsEditState;
                     updateMenuTitle(item);
+                    mAdapter.updateState(mIsEditState);
                 }
                 return true;
             }
@@ -95,11 +100,12 @@ public class WatchedVideoActivity extends BaseActivity {
             List<GreenWatchedVideo> videos = event.mGreenWatchedVideos;
             if (videos.size() > 0) {
                 mAdapter.setData(videos);
+                mEmptyView.setVisibility(View.GONE);
             } else {
-
+                mEmptyView.setVisibility(View.VISIBLE);
             }
         } else {
-
+            mEmptyView.setVisibility(View.VISIBLE);
         }
     }
 
