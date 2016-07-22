@@ -13,7 +13,6 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
-import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.squareup.otto.Subscribe;

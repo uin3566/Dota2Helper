@@ -27,10 +27,17 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     private boolean mHasFooter;
 
     //简单防抖动
-    private static final int quickClickInterval = 800;
+    private static final int quickClickInterval = 500;
+    protected ItemClickNeedIntervalController mNeedIntervalController = new ItemClickNeedIntervalController();
     private long mClickHeaderTime;
     private long mClickItemTime;
     private long mClickFooterTime;
+
+    protected static class ItemClickNeedIntervalController {
+        boolean mHeaderIntervalSwitchOn = true;
+        boolean mFooterIntervalSwitchOn = true;
+        boolean mItemIntervalSwitchOn = true;
+    }
 
     protected abstract class CommonViewHolder extends RecyclerView.ViewHolder {
         public CommonViewHolder(View itemView) {
@@ -97,7 +104,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     private void headerClick() {
-        if (System.currentTimeMillis() - mClickHeaderTime <= quickClickInterval) {
+        if (mNeedIntervalController.mHeaderIntervalSwitchOn && System.currentTimeMillis() - mClickHeaderTime <= quickClickInterval) {
             return;
         }
         mItemClickListener.onHeaderClick();
@@ -106,7 +113,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     private void itemClick(int position) {
-        if (System.currentTimeMillis() - mClickItemTime <= quickClickInterval) {
+        if (mNeedIntervalController.mItemIntervalSwitchOn && System.currentTimeMillis() - mClickItemTime <= quickClickInterval) {
             return;
         }
         mItemClickListener.onItemClick(position);
@@ -114,7 +121,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
     }
 
     private void footerClick() {
-        if (System.currentTimeMillis() - mClickFooterTime <= quickClickInterval) {
+        if (mNeedIntervalController.mFooterIntervalSwitchOn && System.currentTimeMillis() - mClickFooterTime <= quickClickInterval) {
             return;
         }
         mItemClickListener.onFooterClick();

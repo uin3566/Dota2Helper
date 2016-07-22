@@ -16,7 +16,8 @@ import com.fangxu.dota2helper.util.DateUtil;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.Bind;
 
@@ -29,25 +30,35 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
     private DateUtil mDateUtil;
     private boolean mIsEditState = false;
 
-    private List<GreenWatchedVideo> mSelectedVideos;
+    private Set<String> mSelectedVideos;
 
     public FloatWatchedVideoAdapter(Context context) {
         super(context);
         mContext = context;
         mDateUtil = new DateUtil();
-        mSelectedVideos = new ArrayList<>();
+        mSelectedVideos = new HashSet<>();
         setItemClickListener(this);
     }
 
     public void updateState(boolean isEditState) {
         mIsEditState = isEditState;
+        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
         notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(int position) {
-        mSelectedVideos.add(getItem(position));
-        notifyItemChanged(position);
+        if (mIsEditState) {
+            String ykvid = getItem(position).getVideoyoukuvid();
+            if (mSelectedVideos.contains(ykvid)) {
+                mSelectedVideos.remove(ykvid);
+            } else {
+                mSelectedVideos.add(ykvid);
+            }
+            notifyItemChanged(position);
+        } else {
+
+        }
     }
 
     @Override
@@ -131,13 +142,13 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             mWatchedPercent.setText(getWatchedPercentText(greenWatchedVideo));
             if (mIsEditState) {
                 mTickButton.setVisibility(View.VISIBLE);
+                if (mSelectedVideos.contains(greenWatchedVideo.getVideoyoukuvid())) {
+                    mTickButton.setSelected(true);
+                } else {
+                    mTickButton.setSelected(false);
+                }
             } else {
                 mTickButton.setVisibility(View.GONE);
-            }
-            if (mSelectedVideos.contains(greenWatchedVideo)) {
-                mTickButton.setSelected(true);
-            } else {
-                mTickButton.setSelected(false);
             }
         }
 
