@@ -1,29 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_weight="11">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_watched_videos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <FrameLayout
             android:id="@+id/fl_empty_view"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_select_delete_controllers"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_primary"
+            android:gravity="center"
+            android:text="@string/select_all"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_size_big" />
+
+        <com.fangxu.dota2helper.ui.widget.CountButton
+            android:id="@+id/cb_delete"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/light_red"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_size_big" />
+    </LinearLayout>
 
 </LinearLayout>

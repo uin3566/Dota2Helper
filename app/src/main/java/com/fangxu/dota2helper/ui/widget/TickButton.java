@@ -15,6 +15,8 @@ public class TickButton extends Button {
     private int mSelectBgId;
     private int mUnSelectBgId;
 
+    private boolean mSelected;
+
     public TickButton(Context context) {
         this(context, null);
     }
@@ -38,6 +40,7 @@ public class TickButton extends Button {
     }
 
     public void setSelected(boolean selected) {
+        mSelected = selected;
         if (selected) {
             setBackgroundResource(mSelectBgId);
         } else {

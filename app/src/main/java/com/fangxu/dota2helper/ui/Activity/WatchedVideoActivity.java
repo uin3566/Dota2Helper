@@ -8,19 +8,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
+import com.fangxu.dota2helper.ui.widget.CountButton;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.squareup.otto.Subscribe;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/7/19.
@@ -30,6 +37,10 @@ public class WatchedVideoActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.fl_empty_view)
     FrameLayout mEmptyView;
+    @Bind(R.id.ll_select_delete_controllers)
+    LinearLayout mSelectDeleteControllers;
+    @Bind(R.id.cb_delete)
+    CountButton mDeleteButton;
 
     private FloatWatchedVideoAdapter mAdapter;
     private boolean mIsEditState = false;
@@ -57,12 +68,18 @@ public class WatchedVideoActivity extends BaseActivity {
                     mIsEditState = !mIsEditState;
                     updateMenuTitle(item);
                     mAdapter.updateState(mIsEditState);
+                    mSelectDeleteControllers.setVisibility(mIsEditState ? View.VISIBLE : View.GONE);
                 }
                 return true;
             }
         });
 
-        mAdapter = new FloatWatchedVideoAdapter(this);
+        mAdapter = new FloatWatchedVideoAdapter(this, new WatchedVideoSelectCountCallback() {
+            @Override
+            public void onWatchedVideoSelect(int count) {
+                mDeleteButton.setCount(count);
+            }
+        });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -76,6 +93,12 @@ public class WatchedVideoActivity extends BaseActivity {
             }
         });
 
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         VideoCacheManager.INSTANCE.getWatchedVideo();
     }
 
@@ -85,6 +108,11 @@ public class WatchedVideoActivity extends BaseActivity {
         } else {
             item.setTitle(R.string.edit);
         }
+    }
+
+    @OnClick(R.id.tv_select_all)
+    public void clickSelectAll(View selectAll) {
+        mAdapter.selectAll();
     }
 
     @Override

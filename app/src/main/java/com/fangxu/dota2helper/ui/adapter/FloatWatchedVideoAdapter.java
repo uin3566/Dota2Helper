@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
 import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.fangxu.dota2helper.util.DateUtil;
@@ -29,21 +30,55 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
     private Context mContext;
     private DateUtil mDateUtil;
     private boolean mIsEditState = false;
+    private WatchedVideoSelectCountCallback mCountCallback;
 
     private Set<String> mSelectedVideos;
 
     public FloatWatchedVideoAdapter(Context context) {
+        this(context, null);
+    }
+
+    public FloatWatchedVideoAdapter(Context context, WatchedVideoSelectCountCallback callback) {
         super(context);
         mContext = context;
         mDateUtil = new DateUtil();
         mSelectedVideos = new HashSet<>();
+        mCountCallback = callback;
         setItemClickListener(this);
     }
 
     public void updateState(boolean isEditState) {
         mIsEditState = isEditState;
         mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
+        if (!mIsEditState) {
+            mSelectedVideos.clear();
+            notifyVideoSelectCount();
+        }
         notifyDataSetChanged();
+    }
+
+    public void selectAll() {
+        if (mSelectedVideos.isEmpty()) {
+            for (GreenWatchedVideo video : mData) {
+                mSelectedVideos.add(video.getVideoyoukuvid());
+            }
+        } else {
+            if (mSelectedVideos.size() == mData.size()) {
+                mSelectedVideos.clear();
+            } else {
+                for (GreenWatchedVideo video : mData) {
+                    mSelectedVideos.add(video.getVideoyoukuvid());
+                }
+            }
+        }
+        notifyDataSetChanged();
+        notifyVideoSelectCount();
+    }
+
+    private void notifyVideoSelectCount() {
+        if (mCountCallback != null) {
+            mCountCallback.onWatchedVideoSelect(mSelectedVideos.size());
+        }
     }
 
     @Override
@@ -55,7 +90,8 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             } else {
                 mSelectedVideos.add(ykvid);
             }
-            notifyItemChanged(position);
+            notifyDataSetChanged();
+            notifyVideoSelectCount();
         } else {
 
         }
@@ -142,7 +178,8 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             mWatchedPercent.setText(getWatchedPercentText(greenWatchedVideo));
             if (mIsEditState) {
                 mTickButton.setVisibility(View.VISIBLE);
-                if (mSelectedVideos.contains(greenWatchedVideo.getVideoyoukuvid())) {
+                String ykvid = greenWatchedVideo.getVideoyoukuvid();
+                if (mSelectedVideos.contains(ykvid)) {
                     mTickButton.setSelected(true);
                 } else {
                     mTickButton.setSelected(false);
