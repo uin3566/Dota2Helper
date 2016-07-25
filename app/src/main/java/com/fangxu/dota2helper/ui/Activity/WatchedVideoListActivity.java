@@ -11,21 +11,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.fangxu.dota2helper.R;
-import com.fangxu.dota2helper.callback.WatchedVideoDeleteCallback;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
-import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
 import com.fangxu.dota2helper.ui.widget.CountButton;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.squareup.otto.Subscribe;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -33,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/7/19.
  */
-public class WatchedVideoActivity extends BaseActivity {
+public class WatchedVideoListActivity extends BaseActivity {
     @Bind(R.id.recycler_watched_videos)
     RecyclerView mRecyclerView;
     @Bind(R.id.fl_empty_view)

@@ -14,7 +14,6 @@ import com.fangxu.dota2helper.ui.widget.ProfileItemLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/6/27.
@@ -84,7 +83,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_PROJECT);
                 break;
             case R.id.pil_watched_video:
-                Intent intent = new Intent(this, WatchedVideoActivity.class);
+                Intent intent = new Intent(this, WatchedVideoListActivity.class);
                 startActivity(intent);
                 break;
         }

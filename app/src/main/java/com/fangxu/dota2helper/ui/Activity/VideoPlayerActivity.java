@@ -1,5 +1,8 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
@@ -31,7 +34,6 @@ import butterknife.Bind;
  */
 public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlayerView
         , RelatedVideoAdapter.RelatedVideoClickListener {
-    public static final String VIDEO_PUBLISH_TIME = "video_publish_time";
     public static final String VIDEO_VID = "video_nid";
 
     @Bind(R.id.tv_up)
@@ -62,6 +64,16 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
 
     private VideoPlayerPresenter mPresenter;
 
+    public static void toVideoPlayerActivity(Context activity, String title, String date, String vid, String background, String ykvid) {
+        Intent intent = new Intent(activity, VideoPlayerActivity.class);
+        intent.putExtra(VideoPlayerActivity.VIDEO_TITLE, title);
+        intent.putExtra(VideoPlayerActivity.VIDEO_DATE, date);
+        intent.putExtra(VideoPlayerActivity.VIDEO_VID, vid);
+        intent.putExtra(VideoPlayerActivity.VIDEO_BACKGROUND, background);
+        intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, ykvid);
+        activity.startActivity(intent);
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.activity_video_detail;
@@ -72,8 +84,6 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
         mAdapter = new RelatedVideoAdapter(this, this);
         mListView.setAdapter(mAdapter);
         mListView.setFocusable(false);
-
-        mPublishTime.setText(getIntent().getStringExtra(VIDEO_PUBLISH_TIME));
 
         mPresenter = new VideoPlayerPresenter(this, this);
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
@@ -86,6 +96,8 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
         String vid = getIntent().getStringExtra(VIDEO_VID);
         if (date != null && vid != null) {
             mPresenter.queryVideoSetInformation(date, vid);
+        } else {
+            setAnthologyGridGone();
         }
     }
 

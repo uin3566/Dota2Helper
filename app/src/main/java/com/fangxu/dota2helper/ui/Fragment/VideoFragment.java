@@ -23,7 +23,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoFragment extends RefreshBaseFragment implements IVideoView{
+public class VideoFragment extends RefreshBaseFragment implements IVideoView {
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -60,14 +60,8 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
             @Override
             public void onItemClick(int position) {
                 VideoList.VideoEntity videoEntity = mAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                intent.putExtra(VideoPlayerActivity.VIDEO_TITLE, videoEntity.getTitle());
-                intent.putExtra(VideoPlayerActivity.VIDEO_PUBLISH_TIME, videoEntity.getPublishin());
-                intent.putExtra(VideoPlayerActivity.VIDEO_DATE, videoEntity.getDate());
-                intent.putExtra(VideoPlayerActivity.VIDEO_VID, videoEntity.getVid());
-                intent.putExtra(VideoPlayerActivity.VIDEO_BACKGROUND, videoEntity.getBackground());
-                intent.putExtra(VideoPlayerActivity.VIDEO_YOUKU_VID, videoEntity.getYkvid());
-                startActivity(intent);
+                VideoPlayerActivity.toVideoPlayerActivity(getActivity(), videoEntity.getTitle(), videoEntity.getDate()
+                        , videoEntity.getVid(), videoEntity.getBackground(), videoEntity.getYkvid());
             }
 
             @Override
@@ -110,7 +104,7 @@ public class VideoFragment extends RefreshBaseFragment implements IVideoView{
     }
 
     @Override
-    public void showNoMoreToast (){
+    public void showNoMoreToast() {
         ToastUtil.showToast(getActivity(), R.string.no_more_content);
     }
 

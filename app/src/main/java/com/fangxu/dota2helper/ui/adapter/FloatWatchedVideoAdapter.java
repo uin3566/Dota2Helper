@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
+import com.fangxu.dota2helper.ui.Activity.VideoPlayerActivity;
 import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.fangxu.dota2helper.util.DateUtil;
 import com.fangxu.dota2helper.util.VideoCacheManager;
@@ -61,7 +62,7 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
 
     public int deleteSelectedVideo() {
         Set<String> selectedVideosCopy = new HashSet<>(mSelectedVideos);
-        VideoCacheManager.INSTANCE.deleteSelectedVideo(selectedVideosCopy, null);
+        VideoCacheManager.INSTANCE.deleteSelectedVideo(selectedVideosCopy);
         Iterator<GreenWatchedVideo> iterator = mData.iterator();
         while (iterator.hasNext()) {
             GreenWatchedVideo video = iterator.next();
@@ -103,8 +104,9 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
 
     @Override
     public void onItemClick(int position) {
+        GreenWatchedVideo video = getItem(position);
         if (mIsEditState) {
-            String ykvid = getItem(position).getVideoyoukuvid();
+            String ykvid = video.getVideoyoukuvid();
             if (mSelectedVideos.contains(ykvid)) {
                 mSelectedVideos.remove(ykvid);
             } else {
@@ -113,7 +115,8 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             notifyDataSetChanged();
             notifyVideoSelectCount();
         } else {
-
+            VideoPlayerActivity.toVideoPlayerActivity(mContext, video.getVideotitle(), null, null
+                    , video.getVideobackground(), video.getVideoyoukuvid());
         }
     }
 

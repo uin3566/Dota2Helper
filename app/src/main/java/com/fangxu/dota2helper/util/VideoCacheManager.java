@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
-import com.fangxu.dota2helper.callback.WatchedVideoDeleteCallback;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
@@ -46,15 +45,12 @@ public enum VideoCacheManager {
         }).start();
     }
 
-    public void deleteSelectedVideo(final Set<String> keySet, final WatchedVideoDeleteCallback callback) {
+    public void deleteSelectedVideo(final Set<String> keySet) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 GreenWatchedVideoDao greenWatchedVideoDao = MyApp.getGreenDaoHelper().getSession().getGreenWatchedVideoDao();
                 greenWatchedVideoDao.deleteByKeyInTx(keySet);
-                if (callback != null) {
-                    callback.onSelectVideoDeleted();
-                }
             }
         }).start();
     }
