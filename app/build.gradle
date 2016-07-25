@@ -35,7 +35,7 @@ ext {
     retrofit2Version = '2.0.2'
     rxjavaVersion = '1.1.0'
     leakcannaryVertion = '1.4-beta2'
-    smarttablayoutVersion = '1.6.0@aar'
+    smarttablayoutVersion = '1.6.1@aar'
 }
 
 dependencies {
