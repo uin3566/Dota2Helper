@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.callback.WatchedVideoDeleteCallback;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
@@ -64,7 +65,7 @@ public class WatchedVideoActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
-                if (menuItemId == R.id.action_edit) {
+                if (menuItemId == R.id.action_edit && mAdapter.getItemCount() > 0) {
                     mIsEditState = !mIsEditState;
                     updateMenuTitle(item);
                     mAdapter.updateState(mIsEditState);
@@ -96,7 +97,14 @@ public class WatchedVideoActivity extends BaseActivity {
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                int videoCount = mAdapter.getItemCount();
+                int deleteCount = mAdapter.deleteSelectedVideo();
+                if (videoCount == deleteCount) {
+                    //delete all
+                    mSelectDeleteControllers.setVisibility(View.GONE);
+                    mIsEditState = false;
+                    updateMenuTitle(mToolbar.getMenu().getItem(0));
+                }
             }
         });
         VideoCacheManager.INSTANCE.getWatchedVideo();

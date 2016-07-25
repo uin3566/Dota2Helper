@@ -14,10 +14,12 @@ import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
 import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.fangxu.dota2helper.util.DateUtil;
+import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -55,6 +57,24 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             notifyVideoSelectCount();
         }
         notifyDataSetChanged();
+    }
+
+    public int deleteSelectedVideo() {
+        Set<String> selectedVideosCopy = new HashSet<>(mSelectedVideos);
+        VideoCacheManager.INSTANCE.deleteSelectedVideo(selectedVideosCopy, null);
+        Iterator<GreenWatchedVideo> iterator = mData.iterator();
+        while (iterator.hasNext()) {
+            GreenWatchedVideo video = iterator.next();
+            String key = video.getVideoyoukuvid();
+            if (selectedVideosCopy.contains(key)) {
+                iterator.remove();
+            }
+        }
+        int deleteCount = mSelectedVideos.size();
+        mSelectedVideos.clear();
+        notifyDataSetChanged();
+        notifyVideoSelectCount();
+        return deleteCount;
     }
 
     public void selectAll() {
