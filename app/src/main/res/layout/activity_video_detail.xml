@@ -101,6 +101,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_up"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/base_margin"
@@ -122,6 +123,14 @@
                             android:textColor="@color/content_text"
                             android:textSize="@dimen/video_info_area_common_text_size"/>
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_download"
+                        android:layout_toLeftOf="@id/ll_up"
+                        android:layout_marginRight="@dimen/base_margin"
+                        android:scaleType="fitCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
 
                 </RelativeLayout>
 
@@ -266,11 +275,11 @@
 
         </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/fl_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/grey"/>
+        <!--<FrameLayout-->
+            <!--android:id="@+id/fl_empty_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/grey"/>-->
 
     </RelativeLayout>
 

@@ -56,7 +56,7 @@ public class NewsVideoActivity extends BaseVideoActivity {
     @Override
     protected void cacheWatchedVideo() {
         super.cacheWatchedVideo();
-        if (mIsVideoStarted) {
+        if (mIsVideoStarted || mIsVideoEnded) {
             VideoCacheManager.INSTANCE.cacheWatchedVideo(mVid, mBackgroundUrl, mTitle
                     , mVideoDurationMillis, mCurrentPlayTimeMills, mIsVideoEnded);
         }
