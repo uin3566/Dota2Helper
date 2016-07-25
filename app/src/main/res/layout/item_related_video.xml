@@ -58,6 +58,6 @@
         android:layout_alignLeft="@id/tv_title"
         android:layout_centerVertical="true"
         android:textColor="@color/content_text"
-        android:textSize="@dimen/content_text_size"/>
+        android:textSize="@dimen/content_text_size" />
 
 </RelativeLayout>

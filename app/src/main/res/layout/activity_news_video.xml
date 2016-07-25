@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/grey"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -22,7 +22,7 @@
         android:lineSpacingExtra="@dimen/dimen_2dp"
         android:textColor="@color/black"
         android:textSize="@dimen/title_text_size_big"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -32,7 +32,7 @@
         android:layout_marginTop="@dimen/base_little_margin"
         android:textColor="@color/black"
         android:textSize="@dimen/content_text_size"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/v_divider"
@@ -41,7 +41,7 @@
         android:layout_marginLeft="@dimen/base_margin"
         android:layout_marginRight="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
-        android:background="@color/grey_dark"/>
+        android:background="@color/grey_dark" />
 
     <TextView
         android:id="@+id/tv_description"
@@ -53,7 +53,7 @@
         android:layout_marginTop="@dimen/base_margin"
         android:lineSpacingExtra="@dimen/dimen_3dp"
         android:textColor="@color/black_light"
-        android:textSize="@dimen/content_text_size_big"/>
+        android:textSize="@dimen/content_text_size_big" />
 
     <com.youku.player.base.YoukuPlayerView
         android:id="@+id/youku_player"
@@ -69,14 +69,14 @@
                 android:id="@+id/iv_blur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/iv_play"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_video_play"/>
+                android:src="@drawable/ic_video_play_big" />
         </RelativeLayout>
     </com.youku.player.base.YoukuPlayerView>
 
