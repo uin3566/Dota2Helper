@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,12 +22,14 @@ import com.fangxu.dota2helper.ui.widget.SelectButton;
 import com.fangxu.dota2helper.util.NumberConversion;
 import com.fangxu.dota2helper.util.ToastUtil;
 import com.fangxu.dota2helper.util.VideoCacheManager;
+import com.youku.service.download.DownloadManager;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -141,6 +144,13 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
 
     private void onVidChanged() {
         mIsVideoStarted = false;
+    }
+
+    @OnClick(R.id.iv_download)
+    public void onClickDownload(View view) {
+        DownloadManager downloadManager = DownloadManager.getInstance();
+        downloadManager.createDownload(mVid, mTitle, null);
+        ToastUtil.showToast(this, "已添加至缓存");
     }
 
     @Override

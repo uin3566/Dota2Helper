@@ -3,10 +3,9 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.os.Bundle;
 
 /**
- * Created by Administrator on 2016/7/25.
+ * Created by Administrator on 2016/7/26.
  */
-public class CacheVideoListActivity extends BaseActivity {
-
+public class CachingVideoListActivity extends BaseActivity {
     @Override
     protected int getLayoutResId() {
         return 0;
