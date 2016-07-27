@@ -5,11 +5,14 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.fangxu.dota2helper.ui.Activity.CachedVideoListActivity;
+import com.fangxu.dota2helper.ui.Activity.CachingVideoListActivity;
 import com.fangxu.dota2helper.util.GreenDaoHelper;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.google.gson.Gson;
 import com.squareup.leakcanary.LeakCanary;
 import com.youku.player.YoukuPlayerBaseConfiguration;
+
 
 /**
  * Created by Xuf on 2016/4/3.
@@ -24,7 +27,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         initYoukuConfiguration();
         initClientId();
         initGreenDao();
@@ -64,12 +67,12 @@ public class MyApp extends Application {
         configuration = new YoukuPlayerBaseConfiguration(this) {
             @Override
             public Class<? extends Activity> getCachingActivityClass() {
-                return null;
+                return CachingVideoListActivity.class;
             }
 
             @Override
             public Class<? extends Activity> getCachedActivityClass() {
-                return null;
+                return CachedVideoListActivity.class;
             }
 
             @Override

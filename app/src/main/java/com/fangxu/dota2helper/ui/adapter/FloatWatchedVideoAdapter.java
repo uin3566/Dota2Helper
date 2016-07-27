@@ -18,7 +18,6 @@ import com.fangxu.dota2helper.util.DateUtil;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -28,39 +27,21 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/7/19.
  */
-public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatchedVideo> implements
-        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>, CommonRecyclerAdapter.ItemClickListener {
-    private Context mContext;
+public class FloatWatchedVideoAdapter extends BaseVideoListAdapter<GreenWatchedVideo> implements
+        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private DateUtil mDateUtil;
-    private boolean mIsEditState = false;
-    private WatchedVideoSelectCountCallback mCountCallback;
-
-    private Set<String> mSelectedVideos;
 
     public FloatWatchedVideoAdapter(Context context) {
         this(context, null);
     }
 
     public FloatWatchedVideoAdapter(Context context, WatchedVideoSelectCountCallback callback) {
-        super(context);
-        mContext = context;
+        super(context, callback);
         mDateUtil = new DateUtil();
-        mSelectedVideos = new HashSet<>();
-        mCountCallback = callback;
-        setItemClickListener(this);
     }
 
-    public void updateState(boolean isEditState) {
-        mIsEditState = isEditState;
-        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
-        if (!mIsEditState) {
-            mSelectedVideos.clear();
-            notifyVideoSelectCount();
-        }
-        notifyDataSetChanged();
-    }
-
-    public int deleteSelectedVideo() {
+    @Override
+    public int deleteSelected() {
         Set<String> selectedVideosCopy = new HashSet<>(mSelectedVideos);
         VideoCacheManager.INSTANCE.deleteSelectedVideo(selectedVideosCopy);
         Iterator<GreenWatchedVideo> iterator = mData.iterator();
@@ -78,6 +59,23 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
         return deleteCount;
     }
 
+    @Override
+    public String getYkVid(int position) {
+        return getItem(position).getVideoyoukuvid();
+    }
+
+    @Override
+    public void updateState(boolean isEditState) {
+        mIsEditState = isEditState;
+        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
+        if (!mIsEditState) {
+            mSelectedVideos.clear();
+            notifyVideoSelectCount();
+        }
+        notifyDataSetChanged();
+    }
+
+    @Override
     public void selectAll() {
         if (mSelectedVideos.isEmpty()) {
             for (GreenWatchedVideo video : mData) {
@@ -96,14 +94,9 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
         notifyVideoSelectCount();
     }
 
-    private void notifyVideoSelectCount() {
-        if (mCountCallback != null) {
-            mCountCallback.onWatchedVideoSelect(mSelectedVideos.size());
-        }
-    }
-
     @Override
-    public void onItemClick(int position) {
+    protected void onClickItem(int position) {
+        super.onClickItem(position);
         GreenWatchedVideo video = getItem(position);
         if (mIsEditState) {
             String ykvid = video.getVideoyoukuvid();
@@ -118,16 +111,6 @@ public class FloatWatchedVideoAdapter extends CommonRecyclerAdapter<GreenWatched
             VideoPlayerActivity.toVideoPlayerActivity(mContext, video.getVideotitle(), null, null
                     , video.getVideobackground(), video.getVideoyoukuvid());
         }
-    }
-
-    @Override
-    public void onHeaderClick() {
-
-    }
-
-    @Override
-    public void onFooterClick() {
-
     }
 
     @Override

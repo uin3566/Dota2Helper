@@ -30,4 +30,10 @@
         <item name="android:textSize">@dimen/title_text_size</item>
     </style>
 
+    <style name="DownloadProgressStyle" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:minHeight">@dimen/dimen_1dp</item>
+        <item name="android:maxHeight">@dimen/dimen_1dp</item>
+        <item name="android:progressDrawable">@drawable/progress_download</item>
+    </style>
+
 </resources>

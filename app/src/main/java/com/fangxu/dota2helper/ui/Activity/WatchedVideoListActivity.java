@@ -29,47 +29,11 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/7/19.
  */
-public class WatchedVideoListActivity extends BaseActivity {
-    @Bind(R.id.recycler_watched_videos)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.fl_empty_view)
-    FrameLayout mEmptyView;
-    @Bind(R.id.ll_select_delete_controllers)
-    LinearLayout mSelectDeleteControllers;
-    @Bind(R.id.cb_delete)
-    CountButton mDeleteButton;
-
-    private FloatWatchedVideoAdapter mAdapter;
-    private boolean mIsEditState = false;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_watched_video;
-    }
-
+public class WatchedVideoListActivity extends BaseVideoListActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         BusProvider.getInstance().register(this);
-
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int menuItemId = item.getItemId();
-                if (menuItemId == R.id.action_edit && mAdapter.getItemCount() > 0) {
-                    mIsEditState = !mIsEditState;
-                    updateMenuTitle(item);
-                    mAdapter.updateState(mIsEditState);
-                    mSelectDeleteControllers.setVisibility(mIsEditState ? View.VISIBLE : View.GONE);
-                }
-                return true;
-            }
-        });
 
         mAdapter = new FloatWatchedVideoAdapter(this, new WatchedVideoSelectCountCallback() {
             @Override
@@ -81,7 +45,7 @@ public class WatchedVideoListActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        final StickyRecyclerHeadersDecoration decoration = new StickyRecyclerHeadersDecoration(mAdapter);
+        final StickyRecyclerHeadersDecoration decoration = new StickyRecyclerHeadersDecoration((FloatWatchedVideoAdapter)mAdapter);
         mRecyclerView.addItemDecoration(decoration);
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -90,39 +54,7 @@ public class WatchedVideoListActivity extends BaseActivity {
             }
         });
 
-        mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int videoCount = mAdapter.getItemCount();
-                int deleteCount = mAdapter.deleteSelectedVideo();
-                if (videoCount == deleteCount) {
-                    //delete all
-                    mSelectDeleteControllers.setVisibility(View.GONE);
-                    mIsEditState = false;
-                    updateMenuTitle(mToolbar.getMenu().getItem(0));
-                }
-            }
-        });
         VideoCacheManager.INSTANCE.getWatchedVideo();
-    }
-
-    private void updateMenuTitle(MenuItem item) {
-        if (mIsEditState) {
-            item.setTitle(R.string.cancel);
-        } else {
-            item.setTitle(R.string.edit);
-        }
-    }
-
-    @OnClick(R.id.tv_select_all)
-    public void clickSelectAll(View selectAll) {
-        mAdapter.selectAll();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_watched_video, menu);
-        return true;
     }
 
     @Subscribe
@@ -138,11 +70,6 @@ public class WatchedVideoListActivity extends BaseActivity {
         } else {
             mEmptyView.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    protected boolean applySystemBarDrawable() {
-        return true;
     }
 
     @Override

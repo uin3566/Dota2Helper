@@ -38,4 +38,8 @@
         <attr name="tb_unselect_background" format="reference"/>
         <attr name="tb_select_background" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="CountButton">
+        <attr name="cb_text" format="reference|string"/>
+    </declare-styleable>
 </resources>

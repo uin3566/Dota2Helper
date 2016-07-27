@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingRight="@dimen/base_margin"
+        android:layout_height="@dimen/caching_video_header_height">
+
+        <ImageView
+            android:id="@+id/iv_downloading_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/base_margin"
+            android:layout_marginTop="@dimen/base_margin"
+            android:src="@drawable/ic_download_header" />
+
+        <com.fangxu.dota2helper.ui.widget.CountButton
+            android:id="@+id/cb_downloading_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_downloading_icon"
+            android:layout_toRightOf="@id/iv_downloading_icon"
+            app:cb_text="@string/caching_video" />
+
+        <LinearLayout
+            android:id="@+id/ll_size_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/cb_downloading_count"
+            android:layout_marginTop="@dimen/base_little_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_cached_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="12m"
+                android:textSize="@dimen/content_text_size" />
+
+            <View
+                android:layout_width="@dimen/dimen_0.5dp"
+                android:layout_height="@dimen/dimen_10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/base_little_margin"
+                android:background="@color/grey_dark" />
+
+            <TextView
+                android:id="@+id/tv_video_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/base_little_margin"
+                android:text="12m"
+                android:textSize="@dimen/content_text_size" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ll_size_container"
+            android:layout_toLeftOf="@id/ll_size_container"
+            android:layout_toRightOf="@id/iv_downloading_icon"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="哈哈哈哈哈哈哈哈哈哈哈就"
+            android:textSize="@dimen/content_text_size" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/DownloadProgressStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="@dimen/base_little_margin"
+            android:layout_toRightOf="@id/iv_downloading_icon" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_margin"
+        android:background="@color/grey" />
+
+</LinearLayout>

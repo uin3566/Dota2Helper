@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin">
+
+    <com.fangxu.dota2helper.ui.widget.TickButton
+        android:id="@+id/tb_select"
+        android:layout_width="@dimen/select_tick_size"
+        android:layout_height="@dimen/select_tick_size"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/base_little_margin"
+        android:visibility="gone"
+        app:tb_select_background="@drawable/ic_tick_filled"
+        app:tb_unselect_background="@drawable/shape_tick_empty" />
+
+    <RelativeLayout
+        android:id="@+id/rl_background_container"
+        android:layout_width="@dimen/related_video_list_image_width"
+        android:layout_height="@dimen/news_list_image_height"
+        android:layout_marginBottom="@dimen/news_list_image_margin"
+        android:layout_marginTop="@dimen/news_list_image_margin"
+        android:layout_toRightOf="@id/tb_select">
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_primary"
+            android:scaleType="centerCrop" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.5dp"
+        android:layout_below="@id/rl_background_container"
+        android:background="@color/grey_light" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rl_background_container"
+        android:layout_alignTop="@id/rl_background_container"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_toRightOf="@id/rl_background_container"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="kdfjls"
+            android:textColor="@color/title_text"
+            android:textSize="@dimen/title_text_size" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="@style/DownloadProgressStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            android:id="@+id/tv_cache_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/progressbar"
+            android:layout_marginBottom="@dimen/base_little_margin"
+            android:text="缓存开始"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_video_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/progressbar"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/base_little_margin"
+            android:text="123.3m"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/progressbar"
+            android:layout_marginBottom="@dimen/base_little_margin"
+            android:layout_marginRight="@dimen/dimen_1dp"
+            android:layout_toLeftOf="@id/tv_video_size"
+            android:text="/"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_cached_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/progressbar"
+            android:layout_marginBottom="@dimen/base_little_margin"
+            android:layout_marginRight="@dimen/dimen_1dp"
+            android:layout_toLeftOf="@id/tv_divider"
+            android:text="12.3m"
+            android:textSize="@dimen/content_text_size" />
+    </RelativeLayout>
+
+</RelativeLayout>

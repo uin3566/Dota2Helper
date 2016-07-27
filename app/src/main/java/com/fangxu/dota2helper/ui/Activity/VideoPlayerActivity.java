@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -150,7 +151,6 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
     public void onClickDownload(View view) {
         DownloadManager downloadManager = DownloadManager.getInstance();
         downloadManager.createDownload(mVid, mTitle, null);
-        ToastUtil.showToast(this, "已添加至缓存");
     }
 
     @Override

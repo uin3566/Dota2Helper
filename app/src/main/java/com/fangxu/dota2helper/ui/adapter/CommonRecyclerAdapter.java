@@ -65,6 +65,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     }
 
+    protected void onClickItem(int position) {
+
+    }
+
     protected void onClickFooter() {
 
     }
@@ -107,7 +111,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         if (mNeedIntervalController.mHeaderIntervalSwitchOn && System.currentTimeMillis() - mClickHeaderTime <= quickClickInterval) {
             return;
         }
-        mItemClickListener.onHeaderClick();
+        if (mItemClickListener != null) {
+            mItemClickListener.onHeaderClick();
+
+        }
         onClickHeader();
         mClickHeaderTime = System.currentTimeMillis();
     }
@@ -116,7 +123,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         if (mNeedIntervalController.mItemIntervalSwitchOn && System.currentTimeMillis() - mClickItemTime <= quickClickInterval) {
             return;
         }
-        mItemClickListener.onItemClick(position);
+        if (mItemClickListener != null) {
+            mItemClickListener.onItemClick(position);
+        }
+        onClickItem(position);
         mClickItemTime = System.currentTimeMillis();
     }
 
@@ -124,7 +134,9 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         if (mNeedIntervalController.mFooterIntervalSwitchOn && System.currentTimeMillis() - mClickFooterTime <= quickClickInterval) {
             return;
         }
-        mItemClickListener.onFooterClick();
+        if (mItemClickListener != null) {
+            mItemClickListener.onFooterClick();
+        }
         onClickFooter();
         mClickFooterTime = System.currentTimeMillis();
     }
@@ -159,36 +171,34 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     @Override
     public void onBindViewHolder(CommonViewHolder holder, final int position) {
-        if (mItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean clicked = false;
-                    if (mHasHeader && mHasFooter) {
-                        if (position == 0) {
-                            clicked = true;
-                            headerClick();
-                        } else if (position == getItemCount() - 1) {
-                            clicked = true;
-                            footerClick();
-                        }
-                    } else if (mHasHeader) {
-                        if (position == 0) {
-                            clicked = true;
-                            headerClick();
-                        }
-                    } else if (mHasFooter) {
-                        if (position == getItemCount() - 1) {
-                            clicked = true;
-                            footerClick();
-                        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean clicked = false;
+                if (mHasHeader && mHasFooter) {
+                    if (position == 0) {
+                        clicked = true;
+                        headerClick();
+                    } else if (position == getItemCount() - 1) {
+                        clicked = true;
+                        footerClick();
                     }
-                    if (!clicked) {
-                        itemClick(position);
+                } else if (mHasHeader) {
+                    if (position == 0) {
+                        clicked = true;
+                        headerClick();
+                    }
+                } else if (mHasFooter) {
+                    if (position == getItemCount() - 1) {
+                        clicked = true;
+                        footerClick();
                     }
                 }
-            });
-        }
+                if (!clicked) {
+                    itemClick(position);
+                }
+            }
+        });
         holder.fillView(position);
     }
 

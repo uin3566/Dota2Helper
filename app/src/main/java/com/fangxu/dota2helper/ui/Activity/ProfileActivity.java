@@ -53,9 +53,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         ProfileItemLayout toMyGitHub = ButterKnife.findById(contentView, R.id.pil_my_github);
         ProfileItemLayout toMyProject = ButterKnife.findById(contentView, R.id.pil_my_project);
         ProfileItemLayout toWatchedVideo = ButterKnife.findById(contentView, R.id.pil_watched_video);
+        ProfileItemLayout toCachedVideo = ButterKnife.findById(contentView, R.id.pil_cached_video);
         toMyGitHub.setOnClickListener(this);
         toMyProject.setOnClickListener(this);
         toWatchedVideo.setOnClickListener(this);
+        toCachedVideo.setOnClickListener(this);
 
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
@@ -84,6 +86,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.pil_watched_video:
                 Intent intent = new Intent(this, WatchedVideoListActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.pil_cached_video:
+                intent = new Intent(this, CachedVideoListActivity.class);
                 startActivity(intent);
                 break;
         }

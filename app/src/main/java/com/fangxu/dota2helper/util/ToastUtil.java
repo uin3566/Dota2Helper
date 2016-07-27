@@ -3,8 +3,6 @@ package com.fangxu.dota2helper.util;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.fangxu.dota2helper.MyApp;
-
 /**
  * Created by lenov0 on 2016/4/13.
  */

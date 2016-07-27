@@ -33,6 +33,7 @@
     <string name="select_all">全选</string>
     <string name="delete">删除</string>
     <string name="cached_video">缓存视频</string>
+    <string name="caching_video">正在缓存</string>
     <string name="clear_cache">清空缓存</string>
     <string name="my_github">我的GitHub</string>
     <string name="my_github_url">https://github.com/uin3566</string>
