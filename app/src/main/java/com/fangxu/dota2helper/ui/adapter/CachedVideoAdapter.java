@@ -43,11 +43,7 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         }
 
         mDownloadingInfo = downloadingInfo;
-        if (mDownloadingInfo.getDownloadingCount() > 0) {
-            setHasHeader(true);
-        } else {
-            setHasHeader(false);
-        }
+        setHasHeader(mDownloadingInfo.getDownloadingCount() > 0);
         notifyDataSetChanged();
     }
 

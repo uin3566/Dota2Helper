@@ -69,7 +69,7 @@ public abstract class BaseVideoListActivity extends BaseActivity {
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int videoCount = mAdapter.getItemCount();
+                int videoCount = mAdapter.getDataItemCount();
                 int deleteCount = mAdapter.deleteSelected();
                 if (videoCount == deleteCount) {
                     //delete all

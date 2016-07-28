@@ -20,8 +20,6 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
     protected boolean mIsEditState = false;
     protected DecimalFormat mDecimalFormat;
 
-    public abstract void updateState(boolean isEditState);
-
     public abstract int deleteSelected();
 
     public abstract void selectAll();
@@ -52,6 +50,16 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
         return size + "MB";
     }
 
+    public void updateState(boolean isEditState) {
+        mIsEditState = isEditState;
+        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
+        if (!mIsEditState) {
+            mSelectedVideos.clear();
+            notifyVideoSelectCount();
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     protected void onClickItem(int position) {
         super.onClickItem(position);
@@ -64,8 +72,6 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
             }
             notifyDataSetChanged();
             notifyVideoSelectCount();
-        } else {
-
         }
     }
 

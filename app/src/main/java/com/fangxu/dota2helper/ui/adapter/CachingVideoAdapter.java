@@ -28,9 +28,8 @@ import butterknife.Bind;
  * Created by dear33 on 2016/7/27.
  */
 public class CachingVideoAdapter extends BaseCacheVideoAdapter {
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private Handler mHandler = new Handler(Looper.getMainLooper());
     private int mCurrentCachingPos = -1;
-    private String mCurrentTaskId = null;
     private int mPauseCount = 0;
 
     private HeaderViewHolder mHeaderViewHolder;
@@ -44,34 +43,26 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     }
 
     public void updateDownloadingView(DownloadInfo downloadInfo) {
-        if (mCurrentTaskId == null) {
-            mCurrentTaskId = downloadInfo.taskId;
+        if (mCurrentCachingPos != -1) {
+            notifyUi(downloadInfo);
         } else {
-            if (mCurrentTaskId.equals(downloadInfo.taskId)) {
-                if (mCurrentCachingPos != -1) {
-                    notifyUi(downloadInfo);
-                } else {
-                    for (int i = 0, count = getItemCount(); i < count; i++) {
-                        DownloadInfo info = getItem(i);
-                        if (info == null) {
-                            continue;
-                        }
-                        if (info.videoid.equals(downloadInfo.videoid)) {
-                            mCurrentCachingPos = i;
-                            notifyUi(downloadInfo);
-                            break;
-                        }
-                    }
+            for (int i = 0, count = getItemCount(); i < count; i++) {
+                DownloadInfo info = getItem(i);
+                if (info == null) {
+                    continue;
                 }
-            } else {
-                updateData();
+                if (info.videoid.equals(downloadInfo.videoid)) {
+                    mCurrentCachingPos = i;
+                    notifyUi(downloadInfo);
+                    break;
+                }
             }
         }
     }
 
     private void notifyUi(DownloadInfo downloadInfo) {
         setItem(mCurrentCachingPos, downloadInfo);
-        handler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 notifyDataSetChanged();
@@ -81,27 +72,18 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
 
     public void deleteDownloadedView() {
         updateData();
-        mCurrentCachingPos = -1;
     }
 
     @Override
     public void updateState(boolean isEditState) {
-        if (isEditState) {
-            setHasHeader(false);
-        } else {
-            setHasHeader(true);
-        }
+        setHasHeader(!isEditState && !mData.isEmpty());
         super.updateState(isEditState);
     }
 
     @Override
     public void setData(List<DownloadInfo> data) {
+        setHasHeader(!mIsEditState && !data.isEmpty());
         super.setData(data);
-        if (data.isEmpty()) {
-            setHasHeader(false);
-        } else {
-            setHasHeader(true);
-        }
     }
 
     private void updateData() {
@@ -112,7 +94,18 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
             DownloadInfo info = (DownloadInfo) entry.getValue();
             mData.add(info);
         }
-        notifyDataSetChanged();
+        setHasHeader(!mIsEditState && !mData.isEmpty());
+        mCurrentCachingPos = -1;
+        if (mIsEditState && mData.isEmpty()) {
+            updateState(false);
+        } else {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override
@@ -162,18 +155,20 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     @Override
     protected void onClickItem(int position) {
         super.onClickItem(position);
-        DownloadInfo info = getItem(position);
-        if (info.state == DownloadInfo.STATE_DOWNLOADING
-                || info.state == DownloadInfo.STATE_WAITING
-                || info.state == DownloadInfo.STATE_INIT
-                || info.state == DownloadInfo.STATE_EXCEPTION) {
-            DownloadManager.getInstance().pauseDownload(info.taskId);
-            mPauseCount++;
-        } else if (info.state == DownloadInfo.STATE_PAUSE) {
-            DownloadManager.getInstance().startDownload(info.taskId);
-            mPauseCount--;
+        if (!mIsEditState) {
+            DownloadInfo info = getItem(position);
+            if (info.state == DownloadInfo.STATE_DOWNLOADING
+                    || info.state == DownloadInfo.STATE_WAITING
+                    || info.state == DownloadInfo.STATE_INIT
+                    || info.state == DownloadInfo.STATE_EXCEPTION) {
+                DownloadManager.getInstance().pauseDownload(info.taskId);
+                mPauseCount++;
+            } else if (info.state == DownloadInfo.STATE_PAUSE) {
+                DownloadManager.getInstance().startDownload(info.taskId);
+                mPauseCount--;
+            }
+            updateData();
         }
-        updateData();
     }
 
     public class HeaderViewHolder extends CommonViewHolder {

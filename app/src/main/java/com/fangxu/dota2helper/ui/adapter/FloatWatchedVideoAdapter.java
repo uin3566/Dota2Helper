@@ -65,17 +65,6 @@ public class FloatWatchedVideoAdapter extends BaseVideoListAdapter<GreenWatchedV
     }
 
     @Override
-    public void updateState(boolean isEditState) {
-        mIsEditState = isEditState;
-        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
-        if (!mIsEditState) {
-            mSelectedVideos.clear();
-            notifyVideoSelectCount();
-        }
-        notifyDataSetChanged();
-    }
-
-    @Override
     public void selectAll() {
         if (mSelectedVideos.isEmpty()) {
             for (GreenWatchedVideo video : mData) {
@@ -98,16 +87,7 @@ public class FloatWatchedVideoAdapter extends BaseVideoListAdapter<GreenWatchedV
     protected void onClickItem(int position) {
         super.onClickItem(position);
         GreenWatchedVideo video = getItem(position);
-        if (mIsEditState) {
-            String ykvid = video.getVideoyoukuvid();
-            if (mSelectedVideos.contains(ykvid)) {
-                mSelectedVideos.remove(ykvid);
-            } else {
-                mSelectedVideos.add(ykvid);
-            }
-            notifyDataSetChanged();
-            notifyVideoSelectCount();
-        } else {
+        if (!mIsEditState) {
             VideoPlayerActivity.toVideoPlayerActivity(mContext, video.getVideotitle(), null, null
                     , video.getVideobackground(), video.getVideoyoukuvid());
         }

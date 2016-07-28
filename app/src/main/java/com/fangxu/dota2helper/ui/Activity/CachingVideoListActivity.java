@@ -20,7 +20,6 @@ import java.util.Map;
  * Created by Administrator on 2016/7/26.
  */
 public class CachingVideoListActivity extends BaseVideoListActivity implements OnChangeListener {
-
     @Override
     protected void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
@@ -33,8 +32,6 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        setData();
     }
 
     private void setData() {
@@ -53,6 +50,7 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
     protected void onResume() {
         super.onResume();
         DownloadManager.getInstance().setOnChangeListener(this);
+        setData();
     }
 
     @Override
@@ -68,11 +66,15 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
 
     @Override
     public void onChanged(DownloadInfo info) {
-        ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
+        Log.i("SBSBDSB", "onChanged info title:" + info.title + ",info progress:" + info.progress);
+        if (info.state == DownloadInfo.STATE_DOWNLOADING && !mIsEditState) {
+            ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
+        }
     }
 
     @Override
     public void onFinish() {
+        Log.i("SBSBDSB", "onFinish");
         ((CachingVideoAdapter) mAdapter).deleteDownloadedView();
     }
 

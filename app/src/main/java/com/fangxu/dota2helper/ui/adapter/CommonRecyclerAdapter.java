@@ -181,6 +181,10 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         return ITEM_NORMAL;
     }
 
+    public int getDataItemCount() {
+        return mData.size();
+    }
+
     @Override
     public int getItemCount() {
         int dataSize = mData.size();

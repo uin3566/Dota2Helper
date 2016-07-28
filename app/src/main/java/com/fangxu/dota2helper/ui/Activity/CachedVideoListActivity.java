@@ -37,20 +37,45 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        setData();
     }
 
     private void setData() {
-        Iterator iterator = DownloadManager.getInstance().getDownloadedData().entrySet().iterator();
+        Iterator iter1 = DownloadManager.getInstance().getDownloadedData().entrySet().iterator();
         List<DownloadInfo> downloadInfoList = new ArrayList<>();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
+        while (iter1.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter1.next();
             DownloadInfo downloadInfo = (DownloadInfo) entry.getValue();
             downloadInfoList.add(downloadInfo);
         }
 
         mDownloadingInfo = new DownloadingInfo();
+        Map downloadingMap = DownloadManager.getInstance().getDownloadingData();
+        if (downloadingMap.isEmpty()) {
+            mDownloadingInfo.setFirstDownloadingInfo(null);
+            mDownloadingInfo.setDownloadingCount(0);
+        } else {
+            boolean firstInfoSetted = false;
+            Iterator iter2 = downloadingMap.entrySet().iterator();
+            DownloadInfo firstInfo = null;
+            while (iter2.hasNext()) {
+                Map.Entry entry = (Map.Entry)iter2.next();
+                DownloadInfo downloadInfo = (DownloadInfo)entry.getValue();
+                if (firstInfo == null) {
+                    firstInfo = downloadInfo;
+                }
+                if (downloadInfo.state == DownloadInfo.STATE_DOWNLOADING) {
+                    mDownloadingInfo.setFirstDownloadingInfo(downloadInfo);
+                    firstInfoSetted = true;
+                    break;
+                }
+            }
+            if (!firstInfoSetted) {
+                mDownloadingInfo.setFirstDownloadingInfo(firstInfo);
+            }
+            mDownloadingInfo.setDownloadingCount(downloadingMap.size());
+        }
+        ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo, false);
+
         mAdapter.setData(downloadInfoList);
     }
 
@@ -63,6 +88,7 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
     @Override
     protected void onResume() {
         super.onResume();
+        setData();
         DownloadManager.getInstance().setOnChangeListener(this);
     }
 
@@ -77,8 +103,10 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
     @Override
     public void onChanged(DownloadInfo info) {
         Log.d("DXXXCachEDActivity", "onChanged, progress=" + info.progress);
-        mDownloadInfo = info;
-        updateDownloadingInfo(false);
+        if (info.state == DownloadInfo.STATE_DOWNLOADING) {
+            mDownloadInfo = info;
+            updateDownloadingInfo(false);
+        }
     }
 
     @Override
@@ -88,9 +116,8 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
     }
 
     private void updateDownloadingInfo(final boolean downloaded) {
-        Map<String, DownloadInfo> downloadingInfoMap = DownloadManager.getInstance().getDownloadingData();
         mDownloadingInfo.setFirstDownloadingInfo(mDownloadInfo);
-        mDownloadingInfo.setDownloadingCount(downloadingInfoMap.size());
+        mDownloadingInfo.setDownloadingCount(DownloadManager.getInstance().getDownloadingData().size());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

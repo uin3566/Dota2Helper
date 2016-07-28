@@ -24,13 +24,6 @@ public abstract class BaseCacheVideoAdapter extends BaseVideoListAdapter<Downloa
     }
 
     @Override
-    public void updateState(boolean isEditState) {
-        mIsEditState = isEditState;
-        mNeedIntervalController.mItemIntervalSwitchOn = !mIsEditState;
-        notifyDataSetChanged();
-    }
-
-    @Override
     public int deleteSelected() {
         Iterator<DownloadInfo> iterator = mData.iterator();
         while (iterator.hasNext()) {
