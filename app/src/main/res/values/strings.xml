@@ -32,6 +32,11 @@
     <string name="cancel">取消</string>
     <string name="select_all">全选</string>
     <string name="delete">删除</string>
+    <string name="downloading">正在下载</string>
+    <string name="waiting">等待中</string>
+    <string name="pausing">暂停中</string>
+    <string name="begin_all">全部开始</string>
+    <string name="pause_all">全部暂停</string>
     <string name="cached_video">缓存视频</string>
     <string name="caching_video">正在缓存</string>
     <string name="clear_cache">清空缓存</string>

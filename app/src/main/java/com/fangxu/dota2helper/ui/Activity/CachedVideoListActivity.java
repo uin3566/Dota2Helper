@@ -2,6 +2,7 @@ package com.fangxu.dota2helper.ui.Activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.DownloadingInfo;
@@ -49,58 +50,53 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
             downloadInfoList.add(downloadInfo);
         }
 
-        Map<String, DownloadInfo> downloadingInfoMap = DownloadManager.getInstance().getDownloadingData();
-        int size = downloadingInfoMap.size();
         mDownloadingInfo = new DownloadingInfo();
-        mDownloadingInfo.setDownloadingCount(downloadingInfoMap.size());
-        if (size == 0) {
-            mDownloadingInfo.setFirstDownloadingInfo(null);
-        } else {
-            iterator = downloadingInfoMap.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                DownloadInfo downloadInfo = (DownloadInfo) entry.getValue();
-                if (downloadInfo.state == DownloadInfo.STATE_DOWNLOADING
-                        || downloadInfo.state == DownloadInfo.STATE_PAUSE) {
-                    mDownloadingInfo.setFirstDownloadingInfo(downloadInfo);
-                    break;
-                }
-            }
-            if (mDownloadingInfo.getFirstDownloadingInfo() == null) {
-                iterator = downloadingInfoMap.entrySet().iterator();
-                Map.Entry entry = (Map.Entry) iterator.next();
-                DownloadInfo downloadInfo = (DownloadInfo) entry.getValue();
-                mDownloadingInfo.setFirstDownloadingInfo(downloadInfo);
-            }
-        }
-
-        DownloadManager.getInstance().setOnChangeListener(this);
-        ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo);
         mAdapter.setData(downloadInfoList);
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        DownloadManager.getInstance().setOnChangeListener(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DownloadManager.getInstance().setOnChangeListener(this);
+    }
+
+    @Override
+    protected boolean menuEditEnable() {
+        if (mDownloadingInfo.getDownloadingCount() > 0) {
+            return mAdapter.getItemCount() > 1;
+        }
+        return mAdapter.getItemCount() > 0;
+    }
+
+    @Override
     public void onChanged(DownloadInfo info) {
+        Log.d("DXXXCachEDActivity", "onChanged, progress=" + info.progress);
         mDownloadInfo = info;
-        updateDownloadingInfo();
+        updateDownloadingInfo(false);
     }
 
     @Override
     public void onFinish() {
-        updateDownloadingInfo();
+        Log.d("DXXXCachEDActivity", "onFinish");
+        updateDownloadingInfo(true);
     }
 
-    private void updateDownloadingInfo() {
+    private void updateDownloadingInfo(final boolean downloaded) {
         Map<String, DownloadInfo> downloadingInfoMap = DownloadManager.getInstance().getDownloadingData();
         mDownloadingInfo.setFirstDownloadingInfo(mDownloadInfo);
         mDownloadingInfo.setDownloadingCount(downloadingInfoMap.size());
-        ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo);
-    }
-
-    @Override
-    protected void onDestroy() {
-        DownloadManager.getInstance().setOnChangeListener(null);
-        super.onDestroy();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo, downloaded);
+            }
+        });
     }
 
     @Override

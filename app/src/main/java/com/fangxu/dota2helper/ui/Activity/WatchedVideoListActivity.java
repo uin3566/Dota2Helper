@@ -73,6 +73,11 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
     }
 
     @Override
+    protected boolean menuEditEnable() {
+        return mAdapter.getItemCount() > 0;
+    }
+
+    @Override
     protected int getTitleResId() {
         return R.string.watch_video_history;
     }

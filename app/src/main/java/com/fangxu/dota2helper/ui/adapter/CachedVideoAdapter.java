@@ -37,9 +37,13 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         super(context, callback);
     }
 
-    public void setDownloadingInfo(DownloadingInfo downloadingInfo) {
+    public void setDownloadingInfo(DownloadingInfo downloadingInfo, boolean downloaded) {
+        if (downloaded) {
+            mData.add(downloadingInfo.getFirstDownloadingInfo());
+        }
+
         mDownloadingInfo = downloadingInfo;
-        if (downloadingInfo.getDownloadingCount() > 0) {
+        if (mDownloadingInfo.getDownloadingCount() > 0) {
             setHasHeader(true);
         } else {
             setHasHeader(false);

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
-import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.ui.adapter.CachingVideoAdapter;
 import com.youku.service.download.DownloadInfo;
 import com.youku.service.download.DownloadManager;
@@ -21,7 +20,6 @@ import java.util.Map;
  * Created by Administrator on 2016/7/26.
  */
 public class CachingVideoListActivity extends BaseVideoListActivity implements OnChangeListener {
-    private DownloadInfo mCurrentDownloadInfo;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -39,12 +37,6 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
         setData();
     }
 
-    @Override
-    protected void onDestroy() {
-        DownloadManager.getInstance().setOnChangeListener(null);
-        super.onDestroy();
-    }
-
     private void setData() {
         Iterator iterator = DownloadManager.getInstance().getDownloadingData().entrySet().iterator();
         List<DownloadInfo> downloadingInfoList = new ArrayList<>();
@@ -55,20 +47,33 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
         }
 
         mAdapter.setData(downloadingInfoList);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         DownloadManager.getInstance().setOnChangeListener(this);
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        DownloadManager.getInstance().setOnChangeListener(null);
+    }
+
+    @Override
+    protected boolean menuEditEnable() {
+        return mAdapter.getItemCount() > 0;
+    }
+
+    @Override
     public void onChanged(DownloadInfo info) {
-        Log.d("DownloadManagerXXX", "onChanged, progress=" + info.progress);
-        mCurrentDownloadInfo = info;
         ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
     }
 
     @Override
     public void onFinish() {
-        Log.d("DownloadManagerXXX", "onFinish");
-        ((CachingVideoAdapter) mAdapter).deleteDownloadedView(mCurrentDownloadInfo);
+        ((CachingVideoAdapter) mAdapter).deleteDownloadedView();
     }
 
     @Override

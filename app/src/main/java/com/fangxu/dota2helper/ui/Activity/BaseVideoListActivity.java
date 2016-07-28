@@ -32,6 +32,8 @@ public abstract class BaseVideoListActivity extends BaseActivity {
     protected boolean mIsEditState = false;
     protected BaseVideoListAdapter mAdapter;
 
+    protected abstract boolean menuEditEnable();
+
     @OnClick(R.id.tv_select_all)
     public void clickSelectAll(View selectAll) {
         mAdapter.selectAll();
@@ -54,7 +56,7 @@ public abstract class BaseVideoListActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
-                if (menuItemId == R.id.action_edit && mAdapter.getItemCount() > 0) {
+                if (menuItemId == R.id.action_edit && menuEditEnable()) {
                     mIsEditState = !mIsEditState;
                     updateMenuTitle(item);
                     mAdapter.updateState(mIsEditState);

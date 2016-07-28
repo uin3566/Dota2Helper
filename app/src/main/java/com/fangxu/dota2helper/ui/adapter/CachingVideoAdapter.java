@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,6 +18,10 @@ import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.youku.service.download.DownloadInfo;
 import com.youku.service.download.DownloadManager;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.Bind;
 
 /**
@@ -25,6 +30,10 @@ import butterknife.Bind;
 public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     private Handler handler = new Handler(Looper.getMainLooper());
     private int mCurrentCachingPos = -1;
+    private String mCurrentTaskId = null;
+    private int mPauseCount = 0;
+
+    private HeaderViewHolder mHeaderViewHolder;
 
     public CachingVideoAdapter(Context context) {
         this(context, null);
@@ -35,26 +44,33 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     }
 
     public void updateDownloadingView(DownloadInfo downloadInfo) {
-        if (mCurrentCachingPos != -1) {
-            notifyUi(downloadInfo, true);
+        if (mCurrentTaskId == null) {
+            mCurrentTaskId = downloadInfo.taskId;
         } else {
-            for (int i = 0; i < getItemCount(); i++) {
-                DownloadInfo info = getItem(i);
-                if (info.videoid.equals(downloadInfo.videoid)) {
-                    mCurrentCachingPos = i;
-                    notifyUi(downloadInfo, true);
-                    break;
+            if (mCurrentTaskId.equals(downloadInfo.taskId)) {
+                if (mCurrentCachingPos != -1) {
+                    notifyUi(downloadInfo);
+                } else {
+                    for (int i = 0, count = getItemCount(); i < count; i++) {
+                        DownloadInfo info = getItem(i);
+                        if (info == null) {
+                            continue;
+                        }
+                        if (info.videoid.equals(downloadInfo.videoid)) {
+                            mCurrentCachingPos = i;
+                            notifyUi(downloadInfo);
+                            break;
+                        }
+                    }
                 }
+            } else {
+                updateData();
             }
         }
     }
 
-    private void notifyUi(DownloadInfo downloadInfo, boolean update) {
-        if (update) {
-            mData.set(mCurrentCachingPos, downloadInfo);
-        } else {
-            mData.remove(downloadInfo);
-        }
+    private void notifyUi(DownloadInfo downloadInfo) {
+        setItem(mCurrentCachingPos, downloadInfo);
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -63,9 +79,40 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
         });
     }
 
-    public void deleteDownloadedView(DownloadInfo downloadInfo) {
-        notifyUi(downloadInfo, false);
+    public void deleteDownloadedView() {
+        updateData();
         mCurrentCachingPos = -1;
+    }
+
+    @Override
+    public void updateState(boolean isEditState) {
+        if (isEditState) {
+            setHasHeader(false);
+        } else {
+            setHasHeader(true);
+        }
+        super.updateState(isEditState);
+    }
+
+    @Override
+    public void setData(List<DownloadInfo> data) {
+        super.setData(data);
+        if (data.isEmpty()) {
+            setHasHeader(false);
+        } else {
+            setHasHeader(true);
+        }
+    }
+
+    private void updateData() {
+        mData.clear();
+        Iterator iterator = DownloadManager.getInstance().getDownloadingData().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            DownloadInfo info = (DownloadInfo) entry.getValue();
+            mData.add(info);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -75,13 +122,83 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
 
     @Override
     public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_caching_video, parent, false);
-        return new CachingVideoViewHolder(view);
+        CommonViewHolder viewHolder = null;
+        if (viewType == ITEM_HEADER) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_header_caching_controller, parent, false);
+            mHeaderViewHolder = new HeaderViewHolder(view);
+            return mHeaderViewHolder;
+        } else if (viewType == ITEM_NORMAL) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_caching_video, parent, false);
+            viewHolder = new CachingVideoViewHolder(view);
+        }
+        return viewHolder;
+    }
+
+    @Override
+    protected void onClickHeader() {
+        super.onClickHeader();
+        TextView controller = (TextView) mHeaderViewHolder.itemView;
+        if (controller.getText() == mContext.getResources().getString(R.string.pause_all)) {
+            for (DownloadInfo info : mData) {
+                if (info.state == DownloadInfo.STATE_DOWNLOADING
+                        || info.state == DownloadInfo.STATE_WAITING
+                        || info.state == DownloadInfo.STATE_INIT
+                        || info.state == DownloadInfo.STATE_EXCEPTION) {
+                    DownloadManager.getInstance().pauseDownload(info.taskId);
+                }
+            }
+            mPauseCount = getItemCount() - 1;
+        } else {
+            for (DownloadInfo info : mData) {
+                if (info.state == DownloadInfo.STATE_PAUSE) {
+                    DownloadManager.getInstance().startDownload(info.taskId);
+                }
+            }
+            mPauseCount = 0;
+        }
+        updateData();
+    }
+
+    @Override
+    protected void onClickItem(int position) {
+        super.onClickItem(position);
+        DownloadInfo info = getItem(position);
+        if (info.state == DownloadInfo.STATE_DOWNLOADING
+                || info.state == DownloadInfo.STATE_WAITING
+                || info.state == DownloadInfo.STATE_INIT
+                || info.state == DownloadInfo.STATE_EXCEPTION) {
+            DownloadManager.getInstance().pauseDownload(info.taskId);
+            mPauseCount++;
+        } else if (info.state == DownloadInfo.STATE_PAUSE) {
+            DownloadManager.getInstance().startDownload(info.taskId);
+            mPauseCount--;
+        }
+        updateData();
+    }
+
+    public class HeaderViewHolder extends CommonViewHolder {
+        @Bind(R.id.tv_controller_header)
+        TextView mController;
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void fillView(int position) {
+            if (mPauseCount < getItemCount() - 1) {
+                mController.setText(R.string.pause_all);
+            } else {
+                mController.setText(R.string.begin_all);
+            }
+        }
     }
 
     public class CachingVideoViewHolder extends CommonViewHolder {
         @Bind(R.id.iv_background)
         ImageView mBackground;
+        @Bind(R.id.fl_alpha_layer)
+        FrameLayout mAlphaLayer;
         @Bind(R.id.tv_title)
         TextView mTitle;
         @Bind(R.id.tb_select)
@@ -109,12 +226,15 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
             mCachedSize.setText(getVideoSize(info.downloadedSize));
 
             if (info.state == DownloadInfo.STATE_DOWNLOADING) {
-                mCacheState.setText("正在下载");
+                mCacheState.setText(R.string.downloading);
+                mAlphaLayer.setVisibility(View.GONE);
             } else if (info.state == DownloadInfo.STATE_PAUSE) {
-                mCacheState.setText("暂停中");
+                mCacheState.setText(R.string.pausing);
+                mAlphaLayer.setVisibility(View.VISIBLE);
             } else if (info.state == DownloadInfo.STATE_INIT || info.state == DownloadInfo.STATE_EXCEPTION
                     || info.state == DownloadInfo.STATE_WAITING) {
-                mCacheState.setText("等待中");
+                mCacheState.setText(R.string.waiting);
+                mAlphaLayer.setVisibility(View.GONE);
             }
 
             mProgressBar.setProgress((int) info.progress);

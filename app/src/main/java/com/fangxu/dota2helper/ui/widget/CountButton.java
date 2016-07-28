@@ -26,10 +26,13 @@ public class CountButton extends TextView {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CountButton, 0, 0);
         mStr = ta.getString(R.styleable.CountButton_cb_text);
         ta.recycle();
+
+        setText(mStr == null ? "" : mStr);
     }
 
     public void setContent(String str) {
         mStr = str;
+        setText(mStr);
     }
 
     public void setCount(int count) {

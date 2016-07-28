@@ -53,6 +53,14 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
         mLayoutInflater = LayoutInflater.from(context);
     }
 
+    public boolean isHasHeader() {
+        return mHasHeader;
+    }
+
+    public boolean isHasFooter() {
+        return mHasFooter;
+    }
+
     protected void setHasHeader(boolean hasHeader) {
         mHasHeader = hasHeader;
     }
@@ -84,6 +92,27 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
     public void setItemClickListener(ItemClickListener listener) {
         mItemClickListener = listener;
+    }
+
+    public void setItem(int position, T data) {
+        if (mHasHeader && mHasFooter) {//header and footer
+            if (position <= 0 || position >= getItemCount() - 1) {
+                return;
+            }
+            mData.set(position - 1, data);
+        } else if (mHasHeader) {//only header
+            if (position <= 0 || position >= getItemCount()) {
+                return;
+            }
+            mData.set(position - 1, data);
+        } else if (mHasFooter) {//only footer
+            if (position < 0 || position >= getItemCount() - 1) {
+                return;
+            }
+            mData.set(position, data);
+        } else {//no header and no footer
+            mData.set(position, data);
+        }
     }
 
     public T getItem(int position) {
