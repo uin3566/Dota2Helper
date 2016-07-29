@@ -35,14 +35,19 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
     }
 
     private void setData() {
+        int pauseCount = 0;
         Iterator iterator = DownloadManager.getInstance().getDownloadingData().entrySet().iterator();
         List<DownloadInfo> downloadingInfoList = new ArrayList<>();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
             DownloadInfo downloadInfo = (DownloadInfo) entry.getValue();
+            if (downloadInfo.state == DownloadInfo.STATE_PAUSE) {
+                pauseCount++;
+            }
             downloadingInfoList.add(downloadInfo);
         }
 
+        ((CachingVideoAdapter)mAdapter).setPauseCount(pauseCount);
         mAdapter.setData(downloadingInfoList);
     }
 
@@ -66,7 +71,6 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
 
     @Override
     public void onChanged(DownloadInfo info) {
-        Log.i("SBSBDSB", "onChanged info title:" + info.title + ",info progress:" + info.progress);
         if (info.state == DownloadInfo.STATE_DOWNLOADING && !mIsEditState) {
             ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
         }
@@ -74,7 +78,6 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
 
     @Override
     public void onFinish() {
-        Log.i("SBSBDSB", "onFinish");
         ((CachingVideoAdapter) mAdapter).deleteDownloadedView();
     }
 

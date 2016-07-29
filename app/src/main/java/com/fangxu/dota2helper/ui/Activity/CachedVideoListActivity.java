@@ -102,7 +102,6 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
 
     @Override
     public void onChanged(DownloadInfo info) {
-        Log.d("DXXXCachEDActivity", "onChanged, progress=" + info.progress);
         if (info.state == DownloadInfo.STATE_DOWNLOADING) {
             mDownloadInfo = info;
             updateDownloadingInfo(false);
@@ -111,7 +110,6 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
 
     @Override
     public void onFinish() {
-        Log.d("DXXXCachEDActivity", "onFinish");
         updateDownloadingInfo(true);
     }
 

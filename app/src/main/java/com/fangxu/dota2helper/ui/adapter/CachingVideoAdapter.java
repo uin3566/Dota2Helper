@@ -42,6 +42,10 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
         super(context, callback);
     }
 
+    public void setPauseCount(int pauseCount) {
+        mPauseCount = pauseCount;
+    }
+
     public void updateDownloadingView(DownloadInfo downloadInfo) {
         if (mCurrentCachingPos != -1) {
             notifyUi(downloadInfo);
@@ -130,7 +134,7 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     @Override
     protected void onClickHeader() {
         super.onClickHeader();
-        TextView controller = (TextView) mHeaderViewHolder.itemView;
+        TextView controller = mHeaderViewHolder.getController();
         if (controller.getText() == mContext.getResources().getString(R.string.pause_all)) {
             for (DownloadInfo info : mData) {
                 if (info.state == DownloadInfo.STATE_DOWNLOADING
@@ -177,6 +181,10 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public TextView getController() {
+            return mController;
         }
 
         @Override
