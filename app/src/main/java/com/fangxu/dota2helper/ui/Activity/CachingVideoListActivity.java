@@ -3,6 +3,7 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/7/26.
  */
-public class CachingVideoListActivity extends BaseVideoListActivity implements OnChangeListener {
+public class CachingVideoListActivity extends BaseVideoListActivity implements OnChangeListener, CachingVideoAdapter.HideEditCallback {
     @Override
     protected void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
@@ -29,6 +30,7 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
                 mDeleteButton.setCount(count);
             }
         });
+        ((CachingVideoAdapter) mAdapter).setHideEditCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -47,8 +49,15 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
             downloadingInfoList.add(downloadInfo);
         }
 
-        ((CachingVideoAdapter)mAdapter).setPauseCount(pauseCount);
+        ((CachingVideoAdapter) mAdapter).setPauseCount(pauseCount);
         mAdapter.setData(downloadingInfoList);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEmptyIcon.setBackgroundResource(R.drawable.ic_cached_no_video_icon);
+        mEmptyHint.setText(R.string.caching_no_video_hint);
     }
 
     @Override
@@ -70,15 +79,33 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
     }
 
     @Override
-    public void onChanged(DownloadInfo info) {
+    public void onEditShouldHide() {
+        mSelectDeleteControllers.setVisibility(View.GONE);
+        mIsEditState = false;
+        showEmptyView();
+        updateMenuTitle(mToolbar.getMenu().getItem(0));
+    }
+
+    @Override
+    public void onChanged(final DownloadInfo info) {
         if (info.state == DownloadInfo.STATE_DOWNLOADING && !mIsEditState) {
-            ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((CachingVideoAdapter) mAdapter).updateDownloadingView(info);
+                }
+            });
         }
     }
 
     @Override
     public void onFinish() {
-        ((CachingVideoAdapter) mAdapter).deleteDownloadedView();
+                runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((CachingVideoAdapter) mAdapter).deleteDownloadedView();
+            }
+        });
     }
 
     @Override

@@ -13,7 +13,7 @@
         app:stl_defaultTabTextColor="@color/tab_text_color"
         app:stl_defaultTabTextSize="@dimen/title_text_size"
         app:stl_dividerColor="@color/transparent"
-        app:stl_indicatorColor="@color/light_red"
+        app:stl_indicatorColor="@color/red_light"
         app:stl_indicatorGravity="bottom"
         app:stl_indicatorThickness="@dimen/dimen_2dp"
         app:stl_indicatorWidth="@dimen/smart_tab_indicator_width"

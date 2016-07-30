@@ -16,11 +16,17 @@ import butterknife.ButterKnife;
  */
 public class NewsVideoActivity extends BaseVideoActivity {
     public static final String VIDEO_DESCRIPTION = "video_description";
+    public static final String VIDEO_TITLE = "video_title";
+    public static final String VIDEO_DATE = "video_date";
 
+    @Bind(R.id.tv_title)
+    TextView mTitleTextView;
     @Bind(R.id.tv_date)
     TextView mDateTextView;
     @Bind(R.id.tv_description)
     TextView mDescription;
+
+    private String mTitle;
 
     @Override
     protected int getLayoutResId() {
@@ -33,6 +39,8 @@ public class NewsVideoActivity extends BaseVideoActivity {
         String description = getIntent().getStringExtra(VIDEO_DESCRIPTION);
         setStringText(description, mDescription);
         String date = getIntent().getStringExtra(VIDEO_DATE);
+        mTitle = getIntent().getStringExtra(VIDEO_TITLE);
+        mTitleTextView.setText(mTitle);
         setStringText(date, mDateTextView);
     }
 

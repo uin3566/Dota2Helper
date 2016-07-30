@@ -18,9 +18,11 @@ import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.youku.service.download.DownloadInfo;
 import com.youku.service.download.DownloadManager;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 
@@ -28,11 +30,15 @@ import butterknife.Bind;
  * Created by dear33 on 2016/7/27.
  */
 public class CachingVideoAdapter extends BaseCacheVideoAdapter {
-    private Handler mHandler = new Handler(Looper.getMainLooper());
     private int mCurrentCachingPos = -1;
     private int mPauseCount = 0;
 
     private HeaderViewHolder mHeaderViewHolder;
+    private HideEditCallback mHideCallback;
+
+    public interface HideEditCallback {
+        void onEditShouldHide();
+    }
 
     public CachingVideoAdapter(Context context) {
         this(context, null);
@@ -42,13 +48,18 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
         super(context, callback);
     }
 
+    public void setHideEditCallback(HideEditCallback callback) {
+        mHideCallback = callback;
+    }
+
     public void setPauseCount(int pauseCount) {
         mPauseCount = pauseCount;
     }
 
     public void updateDownloadingView(DownloadInfo downloadInfo) {
         if (mCurrentCachingPos != -1) {
-            notifyUi(downloadInfo);
+            setItem(mCurrentCachingPos, downloadInfo);
+            notifyDataSetChanged();
         } else {
             for (int i = 0, count = getItemCount(); i < count; i++) {
                 DownloadInfo info = getItem(i);
@@ -57,21 +68,12 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
                 }
                 if (info.videoid.equals(downloadInfo.videoid)) {
                     mCurrentCachingPos = i;
-                    notifyUi(downloadInfo);
+                    setItem(mCurrentCachingPos, downloadInfo);
+                    notifyDataSetChanged();
                     break;
                 }
             }
         }
-    }
-
-    private void notifyUi(DownloadInfo downloadInfo) {
-        setItem(mCurrentCachingPos, downloadInfo);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
     }
 
     public void deleteDownloadedView() {
@@ -92,23 +94,37 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
 
     private void updateData() {
         mData.clear();
+        Set<String> selectVideos = null;
+        final boolean reCalcSelectVideosCount = !mSelectedVideos.isEmpty();
+        if (reCalcSelectVideosCount) {
+            selectVideos = new HashSet<>();
+        }
+
         Iterator iterator = DownloadManager.getInstance().getDownloadingData().entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
             DownloadInfo info = (DownloadInfo) entry.getValue();
+            if (reCalcSelectVideosCount && mSelectedVideos.contains(info.videoid)) {
+                selectVideos.add(info.videoid);
+            }
             mData.add(info);
         }
-        setHasHeader(!mIsEditState && !mData.isEmpty());
+
         mCurrentCachingPos = -1;
-        if (mIsEditState && mData.isEmpty()) {
+        if (reCalcSelectVideosCount) {
+            mSelectedVideos = selectVideos;
+        }
+
+        if (reCalcSelectVideosCount) {
+            mCountCallback.onWatchedVideoSelect(mSelectedVideos.size());
+        }
+        if (mData.isEmpty()) {
             updateState(false);
+            if (mHideCallback != null) {
+                mHideCallback.onEditShouldHide();
+            }
         } else {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    notifyDataSetChanged();
-                }
-            });
+            notifyDataSetChanged();
         }
     }
 
@@ -178,6 +194,8 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     public class HeaderViewHolder extends CommonViewHolder {
         @Bind(R.id.tv_controller_header)
         TextView mController;
+        @Bind(R.id.iv_icon)
+        ImageView mPlayIcon;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
@@ -191,8 +209,10 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
         public void fillView(int position) {
             if (mPauseCount < getItemCount() - 1) {
                 mController.setText(R.string.pause_all);
+                mPlayIcon.setBackgroundResource(R.drawable.ic_pause_all);
             } else {
                 mController.setText(R.string.begin_all);
+                mPlayIcon.setBackgroundResource(R.drawable.ic_play_all);
             }
         }
     }

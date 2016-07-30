@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/base_margin">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_icon"
@@ -10,8 +9,9 @@
         android:layout_height="@dimen/video_play_icon_size_small"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/base_margin"
         android:layout_marginLeft="@dimen/base_margin"
-        android:src="@drawable/ic_pause_all"/>
+        android:layout_marginTop="@dimen/base_margin" />
 
     <TextView
         android:id="@+id/tv_controller_header"
@@ -22,7 +22,7 @@
         android:paddingLeft="@dimen/base_little_margin"
         android:text="kfldsfdjght"
         android:textColor="@color/black_light"
-        android:textSize="@dimen/title_text_size"/>
+        android:textSize="@dimen/title_text_size" />
 
     <View
         android:layout_width="match_parent"
@@ -30,7 +30,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/base_margin"
         android:layout_marginRight="@dimen/base_margin"
-        android:layout_marginTop="@dimen/base_margin"
-        android:background="@color/grey_light"/>
+        android:background="@color/grey_light" />
 </RelativeLayout>
 

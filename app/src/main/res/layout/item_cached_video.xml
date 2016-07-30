@@ -72,19 +72,20 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="@dimen/content_text_size" />
 
-            <View
-                android:layout_width="@dimen/dimen_0.5dp"
-                android:layout_height="@dimen/dimen_10dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/base_little_margin"
-                android:background="@color/grey_dark" />
+                android:layout_marginLeft="@dimen/dimen_1dp"
+                android:text="/"
+                android:textSize="@dimen/content_text_size" />
 
             <TextView
                 android:id="@+id/tv_video_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/base_little_margin"
+                android:layout_marginLeft="@dimen/dimen_1dp"
                 android:textSize="@dimen/content_text_size" />
 
         </LinearLayout>

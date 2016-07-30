@@ -34,7 +34,7 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
         super(context);
         mSelectedVideos = new HashSet<>();
         mCountCallback = countCallback;
-        mDecimalFormat = new DecimalFormat("#.0");
+        mDecimalFormat = new DecimalFormat("0.0");
     }
 
     @Override
@@ -43,9 +43,6 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
     }
 
     protected String getVideoSize(long videoSizeByte) {
-        if (videoSizeByte == 0) {
-            return "0.0MB";
-        }
         String size = mDecimalFormat.format((double) videoSizeByte / (1024 * 1024));
         return size + "MB";
     }

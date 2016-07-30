@@ -3,6 +3,7 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.DownloadingInfo;
@@ -58,8 +59,8 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
             Iterator iter2 = downloadingMap.entrySet().iterator();
             DownloadInfo firstInfo = null;
             while (iter2.hasNext()) {
-                Map.Entry entry = (Map.Entry)iter2.next();
-                DownloadInfo downloadInfo = (DownloadInfo)entry.getValue();
+                Map.Entry entry = (Map.Entry) iter2.next();
+                DownloadInfo downloadInfo = (DownloadInfo) entry.getValue();
                 if (firstInfo == null) {
                     firstInfo = downloadInfo;
                 }
@@ -74,9 +75,22 @@ public class CachedVideoListActivity extends BaseVideoListActivity implements On
             }
             mDownloadingInfo.setDownloadingCount(downloadingMap.size());
         }
-        ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo, false);
 
+        if (downloadInfoList.isEmpty() && downloadingMap.isEmpty()) {
+            showEmptyView();
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+        }
+
+        ((CachedVideoAdapter) mAdapter).setDownloadingInfo(mDownloadingInfo, false);
         mAdapter.setData(downloadInfoList);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEmptyIcon.setBackgroundResource(R.drawable.ic_cached_no_video_icon);
+        mEmptyHint.setText(R.string.cached_no_video_hint);
     }
 
     @Override

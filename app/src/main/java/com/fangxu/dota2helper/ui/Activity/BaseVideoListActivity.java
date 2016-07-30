@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.adapter.BaseVideoListAdapter;
@@ -23,7 +25,11 @@ public abstract class BaseVideoListActivity extends BaseActivity {
     @Bind(R.id.recycler_watched_videos)
     RecyclerView mRecyclerView;
     @Bind(R.id.fl_empty_view)
-    FrameLayout mEmptyView;
+    LinearLayout mEmptyView;
+    @Bind(R.id.iv_empty_icon)
+    ImageView mEmptyIcon;
+    @Bind(R.id.tv_empty_hint)
+    TextView mEmptyHint;
     @Bind(R.id.ll_select_delete_controllers)
     LinearLayout mSelectDeleteControllers;
     @Bind(R.id.cb_delete)
@@ -32,6 +38,7 @@ public abstract class BaseVideoListActivity extends BaseActivity {
     protected boolean mIsEditState = false;
     protected BaseVideoListAdapter mAdapter;
 
+    public abstract void showEmptyView();
     protected abstract boolean menuEditEnable();
 
     @OnClick(R.id.tv_select_all)
@@ -76,6 +83,7 @@ public abstract class BaseVideoListActivity extends BaseActivity {
                     mSelectDeleteControllers.setVisibility(View.GONE);
                     mIsEditState = false;
                     updateMenuTitle(mToolbar.getMenu().getItem(0));
+                    showEmptyView();
                 }
             }
         });
@@ -87,7 +95,7 @@ public abstract class BaseVideoListActivity extends BaseActivity {
         return true;
     }
 
-    private void updateMenuTitle(MenuItem item) {
+    protected void updateMenuTitle(MenuItem item) {
         if (mIsEditState) {
             item.setTitle(R.string.cancel);
         } else {

@@ -1,5 +1,6 @@
 package com.fangxu.dota2helper.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.DownloadingInfo;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
 import com.fangxu.dota2helper.ui.Activity.CachingVideoListActivity;
+import com.fangxu.dota2helper.ui.Activity.FullScreenVideoActivity;
 import com.fangxu.dota2helper.ui.widget.CountButton;
 import com.fangxu.dota2helper.ui.widget.TickButton;
 import com.youku.service.download.DownloadInfo;
@@ -66,6 +68,29 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         return viewHolder;
     }
 
+    @Override
+    protected void deleteCache(DownloadInfo downloadInfo) {
+        DownloadManager.getInstance().deleteDownloaded(downloadInfo);
+    }
+
+    @Override
+    protected void onClickHeader() {
+        super.onClickHeader();
+        if (!mIsEditState) {
+            Intent intent = new Intent(mContext, CachingVideoListActivity.class);
+            mContext.startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onClickItem(int position) {
+        super.onClickItem(position);
+        if (!mIsEditState) {
+            DownloadInfo info = getItem(position);
+            FullScreenVideoActivity.startFullScreenVideoActivity((Activity)mContext, info.videoid, info.imgUrl);
+        }
+    }
+
     public class HeaderViewHolder extends CommonViewHolder {
         @Bind(R.id.tv_title)
         TextView mTitle;
@@ -91,18 +116,6 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
             mCachedSize.setText(getVideoSize(info.downloadedSize));
             mVideoSize.setText(getVideoSize(info.size));
         }
-    }
-
-    @Override
-    protected void deleteCache(DownloadInfo downloadInfo) {
-        DownloadManager.getInstance().deleteDownloaded(downloadInfo);
-    }
-
-    @Override
-    protected void onClickHeader() {
-        super.onClickHeader();
-        Intent intent = new Intent(mContext, CachingVideoListActivity.class);
-        mContext.startActivity(intent);
     }
 
     public class CachedVideoViewHolder extends CommonViewHolder {

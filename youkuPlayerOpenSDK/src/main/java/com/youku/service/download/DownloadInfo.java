@@ -494,6 +494,7 @@ public final class DownloadInfo implements Parcelable, Comparable<DownloadInfo> 
 	private static final String KEY_playTime = "playTime";
 	private static final String KEY_lastPlayTime = "lastPlayTime";
 	private static final String KEY_savepath = "savepath";
+	private static final String KEY_imgurl = "imgurl";
 
 	public JSONObject toJSONObject() {
 		JSONObject o = new JSONObject();
@@ -517,6 +518,7 @@ public final class DownloadInfo implements Parcelable, Comparable<DownloadInfo> 
 			o.put(KEY_segID, segId);
 			o.put(KEY_createtime, createTime);
 			o.put(KEY_starttime, startTime);
+            o.put(KEY_imgurl, imgUrl);
 			o.put(KEY_getUrlTime, getUrlTime);
 			o.put(KEY_finishtime, finishTime);
 			// o.put(KEY_segsUrl, YoukuUtil.join(segsUrl));
@@ -570,6 +572,7 @@ public final class DownloadInfo implements Parcelable, Comparable<DownloadInfo> 
 		info.createTime = o.optLong(KEY_createtime);
 		info.startTime = o.optLong(KEY_starttime);
 		info.getUrlTime = o.optLong(KEY_getUrlTime);
+        info.imgUrl = o.optString(KEY_imgurl);
 		info.finishTime = o.optLong(KEY_finishtime);
 		info.state = o.optInt(KEY_state, STATE_INIT);
 		info.exceptionId = o.optInt(KEY_exceptionid);

@@ -38,7 +38,11 @@ import butterknife.OnClick;
 public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlayerView
         , RelatedVideoAdapter.RelatedVideoClickListener {
     public static final String VIDEO_VID = "video_nid";
+    public static final String VIDEO_TITLE = "video_title";
+    public static final String VIDEO_DATE = "video_date";
 
+    @Bind(R.id.tv_title)
+    TextView mTitleTextView;
     @Bind(R.id.tv_up)
     TextView mUp;
     @Bind(R.id.tv_down)
@@ -59,6 +63,8 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
     FrameLayout mEmptyBackground;
     @Bind(R.id.tv_empty_list)
     TextView mEmptyRelatedVideo;
+
+    private String mTitle;
 
     private int mCurrentSelectedIndex = 0;//当前选集序号
     private RelatedVideoAdapter mAdapter;
@@ -90,6 +96,8 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
 
         mPresenter = new VideoPlayerPresenter(this, this);
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
+        mTitle = getIntent().getStringExtra(VIDEO_TITLE);
+        mTitleTextView.setText(mTitle);
         queryVideoSetInfo();
         super.init(savedInstanceState);
     }

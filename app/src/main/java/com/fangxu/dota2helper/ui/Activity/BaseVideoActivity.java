@@ -28,13 +28,9 @@ import butterknife.OnClick;
  */
 public abstract class BaseVideoActivity extends BaseActivity implements VideoStateCallback {
     private static final String TAG = "BaseVideoActivity";
-    public static final String VIDEO_TITLE = "video_title";
-    public static final String VIDEO_DATE = "video_date";
     public static final String VIDEO_BACKGROUND = "video_background";
     public static final String VIDEO_YOUKU_VID = "video_youku_vid";
 
-    @Bind(R.id.tv_title)
-    TextView mTitleTextView;
     @Bind(R.id.iv_blur)
     ImageView mBlurImageView;
     @Bind(R.id.youku_player)
@@ -43,7 +39,6 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
     RelativeLayout mBlurImageContainer;
 
     protected String mVid = null;
-    protected String mTitle;
     protected String mBackgroundUrl;
 
     protected YoukuBasePlayerManager mYoukuBasePlayerManager;
@@ -57,6 +52,14 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
 
     protected void cacheWatchedVideo() {
 
+    }
+
+    protected void autoPlay() {
+
+    }
+
+    protected boolean hasToolbar() {
+        return true;
     }
 
     @Override
@@ -76,16 +79,16 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        if (hasToolbar()) {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
 
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
-        mTitle = getIntent().getStringExtra(VIDEO_TITLE);
-        mTitleTextView.setText(mTitle);
         initPlayer();
     }
 
@@ -107,18 +110,23 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
                 addPlugins(youkuPluginPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
+                autoPlay();
             }
 
             @Override
             public void onSmallscreenListener() {
                 // TODO Auto-generated method stub
-                mToolbar.setVisibility(View.VISIBLE);
+                if (hasToolbar()) {
+                    mToolbar.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onFullscreenListener() {
                 // TODO Auto-generated method stub
-                mToolbar.setVisibility(View.GONE);
+                if (hasToolbar()) {
+                    mToolbar.setVisibility(View.GONE);
+                }
             }
         };
         mYoukuBasePlayerManager.onCreate();

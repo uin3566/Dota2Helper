@@ -70,11 +70,17 @@
 
         <activity
             android:name=".ui.Activity.CachedVideoListActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.Activity.CachingVideoListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.Activity.FullScreenVideoActivity"
+            android:screenOrientation="landscape" />
 
         <service
             android:name="com.youku.service.download.DownloadService"

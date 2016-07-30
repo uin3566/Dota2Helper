@@ -45,7 +45,7 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        final StickyRecyclerHeadersDecoration decoration = new StickyRecyclerHeadersDecoration((FloatWatchedVideoAdapter)mAdapter);
+        final StickyRecyclerHeadersDecoration decoration = new StickyRecyclerHeadersDecoration((FloatWatchedVideoAdapter) mAdapter);
         mRecyclerView.addItemDecoration(decoration);
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -65,11 +65,18 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
                 mAdapter.setData(videos);
                 mEmptyView.setVisibility(View.GONE);
             } else {
-                mEmptyView.setVisibility(View.VISIBLE);
+                showEmptyView();
             }
         } else {
-            mEmptyView.setVisibility(View.VISIBLE);
+            showEmptyView();
         }
+    }
+
+    @Override
+    public void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEmptyHint.setText(R.string.watched_no_video_hint);
+        mEmptyIcon.setBackgroundResource(R.drawable.ic_watched_no_video_icon);
     }
 
     @Override
