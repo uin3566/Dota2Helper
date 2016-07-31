@@ -159,7 +159,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         retryView = containerView.findViewById(R.id.view_restart);
         goRetry = (RelativeLayout) containerView.findViewById(R.id.go_retry);
         ImageView retryBlur = (ImageView) containerView.findViewById(R.id.iv_retry_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(retryBlur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(retryBlur);
         if (null != goRetry) {
             goRetry.setOnClickListener(new OnClickListener() {
 
@@ -373,7 +373,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         if (null == endPageView)
             return;
         ImageView blurImage = (ImageView) endPageView.findViewById(R.id.iv_retry_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImage);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImage);
         nextLayout = (LinearLayout) endPageView.findViewById(R.id.ll_next_play);
         replayLayout = (LinearLayout) endPageView.findViewById(R.id.ll_replay);
         if (null != nextLayout)
@@ -421,7 +421,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         loadingInfoLayout = (RelativeLayout) mLayoutInflater.inflate(
                 R.layout.youku_loading_info_page, null);
         ImageView blurImage = (ImageView) loadingInfoLayout.findViewById(R.id.iv_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImage);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImage);
         if (null == loadingInfoLayout)
             return;
         infoSeekBar = (SeekBar) loadingInfoLayout
@@ -447,7 +447,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         loadingTips = (TextView) seekLoadingContainerView
                 .findViewById(R.id.loading_tips);
         blurImageView = (ImageView) seekLoadingContainerView.findViewById(R.id.iv_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity, 20)).into(blurImageView);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImageView);
         if (null != playLoadingBar)
             playLoadingBar
                     .setOnSeekBarChangeListener(new OnSeekBarChangeListener() {

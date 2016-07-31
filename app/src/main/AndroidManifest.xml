@@ -80,7 +80,8 @@
 
         <activity
             android:name=".ui.Activity.FullScreenVideoActivity"
-            android:screenOrientation="landscape" />
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <service
             android:name="com.youku.service.download.DownloadService"

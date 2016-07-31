@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 
 public class BlurTransformation implements Transformation<Bitmap> {
 
-    private static int MAX_RADIUS = 25;
+    private static int DEFAULT_RADIUS = 5;
     private static int DEFAULT_DOWN_SAMPLING = 1;
 
     private Context mContext;
@@ -27,11 +27,11 @@ public class BlurTransformation implements Transformation<Bitmap> {
     private int mSampling;
 
     public BlurTransformation(Context context) {
-        this(context, Glide.get(context).getBitmapPool(), MAX_RADIUS, DEFAULT_DOWN_SAMPLING);
+        this(context, Glide.get(context).getBitmapPool(), DEFAULT_RADIUS, DEFAULT_DOWN_SAMPLING);
     }
 
     public BlurTransformation(Context context, BitmapPool pool) {
-        this(context, pool, MAX_RADIUS, DEFAULT_DOWN_SAMPLING);
+        this(context, pool, DEFAULT_RADIUS, DEFAULT_DOWN_SAMPLING);
     }
 
     public BlurTransformation(Context context, BitmapPool pool, int radius) {

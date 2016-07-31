@@ -94,7 +94,7 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
 
     private void initPlayer() {
         mBackgroundUrl = getIntent().getStringExtra(VIDEO_BACKGROUND);
-        Glide.with(this).load(mBackgroundUrl).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(this, 20)).into(mBlurImageView);
+        Glide.with(this).load(mBackgroundUrl).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(this)).into(mBlurImageView);
         mYoukuBasePlayerManager = new YoukuBasePlayerManager(this) {
             @Override
             public void setPadHorizontalLayout() {

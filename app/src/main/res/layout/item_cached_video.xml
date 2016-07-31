@@ -76,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimen_1dp"
-                android:text="/"
+                android:layout_marginLeft="@dimen/base_little_margin"
+                android:text="|"
                 android:textSize="@dimen/content_text_size" />
 
             <TextView
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimen_1dp"
+                android:layout_marginLeft="@dimen/base_little_margin"
                 android:textSize="@dimen/content_text_size" />
 
         </LinearLayout>

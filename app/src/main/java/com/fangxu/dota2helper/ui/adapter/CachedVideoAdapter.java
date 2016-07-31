@@ -87,7 +87,7 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         super.onClickItem(position);
         if (!mIsEditState) {
             DownloadInfo info = getItem(position);
-            FullScreenVideoActivity.startFullScreenVideoActivity((Activity)mContext, info.videoid, info.imgUrl);
+            FullScreenVideoActivity.startFullScreenVideoActivity((Activity) mContext, info.videoid, info.imgUrl);
         }
     }
 

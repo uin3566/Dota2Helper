@@ -36,13 +36,4 @@ public class FullScreenVideoActivity extends BaseVideoActivity {
             mYoukuPlayer.playLocalVideo(mVid);
         }
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
-                || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return;
-        }
-        super.onConfigurationChanged(newConfig);
-    }
 }
