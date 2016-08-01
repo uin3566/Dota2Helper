@@ -123,8 +123,6 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         ImageView mBackground;
         @Bind(R.id.tv_title)
         TextView mTitle;
-        @Bind(R.id.tv_watched_percent)
-        TextView mWatchedPercent;
         @Bind(R.id.tb_select)
         TickButton mTickButton;
         @Bind(R.id.tv_video_size)
@@ -140,7 +138,6 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
             Glide.with(mContext).load(info.imgUrl).placeholder(R.drawable.img_background_default).into(mBackground);
             mTitle.setText(info.title);
             mVideoSize.setText(getVideoSize(info.size));
-            mWatchedPercent.setText(getWatchedPercentText(info));
             if (mIsEditState) {
                 mTickButton.setVisibility(View.VISIBLE);
                 if (mSelectedVideos.contains(info.videoid)) {
@@ -151,20 +148,6 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
             } else {
                 mTickButton.setVisibility(View.GONE);
             }
-        }
-
-        private String getWatchedPercentText(DownloadInfo info) {
-            float watchedSecond = info.playTime;
-            float totalSecond = info.seconds;
-            float ratio = watchedSecond / totalSecond;
-            String ret;
-            if (ratio == 1) {
-                ret = "已看完";
-            } else {
-                int percent = (int) (ratio * 100);
-                ret = "已观看至" + percent + "%";
-            }
-            return ret;
         }
     }
 }
