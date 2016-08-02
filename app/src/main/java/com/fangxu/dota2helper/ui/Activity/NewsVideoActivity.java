@@ -45,6 +45,15 @@ public class NewsVideoActivity extends BaseVideoActivity {
     }
 
     @Override
+    protected void autoPlay() {
+        super.autoPlay();
+        if (mVid != null) {
+            mYoukuPlayer.playVideo(mVid);
+            mBlurImageContainer.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {

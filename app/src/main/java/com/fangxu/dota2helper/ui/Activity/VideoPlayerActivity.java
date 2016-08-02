@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,15 +14,23 @@ import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.RelatedVideoList;
 import com.fangxu.dota2helper.bean.VideoSetList;
 import com.fangxu.dota2helper.callback.IVideoPlayerView;
+import com.fangxu.dota2helper.callback.VideoQualitySelectCallback;
 import com.fangxu.dota2helper.presenter.VideoPlayerPresenter;
 import com.fangxu.dota2helper.ui.adapter.RelatedVideoAdapter;
 import com.fangxu.dota2helper.ui.widget.ScrollListView;
 import com.fangxu.dota2helper.ui.widget.SelectButton;
+import com.fangxu.dota2helper.ui.widget.VideoQualityPicker;
+import com.fangxu.dota2helper.util.NetUtil;
 import com.fangxu.dota2helper.util.NumberConversion;
 import com.fangxu.dota2helper.util.ToastUtil;
 import com.fangxu.dota2helper.util.VideoCacheManager;
+import com.youku.player.ApiManager;
+import com.youku.player.VideoQuality;
+import com.youku.player.YoukuPlayerConfiguration;
 import com.youku.service.download.DownloadManager;
+import com.youku.service.download.DownloadUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +42,8 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/4/20.
  */
 public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlayerView
-        , RelatedVideoAdapter.RelatedVideoClickListener {
+        , RelatedVideoAdapter.RelatedVideoClickListener
+        , VideoQualitySelectCallback {
     public static final String VIDEO_VID = "video_nid";
     public static final String VIDEO_TITLE = "video_title";
     public static final String VIDEO_DATE = "video_date";
@@ -65,11 +72,10 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
     TextView mEmptyRelatedVideo;
 
     private String mTitle;
-
     private int mCurrentSelectedIndex = 0;//当前选集序号
-    private RelatedVideoAdapter mAdapter;
-
     private Map<Integer, String> mYoukuVidMap = new HashMap<>();
+    private RelatedVideoAdapter mAdapter;
+    private VideoQualityPicker mQualityPicker;
 
     private VideoPlayerPresenter mPresenter;
 
@@ -98,8 +104,21 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
         mVid = getIntent().getStringExtra(VIDEO_YOUKU_VID);
         mTitle = getIntent().getStringExtra(VIDEO_TITLE);
         mTitleTextView.setText(mTitle);
+        mQualityPicker = new VideoQualityPicker(this, this);
         queryVideoSetInfo();
         super.init(savedInstanceState);
+    }
+
+    @Override
+    protected void autoPlay() {
+        super.autoPlay();
+        if (mVid != null) {
+            mYoukuPlayer.playVideo(mVid);
+            mBlurImageContainer.setVisibility(View.INVISIBLE);
+            if (shouldHintNotWifi()) {
+                ToastUtil.showToast(this, R.string.not_wifi_watch_hint);
+            }
+        }
     }
 
     private void queryVideoSetInfo() {
@@ -155,10 +174,53 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
         mIsVideoStarted = false;
     }
 
-    @OnClick(R.id.iv_download)
-    public void onClickDownload(View view) {
+    private boolean shouldHintNotWifi() {
+        return NetUtil.isConnected(this) && !NetUtil.isWifi(this);
+    }
+
+    private void startDownload() {
         DownloadManager downloadManager = DownloadManager.getInstance();
         downloadManager.createDownload(mVid, mTitle, null);
+        if (shouldHintNotWifi()) {
+            ToastUtil.showToast(this, R.string.not_wifi_download_hint);
+        }
+    }
+
+    @Override
+    public void onVideoQualitySelected(VideoQuality videoQuality) {
+        int format = YoukuPlayerConfiguration.FORMAT_FLV;
+        switch (videoQuality) {
+            case P1080:
+                format = YoukuPlayerConfiguration.FORMAT_HD2;
+                break;
+            case SUPER:
+                format = YoukuPlayerConfiguration.FORMAT_HD2;
+                break;
+            case HIGHT:
+                format = YoukuPlayerConfiguration.FORMAT_MP4;
+                break;
+            case STANDARD:
+                format = YoukuPlayerConfiguration.FORMAT_FLV;
+                break;
+        }
+        DownloadManager.getInstance().setDownloadFormat(format);
+        startDownload();
+    }
+
+    @OnClick(R.id.iv_download)
+    public void onClickDownload(View view) {
+        try {
+            ArrayList<VideoQuality> videoQualityList = (ArrayList<VideoQuality>) ApiManager.getInstance().getSupportedVideoQuality(mYoukuBasePlayerManager);
+            int size = videoQualityList.size();
+            if (size > 1) {
+                mQualityPicker.initView(videoQualityList);
+                mQualityPicker.show();
+            } else {
+                startDownload();
+            }
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -181,6 +243,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
         mVid = entity.getId();
         mTitle = entity.getTitle();
         mBackgroundUrl = entity.getThumbnail();
+        mPluginPlayer.setBackground(mBackgroundUrl);
         queryRelatedVideo(mVid);
         setVideoDetail(entity.getTitle(), entity.getPublished(), entity.getView_count(), entity.getUp_count(), entity.getDown_count());
         mYoukuPlayer.playVideo(mVid);
@@ -245,6 +308,7 @@ public class VideoPlayerActivity extends BaseVideoActivity implements IVideoPlay
 
     @Override
     public void setVideoDetail(String title, String published, String watchedCount, String upCount, String downCount) {
+        mTitle = title;
         mWatchCount.setText(watchedCount);
         mUp.setText(upCount);
         mDown.setText(downCount);

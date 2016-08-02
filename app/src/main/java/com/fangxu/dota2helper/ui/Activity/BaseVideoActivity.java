@@ -42,6 +42,7 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
     protected String mBackgroundUrl;
 
     protected YoukuBasePlayerManager mYoukuBasePlayerManager;
+    protected YoukuPluginPlayer mPluginPlayer;
     protected YoukuPlayer mYoukuPlayer;
     protected boolean mIsPlayerReady = false;
 
@@ -105,9 +106,9 @@ public abstract class BaseVideoActivity extends BaseActivity implements VideoSta
             @Override
             public void onInitializationSuccess(YoukuPlayer player) {
                 // TODO Auto-generated method stub
-                YoukuPluginPlayer youkuPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, mBackgroundUrl);
-                youkuPluginPlayer.setVideoStateCallback(BaseVideoActivity.this);
-                addPlugins(youkuPluginPlayer);
+                mPluginPlayer = new YoukuPluginPlayer(this, mediaPlayerDelegate, mBackgroundUrl);
+                mPluginPlayer.setVideoStateCallback(BaseVideoActivity.this);
+                addPlugins(mPluginPlayer);
                 mYoukuPlayer = player;
                 mIsPlayerReady = true;
                 autoPlay();

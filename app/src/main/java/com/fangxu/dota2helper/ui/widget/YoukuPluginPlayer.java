@@ -3,7 +3,6 @@ package com.fangxu.dota2helper.ui.widget;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Handler;
@@ -118,6 +117,14 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         initPlayLayout();
     }
 
+    public void setBackground(String videoBackground) {
+        this.videoBackground = videoBackground;
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(seekBlur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(loadBlur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(retryBlur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(endBlur);
+    }
+
     public void setVideoStateCallback(VideoStateCallback callback) {
         mVideoStateCallback = callback;
     }
@@ -146,6 +153,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     TextView totalTime;
     TextView currentTime;
     private View retryView;
+    private ImageView retryBlur;
     private RelativeLayout goRetry;
 
     // 重试
@@ -158,7 +166,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
             return;
         retryView = containerView.findViewById(R.id.view_restart);
         goRetry = (RelativeLayout) containerView.findViewById(R.id.go_retry);
-        ImageView retryBlur = (ImageView) containerView.findViewById(R.id.iv_retry_blur);
+        retryBlur = (ImageView) containerView.findViewById(R.id.iv_retry_blur);
         Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(retryBlur);
         if (null != goRetry) {
             goRetry.setOnClickListener(new OnClickListener() {
@@ -356,6 +364,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     }
 
     private View endPageView;
+    private ImageView endBlur;
     private LinearLayout nextLayout;
     private LinearLayout replayLayout;
 
@@ -372,8 +381,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 null);
         if (null == endPageView)
             return;
-        ImageView blurImage = (ImageView) endPageView.findViewById(R.id.iv_retry_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImage);
+        endBlur = (ImageView) endPageView.findViewById(R.id.iv_retry_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(endBlur);
         nextLayout = (LinearLayout) endPageView.findViewById(R.id.ll_next_play);
         replayLayout = (LinearLayout) endPageView.findViewById(R.id.ll_replay);
         if (null != nextLayout)
@@ -409,6 +418,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
             });
     }
 
+    private ImageView loadBlur;
     /**
      * 初始化加载页面
      */
@@ -420,8 +430,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
             return;
         loadingInfoLayout = (RelativeLayout) mLayoutInflater.inflate(
                 R.layout.youku_loading_info_page, null);
-        ImageView blurImage = (ImageView) loadingInfoLayout.findViewById(R.id.iv_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImage);
+        loadBlur = (ImageView) loadingInfoLayout.findViewById(R.id.iv_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(loadBlur);
         if (null == loadingInfoLayout)
             return;
         infoSeekBar = (SeekBar) loadingInfoLayout
@@ -431,7 +441,7 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
     private TextView playNameTextView;
     private SeekBar playLoadingBar;
     private TextView loadingTips;
-    private ImageView blurImageView;
+    private ImageView seekBlur;
     private String TAG = "PluginSmallScreenPlay";
 
     /**
@@ -446,8 +456,8 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
                 .findViewById(R.id.loading_seekbar);
         loadingTips = (TextView) seekLoadingContainerView
                 .findViewById(R.id.loading_tips);
-        blurImageView = (ImageView) seekLoadingContainerView.findViewById(R.id.iv_blur);
-        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(blurImageView);
+        seekBlur = (ImageView) seekLoadingContainerView.findViewById(R.id.iv_blur);
+        Glide.with(mActivity).load(videoBackground).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(mActivity)).into(seekBlur);
         if (null != playLoadingBar)
             playLoadingBar
                     .setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -531,9 +541,9 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
         }
 
         if (showBlur) {
-            blurImageView.setVisibility(VISIBLE);
+            seekBlur.setVisibility(VISIBLE);
         } else {
-            blurImageView.setVisibility(INVISIBLE);
+            seekBlur.setVisibility(INVISIBLE);
         }
 
     }

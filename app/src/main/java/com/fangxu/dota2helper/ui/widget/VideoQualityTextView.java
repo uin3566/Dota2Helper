@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fangxu.dota2helper.R;
+import com.fangxu.dota2helper.util.VideoQualityUtil;
 import com.youku.player.VideoQuality;
 
 import butterknife.ButterKnife;
@@ -40,7 +41,7 @@ public class VideoQualityTextView extends LinearLayout {
 
         LayoutInflater.from(context).inflate(R.layout.layout_video_quality, this);
         mQualityTextView = ButterKnife.findById(this, R.id.tv_quality);
-        mDivider =  ButterKnife.findById(this, R.id.v_divider);
+        mDivider = ButterKnife.findById(this, R.id.v_divider);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoQualityTextView, 0, 0);
         int textColor = ta.getColor(R.styleable.VideoQualityTextView_vqt_text_color, 0x8affffff);
@@ -57,20 +58,8 @@ public class VideoQualityTextView extends LinearLayout {
 
     public void setQuality(VideoQuality videoQuality) {
         mQuality = videoQuality;
-        switch (videoQuality) {
-            case STANDARD:
-                mQualityTextView.setText(R.string.standard);
-                break;
-            case HIGHT:
-                mQualityTextView.setText(R.string.high);
-                break;
-            case SUPER:
-                mQualityTextView.setText(R.string.super_high);
-                break;
-            case P1080:
-                mQualityTextView.setText(R.string.p1080);
-                break;
-        }
+        int resId = VideoQualityUtil.getQualityResId(videoQuality);
+        mQualityTextView.setText(resId);
     }
 
     public void setDividerVisibility(boolean show) {

@@ -38,6 +38,8 @@
     <string name="watched_no_video_hint">亲，您还没有观看过视频哦！</string>
     <string name="cached_no_video_hint">您还没有缓存的视频，快去缓存吧！</string>
     <string name="caching_no_video_hint">您没有正在缓存的视频，快去缓存吧！</string>
+    <string name="not_wifi_watch_hint">您正在非wifi环境下观看，将消耗流量！</string>
+    <string name="not_wifi_download_hint">当前是非wifi环境，下载将消耗流量！</string>
     <string name="begin_all">全部开始</string>
     <string name="pause_all">全部暂停</string>
     <string name="cached_video">缓存视频</string>
