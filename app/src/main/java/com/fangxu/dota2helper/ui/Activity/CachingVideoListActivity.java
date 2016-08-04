@@ -100,7 +100,7 @@ public class CachingVideoListActivity extends BaseVideoListActivity implements O
 
     @Override
     public void onFinish() {
-                runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ((CachingVideoAdapter) mAdapter).deleteDownloadedView();

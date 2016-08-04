@@ -3,12 +3,7 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
@@ -16,15 +11,11 @@ import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
-import com.fangxu.dota2helper.ui.widget.CountButton;
 import com.fangxu.dota2helper.util.VideoCacheManager;
 import com.squareup.otto.Subscribe;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/7/19.

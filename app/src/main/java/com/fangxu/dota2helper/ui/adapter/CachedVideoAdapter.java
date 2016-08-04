@@ -37,6 +37,7 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
 
     public CachedVideoAdapter(Context context, WatchedVideoSelectCountCallback callback) {
         super(context, callback);
+        mDownloadingInfo = new DownloadingInfo();
     }
 
     public void setDownloadingInfo(DownloadingInfo downloadingInfo, boolean downloaded) {
@@ -44,9 +45,28 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
             mData.add(downloadingInfo.getFirstDownloadingInfo());
         }
 
-        mDownloadingInfo = downloadingInfo;
-        setHasHeader(mDownloadingInfo.getDownloadingCount() > 0);
-        notifyDataSetChanged();
+        setHasHeader(downloadingInfo.getDownloadingCount() > 0);
+        if (downloadingInfo.getDownloadingCount() > 0) {
+            if (mDownloadingInfo.getDownloadingCount() == 0) {
+                mDownloadingInfo = downloadingInfo;
+                notifyItemInserted(0);
+            } else {
+                mDownloadingInfo = downloadingInfo;
+                notifyItemChanged(0);
+            }
+        } else {
+            if (mDownloadingInfo.getDownloadingCount() > 0) {
+                mDownloadingInfo = downloadingInfo;
+                notifyItemRemoved(0);
+            } else {
+                mDownloadingInfo = downloadingInfo;
+                notifyDataSetChanged();
+            }
+        }
+
+        if (downloaded) {
+            notifyItemInserted(getItemCount());
+        }
     }
 
     @Override

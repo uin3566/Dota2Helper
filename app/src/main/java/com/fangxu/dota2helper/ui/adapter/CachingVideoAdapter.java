@@ -59,7 +59,7 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
     public void updateDownloadingView(DownloadInfo downloadInfo) {
         if (mCurrentCachingPos != -1) {
             setItem(mCurrentCachingPos, downloadInfo);
-            notifyDataSetChanged();
+            notifyItemChanged(mCurrentCachingPos);
         } else {
             for (int i = 0, count = getItemCount(); i < count; i++) {
                 DownloadInfo info = getItem(i);
@@ -69,7 +69,7 @@ public class CachingVideoAdapter extends BaseCacheVideoAdapter {
                 if (info.videoid.equals(downloadInfo.videoid)) {
                     mCurrentCachingPos = i;
                     setItem(mCurrentCachingPos, downloadInfo);
-                    notifyDataSetChanged();
+                    notifyItemChanged(mCurrentCachingPos);
                     break;
                 }
             }

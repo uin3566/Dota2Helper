@@ -41,6 +41,9 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
             setHasHeader(true);
         }
         notifyDataSetChanged();
+        if (mBannerHolder != null) {
+            mBannerHolder.update();
+        }
     }
 
     public void updateData(List<NewsList.NewsEntity> newsEntityList, boolean append) {
@@ -93,6 +96,9 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
 
         public BannerHolder(View itemView) {
             super(itemView);
+        }
+
+        public void update() {
             mBanner.setSource(mBannerEntityList).setSelectAnimClass(ZoomInEnter.class).startScroll();
             mBanner.setOnItemClickL(new BaseBanner.OnItemClickL() {
                 @Override

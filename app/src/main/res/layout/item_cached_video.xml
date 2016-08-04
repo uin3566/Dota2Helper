@@ -37,8 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_0.5dp"
-        android:layout_below="@id/rl_background_container"
-        android:background="@color/grey_light"/>
+        android:layout_below="@id/rl_background_container" />
 
     <LinearLayout
         android:layout_width="wrap_content"

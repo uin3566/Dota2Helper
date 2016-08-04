@@ -6,13 +6,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.adapter.BaseVideoListAdapter;
+import com.fangxu.dota2helper.ui.adapter.ItemAnimator.MyDefaultItemAnimator;
 import com.fangxu.dota2helper.ui.widget.CountButton;
 
 import butterknife.Bind;
@@ -87,6 +87,9 @@ public abstract class BaseVideoListActivity extends BaseActivity {
                 }
             }
         });
+
+        MyDefaultItemAnimator animator = new MyDefaultItemAnimator();
+        mRecyclerView.setItemAnimator(animator);
     }
 
     @Override

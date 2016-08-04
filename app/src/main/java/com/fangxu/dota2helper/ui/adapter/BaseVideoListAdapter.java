@@ -67,7 +67,7 @@ public abstract class BaseVideoListAdapter<T> extends CommonRecyclerAdapter<T> {
             } else {
                 mSelectedVideos.add(ykVid);
             }
-            notifyDataSetChanged();
+            notifyItemChanged(position);
             notifyVideoSelectCount();
         }
     }
