@@ -1,14 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.fangxu.dota2helper">
+<manifest
+    package="com.fangxu.dota2helper"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
     <application
         android:name=".MyApp"
@@ -21,17 +22,17 @@
         <!-- youku ID-->
         <meta-data
             android:name="client_id"
-            android:value="0945caa01628b5c1" />
+            android:value="0945caa01628b5c1"/>
         <meta-data
             android:name="client_secret"
-            android:value="c9ede24c687c1e6c0678019ec5a600f6" />
+            android:value="c9ede24c687c1e6c0678019ec5a600f6"/>
 
         <activity
             android:name=".ui.Activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
 
@@ -39,58 +40,64 @@
             android:name=".ui.Activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoneTranslucent" />
+            android:theme="@style/AppTheme.NoneTranslucent"/>
 
         <activity
             android:name=".ui.Activity.ArticalDetailActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoneTranslucent" />
+            android:theme="@style/AppTheme.NoneTranslucent"/>
+
+        <activity
+            android:name=".ui.Activity.NewsDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.NewsVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoneTranslucent" />
+            android:theme="@style/AppTheme.NoneTranslucent"/>
 
         <activity
             android:name=".ui.Activity.WatchedVideoListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.MyWebPageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.CachedVideoListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.CachingVideoListActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.Activity.FullScreenVideoActivity"
-            android:launchMode="singleTask"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"/>
 
         <service
             android:name="com.youku.service.download.DownloadService"
             android:label="Youku Download Service"
-            android:process=":download" />
+            android:process=":download"/>
 
         <service
             android:name="com.youku.service.acc.AcceleraterService"
-            android:process=":accelerater" />
+            android:process=":accelerater"/>
     </application>
 
 </manifest>

@@ -20,7 +20,8 @@
     <color name="white">#ffffff</color>
     <color name="grey">#eeeeee</color>
     <color name="grey_light">#f5f5f5</color>
-    <color name="grey_dark">#666666</color>
+    <color name="grey_dark1">#666666</color>
+    <color name="grey_dark2">#dedede</color>
     <color name="red_light">#f24b17</color>
     <color name="red_dark">#c62828</color>
     <color name="black">#000000</color>

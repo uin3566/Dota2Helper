@@ -14,7 +14,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1dp"/>
+        android:layout_height="@dimen/dimen_0.5dp"/>
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_cached_video"
@@ -24,7 +24,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1dp"/>
+        android:layout_height="@dimen/dimen_0.5dp"/>
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1dp"/>
+        android:layout_height="@dimen/dimen_0.5dp"/>
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_my_project"

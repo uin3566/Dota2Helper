@@ -96,6 +96,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
 
         public BannerHolder(View itemView) {
             super(itemView);
+            update();
         }
 
         public void update() {

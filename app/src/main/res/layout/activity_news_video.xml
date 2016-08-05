@@ -41,7 +41,7 @@
         android:layout_marginLeft="@dimen/base_margin"
         android:layout_marginRight="@dimen/base_margin"
         android:layout_marginTop="@dimen/base_margin"
-        android:background="@color/grey_dark" />
+        android:background="@color/grey_dark1" />
 
     <TextView
         android:id="@+id/tv_description"

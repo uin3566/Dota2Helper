@@ -8,4 +8,4 @@
     android:paddingBottom="@dimen/base_little_margin"
     android:background="@color/alpha_white_2"
     android:textSize="@dimen/title_text_size"
-    android:textColor="@color/grey_dark"/>
+    android:textColor="@color/grey_dark1"/>
