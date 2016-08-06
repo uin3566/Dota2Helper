@@ -2,6 +2,7 @@ package com.fangxu.dota2helper;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
@@ -11,6 +12,7 @@ import com.fangxu.dota2helper.util.GreenDaoHelper;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.google.gson.Gson;
 import com.squareup.leakcanary.LeakCanary;
+import com.umeng.analytics.MobclickAgent;
 import com.youku.player.YoukuPlayerBaseConfiguration;
 
 
@@ -21,6 +23,7 @@ public class MyApp extends Application {
     private static YoukuPlayerBaseConfiguration configuration;
     private static GreenDaoHelper greenDaoHelper;
     private static Gson gson;
+    private static Context sContext;
 
     private static String youkuClientId = null;
 
@@ -33,6 +36,7 @@ public class MyApp extends Application {
         initGreenDao();
         NavUtil.init(this);
         gson = new Gson();
+        sContext = getApplicationContext();
     }
 
     public static String getYoukuClientId() {
@@ -45,6 +49,10 @@ public class MyApp extends Application {
 
     public static Gson getGson() {
         return gson;
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 
     private void initGreenDao() {

@@ -51,6 +51,9 @@ public class StrategyInteractor extends BaseInteractor{
             @Override
             public void call(StrategyList strategyList) {
                 if (strategyList != null) {
+                    if (!strategyList.getStrategies().isEmpty()) {
+                        mLastNid = strategyList.getStrategies().get(strategyList.getStrategies().size() - 1).getNid();
+                    }
                     mCallback.onGetCachedStrategies(strategyList.getStrategies());
                 } else {
                     mCallback.onCachedStrategiesEmpty();

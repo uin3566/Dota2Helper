@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/base_little_margin"
+    android:paddingTop="@dimen/base_little_margin">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:src="@drawable/shape_thin_rectangle" />
+
+    <com.fangxu.dota2helper.ui.widget.CountButton
+        android:id="@+id/cb_downloaded_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/base_little_margin"
+        app:cb_text="@string/cached_video_count" />
+
+</LinearLayout>

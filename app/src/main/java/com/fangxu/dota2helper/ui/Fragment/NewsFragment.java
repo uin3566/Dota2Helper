@@ -7,14 +7,12 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.callback.LoadNewsDetailCallback;
 import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
 import com.fangxu.dota2helper.eventbus.BusProvider;
 import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
 import com.fangxu.dota2helper.callback.INewsView;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
-import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
-import com.fangxu.dota2helper.ui.Activity.NewsVideoActivity;
+import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
@@ -27,7 +25,7 @@ import butterknife.Bind;
 /**
  * Created by Xuf on 2016/4/3.
  */
-public class NewsFragment extends RefreshBaseFragment implements INewsView, CommonRecyclerAdapter.ItemClickListener{
+public class NewsFragment extends RefreshBaseFragment implements INewsView, CommonRecyclerAdapter.ItemClickListener {
     @Bind(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
@@ -159,27 +157,14 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
     }
 
     private void toDetail(final NewsList.NewsEntity newsEntity) {
-        ArticalDetailActivity.toNewsDetailActivity(getActivity(), true, newsEntity.getDate(), newsEntity.getNid(), new LoadNewsDetailCallback() {
-            @Override
-            public void onLoadedSuccess(boolean toVideoActivity, String content) {
-                if (toVideoActivity) {
-                    Intent intent = new Intent(getActivity(), NewsVideoActivity.class);
-                    intent.putExtra(NewsVideoActivity.VIDEO_YOUKU_VID, content);
-                    intent.putExtra(NewsVideoActivity.VIDEO_BACKGROUND, newsEntity.getBackground());
-                    intent.putExtra(NewsVideoActivity.VIDEO_TITLE, newsEntity.getTitle());
-                    intent.putExtra(NewsVideoActivity.VIDEO_DESCRIPTION, newsEntity.getDescription());
-                    intent.putExtra(NewsVideoActivity.VIDEO_DATE, newsEntity.getTime());
-                    startActivity(intent);
-                } else {
-                    ArticalDetailActivity.toNewsDetailActivity(getActivity(), content);
-                }
-            }
-
-            @Override
-            public void onLoadedFailed() {
-                ToastUtil.showToast(getActivity(), "error");
-            }
-        });
+        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+        intent.putExtra(NewsDetailActivity.VIDEO_BACKGROUND, newsEntity.getBackground());
+        intent.putExtra(NewsDetailActivity.VIDEO_TITLE, newsEntity.getTitle());
+        intent.putExtra(NewsDetailActivity.VIDEO_DATE, newsEntity.getTime());
+        intent.putExtra(NewsDetailActivity.VIDEO_DESCRIPTION, newsEntity.getDescription());
+        intent.putExtra(NewsDetailActivity.NEWS_NID, newsEntity.getNid());
+        intent.putExtra(NewsDetailActivity.NEWS_DATE, newsEntity.getDate());
+        startActivity(intent);
     }
 
     @Override

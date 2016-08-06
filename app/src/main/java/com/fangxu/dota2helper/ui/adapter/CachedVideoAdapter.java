@@ -30,6 +30,7 @@ import butterknife.Bind;
  */
 public class CachedVideoAdapter extends BaseCacheVideoAdapter {
     private DownloadingInfo mDownloadingInfo;
+    private static final int ITEM_CACHED_COUNT = 104;
 
     public CachedVideoAdapter(Context context) {
         this(context, null);
@@ -66,7 +67,12 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
 
         if (downloaded) {
             notifyItemInserted(getItemCount());
+            notifyItemChanged(getCachedCountPosition());
         }
+    }
+
+    private int getCachedCountPosition() {
+        return isHasHeader() ? 1 : 0;
     }
 
     @Override
@@ -75,15 +81,41 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        int pos = getCachedCountPosition();
+        if (position == pos && !mData.isEmpty()) {
+            return ITEM_CACHED_COUNT;
+        }
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public DownloadInfo getItem(int position) {
+        return super.getItem(position - 1);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mData.isEmpty()) {
+            return super.getItemCount();
+        }
+        return super.getItemCount() + 1;
+    }
+
+    @Override
     public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         CommonViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         if (viewType == ITEM_HEADER) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_header_caching_videos, parent, false);
+            view = inflater.inflate(R.layout.item_header_caching_videos, parent, false);
             viewHolder = new HeaderViewHolder(view);
         } else if (viewType == ITEM_NORMAL) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_cached_video, parent, false);
+            view = inflater.inflate(R.layout.item_cached_video, parent, false);
             viewHolder = new CachedVideoViewHolder(view);
+        } else if (viewType == ITEM_CACHED_COUNT) {
+            view = inflater.inflate(R.layout.item_cached_video_count, parent, false);
+            viewHolder = new CachedVideoCountViewHolder(view);
         }
         return viewHolder;
     }
@@ -104,6 +136,9 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
 
     @Override
     protected void onClickItem(int position) {
+        if (!mData.isEmpty() && position == getCachedCountPosition()) {
+            return;
+        }
         super.onClickItem(position);
         if (!mIsEditState) {
             DownloadInfo info = getItem(position);
@@ -130,11 +165,25 @@ public class CachedVideoAdapter extends BaseCacheVideoAdapter {
         @Override
         public void fillView(int position) {
             DownloadInfo info = mDownloadingInfo.getFirstDownloadingInfo();
-            mTitle.setText(info.title);
+            mTitle.setText(info.title.trim());
             mDownloadingCount.setCount(mDownloadingInfo.getDownloadingCount());
             mProgressBar.setProgress((int) info.progress);
             mCachedSize.setText(getVideoSize(info.downloadedSize));
             mVideoSize.setText(getVideoSize(info.size));
+        }
+    }
+
+    public class CachedVideoCountViewHolder extends CommonViewHolder {
+        @Bind(R.id.cb_downloaded_count)
+        CountButton mDownloadedCount;
+
+        public CachedVideoCountViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void fillView(int position) {
+            mDownloadedCount.setCount(mData.size());
         }
     }
 

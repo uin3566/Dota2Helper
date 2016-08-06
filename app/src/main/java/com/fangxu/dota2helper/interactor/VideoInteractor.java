@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class VideoInteractor extends BaseInteractor{
+public class VideoInteractor extends BaseInteractor {
     private static final String TAG = "test task id";
     private VideoCallback mCallback;
     private String mLastVid;
@@ -46,22 +46,25 @@ public class VideoInteractor extends BaseInteractor{
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<VideoList>() {
-            @Override
-            public void call(VideoList videoList) {
-                if (videoList != null) {
-                    mCallback.onGetCachedVideo(videoList.getVideos());
-                } else {
-                    mCallback.onCacheEmpty();
-                }
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                mCallback.onCacheEmpty();
-            }
-        }));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<VideoList>() {
+                    @Override
+                    public void call(VideoList videoList) {
+                        if (videoList != null) {
+                            if (!videoList.getVideos().isEmpty()) {
+                                mLastVid = videoList.getVideos().get(videoList.getVideos().size() - 1).getVid();
+                            }
+                            mCallback.onGetCachedVideo(videoList.getVideos());
+                        } else {
+                            mCallback.onCacheEmpty();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mCallback.onCacheEmpty();
+                    }
+                }));
     }
 
     private void cacheGreenDaoVideos(VideoList videoList, String type) {

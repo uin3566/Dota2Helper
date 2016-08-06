@@ -1,121 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 
-    <RelativeLayout
+    <ViewStub
+        android:id="@+id/vs_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout="@layout/layout_base_webview" />
 
-        <RelativeLayout
-            android:id="@+id/news_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:id="@+id/webview_progressbar"
-                style="?android:attr/progressBarStyleHorizontal"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/dimen_2dp"
-                android:background="@null"
-                android:indeterminateOnly="false"
-                android:max="100"
-                android:progressDrawable="@drawable/webview_progress_bar"/>
-
-            <WebView
-                android:id="@+id/webview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/video_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/base_little_margin"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginRight="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_little_margin"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="@dimen/dimen_2dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/title_text_size_big"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/base_little_margin"
-                android:textColor="@color/black"
-                android:textSize="@dimen/content_text_size"
-                android:textStyle="bold"/>
-
-            <View
-                android:id="@+id/v_divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_1dp"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginRight="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:background="@color/grey_dark1"/>
-
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/base_little_margin"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginRight="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:lineSpacingExtra="@dimen/dimen_3dp"
-                android:textColor="@color/black_light"
-                android:textSize="@dimen/content_text_size_big"/>
-
-            <com.youku.player.base.YoukuPlayerView
-                android:id="@+id/youku_player"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/rl_blur_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/video_player_height">
-
-                    <ImageView
-                        android:id="@+id/iv_blur"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
-
-                    <ImageView
-                        android:id="@+id/iv_play"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_video_play_big"/>
-                </RelativeLayout>
-            </com.youku.player.base.YoukuPlayerView>
-        </LinearLayout>
-
-    </RelativeLayout>
+    <ViewStub
+        android:id="@+id/vs_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/layout_news_video" />
 
 </LinearLayout>

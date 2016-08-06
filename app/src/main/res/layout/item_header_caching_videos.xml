@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/ll_size_container"
                 android:layout_toLeftOf="@id/ll_size_container"
+                android:layout_marginRight="@dimen/base_little_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textSize="@dimen/content_text_size" />

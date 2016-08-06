@@ -44,7 +44,10 @@
     <string name="pause_all">全部暂停</string>
     <string name="cached_video">缓存视频</string>
     <string name="caching_video">正在缓存</string>
+    <string name="cached_video_count">已缓存</string>
     <string name="clear_cache">清空缓存</string>
+    <string name="data_cleared">缓存已清除！</string>
+    <string name="press_again_to_exit">再按一次退出程序</string>
     <string name="my_github">个人主页</string>
     <string name="my_github_url">https://github.com/uin3566</string>
     <string name="my_project_mainpage">项目主页</string>

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -31,6 +32,7 @@ import com.youku.player.base.YoukuPlayer;
 import com.youku.player.base.YoukuPlayerView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -42,24 +44,24 @@ public class NewsDetailActivity extends BaseActivity {
     public static final String NEWS_DATE = "news_date";
     public static final String NEWS_NID = "news_nid";
     public static final String VIDEO_TITLE = "video_title";
+    public static final String VIDEO_DATE = "video_date";
+    public static final String VIDEO_DESCRIPTION = "video_description";
     public static final String VIDEO_BACKGROUND = "video_background";
 
-    @Bind(R.id.webview)
     WebView mWebView;
-    @Bind(R.id.webview_progressbar)
     ProgressBar mProgressBar;
-    @Bind(R.id.news_container)
-    RelativeLayout mNewsContainer;
-    @Bind(R.id.video_container)
-    LinearLayout mVideoContainer;
-    @Bind(R.id.youku_player)
+
     YoukuPlayerView mYoukuPlayerView;
-    @Bind(R.id.iv_blur)
     ImageView mBlurImageView;
-    @Bind(R.id.rl_blur_container)
     RelativeLayout mBlurImageContainer;
-    @Bind(R.id.tv_title)
     TextView mTitleTextView;
+    TextView mDateTextView;
+    TextView mDescription;
+
+    @Bind(R.id.vs_web)
+    ViewStub mWebStub;
+    @Bind(R.id.vs_video)
+    ViewStub mVideoStub;
 
     private String mBackgroundUrl;
     private String mTitle;
@@ -105,12 +107,12 @@ public class NewsDetailActivity extends BaseActivity {
                     public void call(String s) {
                         if (s.length() < 20) {
                             mVideoMode = true;
-                            mVideoContainer.setVisibility(View.VISIBLE);
-                            initVideo(s);
+                            mVideoStub.inflate();
+                            loadVideo(s);
                         } else {
                             mVideoMode = false;
-                            mNewsContainer.setVisibility(View.VISIBLE);
-                            initWebview(s);
+                            mWebStub.inflate();
+                            loadWeb(s);
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -121,17 +123,30 @@ public class NewsDetailActivity extends BaseActivity {
                 }));
     }
 
-    private void initVideo(final String ykvid) {
+    private void findVideoViews() {
+        mTitleTextView = ButterKnife.findById(this, R.id.tv_title);
+        mDateTextView = ButterKnife.findById(this, R.id.tv_date);
+        mDescription = ButterKnife.findById(this, R.id.tv_description);
+        mBlurImageView = ButterKnife.findById(this, R.id.iv_blur);
+        mBlurImageContainer = ButterKnife.findById(this, R.id.rl_blur_container);
+        mYoukuPlayerView = ButterKnife.findById(this, R.id.youku_player);
+    }
+
+    private void loadVideo(final String ykvid) {
+        findVideoViews();
         mVid = ykvid;
         mTitle = getIntent().getStringExtra(VIDEO_TITLE);
         mTitleTextView.setText(mTitle);
         mBackgroundUrl = getIntent().getStringExtra(VIDEO_BACKGROUND);
+        String date = getIntent().getStringExtra(VIDEO_DATE);
+        String description = getIntent().getStringExtra(VIDEO_DESCRIPTION);
+        mDateTextView.setText(date);
+        mDescription.setText(description);
         Glide.with(this).load(mBackgroundUrl).asBitmap().placeholder(R.color.black).transform(new BlurTransformation(this)).into(mBlurImageView);
         mYoukuBasePlayerManager = new YoukuBasePlayerManager(this) {
             @Override
             public void setPadHorizontalLayout() {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -190,7 +205,13 @@ public class NewsDetailActivity extends BaseActivity {
         }
     }
 
-    private void initWebview(String html) {
+    private void findWebViews() {
+        mProgressBar = ButterKnife.findById(this, R.id.webview_progressbar);
+        mWebView = ButterKnife.findById(this, R.id.webview);
+    }
+
+    private void loadWeb(String html) {
+        findWebViews();
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("UTF-8");
@@ -222,7 +243,12 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     protected boolean applySystemBarDrawable() {
-        return true;
+        return false;
+    }
+
+    @Override
+    protected boolean applyTranslucentStatus() {
+        return false;
     }
 
     @Override
@@ -267,6 +293,7 @@ public class NewsDetailActivity extends BaseActivity {
         if (mVideoMode) {
             return mYoukuBasePlayerManager.onSearchRequested();
         }
+        return super.onSearchRequested();
     }
 
     @Override
@@ -296,20 +323,32 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            mBlurImageContainer.requestLayout();
-        }
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.video_player_height)));
-            mBlurImageContainer.requestLayout();
+        if (mVideoMode) {
+            mYoukuBasePlayerManager.onConfigurationChanged(newConfig);
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                mBlurImageContainer.requestLayout();
+                ButterKnife.findById(this, R.id.v_divider).setVisibility(View.GONE);
+                mDateTextView.setVisibility(View.GONE);
+                mDescription.setVisibility(View.GONE);
+                mTitleTextView.setVisibility(View.GONE);
+            }
+            if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mBlurImageContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.video_player_height)));
+                mBlurImageContainer.requestLayout();
+                ButterKnife.findById(this, R.id.v_divider).setVisibility(View.VISIBLE);
+                mDateTextView.setVisibility(View.VISIBLE);
+                mDescription.setVisibility(View.VISIBLE);
+                mTitleTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     @Override
     protected void onDestroy() {
-        mYoukuBasePlayerManager.onDestroy();
+        if (mVideoMode) {
+            mYoukuBasePlayerManager.onDestroy();
+        }
         super.onDestroy();
     }
 }

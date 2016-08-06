@@ -1,54 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/grey"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:orientation="vertical">
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_watched_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:pil_text="@string/watch_video_history"/>
+        app:pil_text="@string/watch_video_history" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_0.5dp"/>
+        android:layout_height="@dimen/dimen_0.5dp" />
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_cached_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:pil_text="@string/cached_video"/>
+        app:pil_text="@string/cached_video" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_0.5dp"/>
+        android:layout_height="@dimen/dimen_0.5dp" />
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
+        android:id="@+id/pil_clear_cache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:pil_text="@string/clear_cache"/>
+        app:pil_text="@string/clear_cache">
+
+        <TextView
+            android:id="@+id/tv_cached_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/profile_sub_view_marginRight" />
+
+    </com.fangxu.dota2helper.ui.widget.ProfileItemLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/base_margin"/>
+        android:layout_height="@dimen/base_margin" />
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_my_github"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:pil_text="@string/my_github"/>
+        app:pil_text="@string/my_github" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_0.5dp"/>
+        android:layout_height="@dimen/dimen_0.5dp" />
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
         android:id="@+id/pil_my_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:pil_text="@string/my_project_mainpage"/>
+        app:pil_text="@string/my_project_mainpage" />
 
 </LinearLayout>

@@ -1,16 +1,23 @@
 package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ecloud.pulltozoomview.PullToZoomScrollViewEx;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.widget.ProfileItemLayout;
+import com.fangxu.dota2helper.util.DataClearManager;
+import com.fangxu.dota2helper.util.SnackbarUtil;
+import com.fangxu.dota2helper.util.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +29,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.pull_to_zoom_scroll_view)
     PullToZoomScrollViewEx mZoomScrollViewEx;
 
+    private TextView mCacheSize;
     private long mLastClickTime = 0;
 
     @Override
@@ -54,10 +62,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         ProfileItemLayout toMyProject = ButterKnife.findById(contentView, R.id.pil_my_project);
         ProfileItemLayout toWatchedVideo = ButterKnife.findById(contentView, R.id.pil_watched_video);
         ProfileItemLayout toCachedVideo = ButterKnife.findById(contentView, R.id.pil_cached_video);
+        ProfileItemLayout clearCache = ButterKnife.findById(contentView, R.id.pil_clear_cache);
+        clearCache.setOnClickListener(this);
         toMyGitHub.setOnClickListener(this);
         toMyProject.setOnClickListener(this);
         toWatchedVideo.setOnClickListener(this);
         toCachedVideo.setOnClickListener(this);
+
+        mCacheSize = ButterKnife.findById(contentView, R.id.tv_cached_size);
+        mCacheSize.setText(DataClearManager.getApplicationDataSize(this));
 
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
@@ -91,6 +104,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.pil_cached_video:
                 intent = new Intent(this, CachedVideoListActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.pil_clear_cache:
+                DataClearManager.cleanApplicationData(this.getApplicationContext());
+                mCacheSize.setText(DataClearManager.getApplicationDataSize(this.getApplicationContext()));
+                SnackbarUtil.showSnack(view, R.string.data_cleared);
                 break;
         }
     }

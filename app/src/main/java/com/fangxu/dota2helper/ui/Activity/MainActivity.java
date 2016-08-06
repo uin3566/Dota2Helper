@@ -18,6 +18,7 @@ import com.fangxu.dota2helper.ui.adapter.DrawerAdapter;
 import com.fangxu.dota2helper.util.NavUtil;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.ui.Fragment.NewsFragment;
+import com.fangxu.dota2helper.util.SnackbarUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class MainActivity extends BaseActivity {
     private Fragment mCurrentShowFragment = null;
 
     private int mCurrentDrawerPos = 0;
+    private long firstBackTime = 0;
 
     private Map<Integer, String> mFragmentNameMap = new HashMap<>();
 
@@ -57,7 +59,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -116,6 +118,17 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long secondBackTime = System.currentTimeMillis();
+        if (secondBackTime - firstBackTime > 2000) {
+            SnackbarUtil.showSnack(mRecyclerView, R.string.press_again_to_exit);
+            firstBackTime = secondBackTime;
+        } else {
+            finish();
         }
     }
 

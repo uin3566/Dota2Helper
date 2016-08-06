@@ -1,6 +1,5 @@
 package com.fangxu.dota2helper.ui.Activity;
 
-import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,8 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.fangxu.dota2helper.R;
-import com.fangxu.dota2helper.RxCenter;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -52,11 +51,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-    /**
-     * use SytemBarTintManager
-     *
-     * @param tintDrawable
-     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
     private void setSystemBarTintDrawable(Drawable tintDrawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager mTintManager = new SystemBarTintManager(this);

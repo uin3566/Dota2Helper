@@ -54,6 +54,9 @@ public class NewsInteractor extends BaseInteractor {
                     @Override
                     public void call(NewsList newsList) {
                         if (newsList != null) {
+                            if (!newsList.getNews().isEmpty()) {
+                                mLastNewsNid = newsList.getNews().get(newsList.getNews().size() - 1).getNid();
+                            }
                             mCallback.onGetCache(newsList.getBanner(), newsList.getNews(), false);
                         } else {
                             mCallback.onCacheEmpty();
@@ -145,6 +148,9 @@ public class NewsInteractor extends BaseInteractor {
                     @Override
                     public void call(NewsList newsList) {
                         if (newsList != null) {
+                            if (!newsList.getNews().isEmpty()) {
+                                mLastUpdatesNid = newsList.getNews().get(newsList.getNews().size() - 1).getNid();
+                            }
                             mCallback.onGetCache(newsList.getBanner(), newsList.getNews(), true);
                         } else {
                             mCallback.onCacheEmpty();

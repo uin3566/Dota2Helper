@@ -331,6 +331,18 @@ public class YoukuPluginPlayer extends PluginOverlay implements DetailMessage {
 
             }
         });
+        ImageView backView = (ImageView) containerView.findViewById(R.id.iv_back);
+        backView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Activity activity = YoukuPluginPlayer.this.mActivity;
+                if (activity != null) {
+                    if (!activity.isFinishing()) {
+                        activity.finish();
+                    }
+                }
+            }
+        });
         playTitleTextView = (TextView) containerView
                 .findViewById(R.id.tv_detail_play_title);
         titleLayoutPort = (LinearLayout) containerView
