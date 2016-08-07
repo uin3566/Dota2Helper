@@ -30,7 +30,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        LeakCanary.install(this);
+        LeakCanary.install(this);
         initYoukuConfiguration();
         initClientId();
         initGreenDao();

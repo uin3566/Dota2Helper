@@ -48,15 +48,15 @@ public class NewsDetailActivity extends BaseActivity {
     public static final String VIDEO_DESCRIPTION = "video_description";
     public static final String VIDEO_BACKGROUND = "video_background";
 
-    WebView mWebView;
-    ProgressBar mProgressBar;
+    private WebView mWebView;
+    private ProgressBar mProgressBar;
 
-    YoukuPlayerView mYoukuPlayerView;
-    ImageView mBlurImageView;
-    RelativeLayout mBlurImageContainer;
-    TextView mTitleTextView;
-    TextView mDateTextView;
-    TextView mDescription;
+    private YoukuPlayerView mYoukuPlayerView;
+    private ImageView mBlurImageView;
+    private RelativeLayout mBlurImageContainer;
+    private TextView mTitleTextView;
+    private TextView mDateTextView;
+    private TextView mDescription;
 
     @Bind(R.id.vs_web)
     ViewStub mWebStub;
@@ -346,6 +346,7 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.newsDetailTaskId);
         if (mVideoMode) {
             mYoukuBasePlayerManager.onDestroy();
         }
