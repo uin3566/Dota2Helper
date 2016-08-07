@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/splash1" />
+        android:src="@drawable/splash_background" />
 
     <TextView
         android:id="@+id/splash_app_name"

@@ -4,30 +4,27 @@
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
 
-    <string name="load_fail">加载失败</string>
-    <string name="no_more_content">没有更多</string>
-    <string name="news_detail">详情</string>
-    <string name="video_detail">视频详情</string>
-    <string name="no_related_video">暂无相关视频...</string>
-
     <string name="news">资讯</string>
     <string name="update">更新</string>
     <string name="strategy">攻略</string>
     <string name="video">视频</string>
     <string name="profile">我的</string>
 
-    <string name="anthology">选集</string>
-    <string name="related_video">相关视频</string>
+    <string name="splash_copyright">Copyright &#169; 2016 掌刀 All Rights Reserved\nPowered by Fang.Xu</string>
+    <string name="splash_version">V %1$s</string>
 
     <string name="standard">标  清</string>
     <string name="high">高  清</string>
     <string name="super_high">超  清</string>
     <string name="p1080">1080p</string>
 
-    <string name="splash_copyright">Copyright &#169; 2016 掌刀 All Rights Reserved\nPowered by Fang.Xu</string>
-    <string name="splash_version">V %1$s</string>
-
-    <string name="watch_video_history">观看记录</string>
+    <string name="load_fail">加载失败</string>
+    <string name="no_more_content">没有更多</string>
+    <string name="news_detail">详情</string>
+    <string name="video_detail">视频详情</string>
+    <string name="no_related_video">暂无相关视频...</string>
+    <string name="anthology">选集</string>
+    <string name="related_video">相关视频</string>
     <string name="edit">编辑</string>
     <string name="cancel">取消</string>
     <string name="select_all">全选</string>
@@ -42,15 +39,17 @@
     <string name="not_wifi_download_hint">当前是非wifi环境，下载将消耗流量！</string>
     <string name="begin_all">全部开始</string>
     <string name="pause_all">全部暂停</string>
-    <string name="cached_video">缓存视频</string>
     <string name="caching_video">正在缓存</string>
     <string name="cached_video_count">已缓存</string>
-    <string name="clear_cache">清空缓存</string>
     <string name="data_cleared">缓存已清除！</string>
     <string name="press_again_to_exit">再按一次退出程序</string>
+
+    <string name="watch_video_history">观看记录</string>
+    <string name="cached_video">缓存视频</string>
+    <string name="clear_cache">清空缓存</string>
     <string name="my_github">个人主页</string>
-    <string name="my_github_url">https://github.com/uin3566</string>
     <string name="my_project_mainpage">项目主页</string>
+    <string name="my_github_url">https://github.com/uin3566</string>
     <string name="my_project_mainpage_url">https://github.com/uin3566/Dota2Helper</string>
 
     <string-array name="strategy_type">

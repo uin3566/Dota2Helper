@@ -3,15 +3,12 @@ package com.fangxu.dota2helper.ui.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fangxu.dota2helper.R;
-
-import java.util.Random;
 
 import butterknife.Bind;
 
@@ -26,7 +23,7 @@ public class SplashActivity extends BaseActivity {
     @Bind(R.id.splash_copyright)
     TextView mCopyright;
 
-    private static final int[] splashResId = {R.drawable.splash1, R.drawable.splash2, R.drawable.splash3, R.drawable.splash4};
+    private static final int splashResId = R.drawable.splash_background;
 
     @Override
     public boolean applySystemBarDrawable() {
@@ -42,7 +39,7 @@ public class SplashActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         mCopyright.setText(getCopyright());
         mVersionName.setText(getVersionName());
-        mSplashImage.setImageResource(getSplashResId());
+        mSplashImage.setImageResource(splashResId);
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.splash);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -74,11 +71,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-    }
-
-    private int getSplashResId() {
-        int resId = new Random(System.currentTimeMillis()).nextInt(splashResId.length);
-        return splashResId[resId];
     }
 
     public String getVersionName() {
