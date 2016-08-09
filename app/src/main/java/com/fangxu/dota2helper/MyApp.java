@@ -15,6 +15,8 @@ import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 import com.youku.player.YoukuPlayerBaseConfiguration;
 
+import im.fir.sdk.FIR;
+
 
 /**
  * Created by Xuf on 2016/4/3.
@@ -31,12 +33,14 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 //        LeakCanary.install(this);
+        FIR.init(this);
         initYoukuConfiguration();
         initClientId();
         initGreenDao();
         NavUtil.init(this);
         gson = new Gson();
         sContext = getApplicationContext();
+        MobclickAgent.setCatchUncaughtExceptions(false);
     }
 
     public static String getYoukuClientId() {
