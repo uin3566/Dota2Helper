@@ -1,4 +1,4 @@
-package com.fangxu.dota2helper.eventbus;
+package com.fangxu.dota2helper.rxbus;
 
 import com.fangxu.dota2helper.bean.NewsList;
 

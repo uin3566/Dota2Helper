@@ -7,20 +7,21 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
-import com.fangxu.dota2helper.eventbus.BusProvider;
-import com.fangxu.dota2helper.eventbus.NewsFragmentSelectionEvent;
+import com.fangxu.dota2helper.rxbus.BannerItemClickEvent;
+import com.fangxu.dota2helper.rxbus.NewsFragmentSelectionEvent;
 import com.fangxu.dota2helper.callback.INewsView;
+import com.fangxu.dota2helper.rxbus.OnNextSubscriber;
+import com.fangxu.dota2helper.rxbus.RxBus;
 import com.fangxu.dota2helper.presenter.NewsPresenter;
 import com.fangxu.dota2helper.ui.Activity.NewsDetailActivity;
 import com.fangxu.dota2helper.ui.adapter.CommonRecyclerAdapter;
 import com.fangxu.dota2helper.ui.adapter.NewsAdapter;
 import com.fangxu.dota2helper.util.ToastUtil;
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
 import butterknife.Bind;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Xuf on 2016/4/3.
@@ -45,9 +46,28 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
 
     @Override
     public void init() {
-        BusProvider.getInstance().register(this);
         mPresenter = new NewsPresenter(getActivity(), this);
         setRetainInstance(true);
+        RxBus.getDefault().toObservable(BannerItemClickEvent.class).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new OnNextSubscriber<BannerItemClickEvent>() {
+                    @Override
+                    public void onNext(BannerItemClickEvent bannerItemClickEvent) {
+                        NewsList.NewsEntity bannerEntity = bannerItemClickEvent.mBannerEntity;
+                        toDetail(bannerEntity);
+                    }
+                });
+        RxBus.getDefault().toObservable(NewsFragmentSelectionEvent.class).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new OnNextSubscriber<NewsFragmentSelectionEvent>() {
+                    @Override
+                    public void onNext(NewsFragmentSelectionEvent newsFragmentSelectionEvent) {
+                        mSelected = newsFragmentSelectionEvent.mSelected;
+                        if (mSelected) {
+                            mAdapter.resumeBanner();
+                        } else {
+                            mAdapter.pauseBanner();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -68,19 +88,8 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
 
     @Override
     public void onDestroy() {
-        BusProvider.getInstance().unregister(this);
         mPresenter.destroy();
         super.onDestroy();
-    }
-
-    @Subscribe
-    public void onSelected(NewsFragmentSelectionEvent event) {
-        this.mSelected = event.mSelected;
-        if (this.mSelected) {
-            mAdapter.resumeBanner();
-        } else {
-            mAdapter.pauseBanner();
-        }
     }
 
     @Override
@@ -142,12 +151,6 @@ public class NewsFragment extends RefreshBaseFragment implements INewsView, Comm
         } else {
             mSwipeRefresh.setRefreshing(false);
         }
-    }
-
-    @Subscribe
-    public void onBannerItemClick(BannerItemClickEvent event) {
-        NewsList.NewsEntity bannerEntity = event.mBannerEntity;
-        toDetail(bannerEntity);
     }
 
     @Override

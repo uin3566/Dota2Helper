@@ -1,4 +1,4 @@
-package com.fangxu.dota2helper.eventbus;
+package com.fangxu.dota2helper.rxbus;
 
 /**
  * Created by Administrator on 2016/7/13.

@@ -7,15 +7,17 @@ import android.view.View;
 
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.callback.WatchedVideoSelectCountCallback;
-import com.fangxu.dota2helper.eventbus.BusProvider;
-import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
+import com.fangxu.dota2helper.rxbus.OnNextSubscriber;
+import com.fangxu.dota2helper.rxbus.RxBus;
+import com.fangxu.dota2helper.rxbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
 import com.fangxu.dota2helper.ui.adapter.FloatWatchedVideoAdapter;
 import com.fangxu.dota2helper.util.VideoCacheManager;
-import com.squareup.otto.Subscribe;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2016/7/19.
@@ -24,7 +26,6 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
-        BusProvider.getInstance().register(this);
 
         mAdapter = new FloatWatchedVideoAdapter(this, new WatchedVideoSelectCountCallback() {
             @Override
@@ -46,21 +47,24 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
         });
 
         VideoCacheManager.INSTANCE.getWatchedVideo();
-    }
 
-    @Subscribe
-    public void onGetWatchedVideo(WatchedVideoGetEvent event) {
-        if (event.mSuccess) {
-            List<GreenWatchedVideo> videos = event.mGreenWatchedVideos;
-            if (videos.size() > 0) {
-                mAdapter.setData(videos);
-                mEmptyView.setVisibility(View.GONE);
-            } else {
-                showEmptyView();
-            }
-        } else {
-            showEmptyView();
-        }
+        RxBus.getDefault().toObservable(WatchedVideoGetEvent.class).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new OnNextSubscriber<WatchedVideoGetEvent>() {
+                    @Override
+                    public void onNext(WatchedVideoGetEvent watchedVideoGetEvent) {
+                        if (watchedVideoGetEvent.mSuccess) {
+                            List<GreenWatchedVideo> videos = watchedVideoGetEvent.mGreenWatchedVideos;
+                            if (videos.size() > 0) {
+                                mAdapter.setData(videos);
+                                mEmptyView.setVisibility(View.GONE);
+                            } else {
+                                showEmptyView();
+                            }
+                        } else {
+                            showEmptyView();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -82,7 +86,6 @@ public class WatchedVideoListActivity extends BaseVideoListActivity {
 
     @Override
     protected void onDestroy() {
-        BusProvider.getInstance().unregister(this);
         super.onDestroy();
     }
 }

@@ -1,7 +1,6 @@
 package com.fangxu.dota2helper.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,9 +9,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangxu.dota2helper.R;
 import com.fangxu.dota2helper.bean.NewsList;
-import com.fangxu.dota2helper.eventbus.BannerItemClickEvent;
-import com.fangxu.dota2helper.eventbus.BusProvider;
-import com.fangxu.dota2helper.ui.Activity.ArticalDetailActivity;
+import com.fangxu.dota2helper.rxbus.BannerItemClickEvent;
+import com.fangxu.dota2helper.rxbus.RxBus;
 import com.fangxu.dota2helper.ui.widget.SimpleImageBanner;
 import com.flyco.banner.anim.select.ZoomInEnter;
 import com.flyco.banner.widget.Banner.base.BaseBanner;
@@ -105,7 +103,7 @@ public class NewsAdapter extends CommonRecyclerAdapter<NewsList.NewsEntity> {
                 @Override
                 public void onItemClick(int i) {
                     NewsList.NewsEntity bannerEntity = mBannerEntityList.get(i);
-                    BusProvider.getInstance().post(new BannerItemClickEvent(bannerEntity));
+                    RxBus.getDefault().post(new BannerItemClickEvent(bannerEntity));
                 }
             });
         }

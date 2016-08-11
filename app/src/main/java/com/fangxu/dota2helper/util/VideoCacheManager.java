@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.fangxu.dota2helper.MyApp;
 import com.fangxu.dota2helper.RxCenter;
-import com.fangxu.dota2helper.eventbus.BusProvider;
-import com.fangxu.dota2helper.eventbus.WatchedVideoGetEvent;
+import com.fangxu.dota2helper.rxbus.RxBus;
+import com.fangxu.dota2helper.rxbus.WatchedVideoGetEvent;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideo;
 import com.fangxu.dota2helper.greendao.GreenWatchedVideoDao;
 import com.fangxu.dota2helper.interactor.TaskIds;
@@ -67,12 +67,12 @@ public enum VideoCacheManager {
                 .subscribe(new Action1<List<GreenWatchedVideo>>() {
                     @Override
                     public void call(List<GreenWatchedVideo> greenWatchedVideos) {
-                        BusProvider.getInstance().post(new WatchedVideoGetEvent(true, greenWatchedVideos));
+                        RxBus.getDefault().post(new WatchedVideoGetEvent(true, greenWatchedVideos));
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        BusProvider.getInstance().post(new WatchedVideoGetEvent(false, null));
+                        RxBus.getDefault().post(new WatchedVideoGetEvent(false, null));
                     }
                 }));
     }
