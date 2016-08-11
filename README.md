@@ -33,7 +33,6 @@ App数据均来源于网络，接口都由自己写的后台提供，后台在[�
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [Gson](https://github.com/google/gson)
 * [GreenDao](https://github.com/greenrobot/greenDAO)
-* [Otto](https://github.com/square/otto)
 * [ButterKnife](https://github.com/JakeWharton/butterknife)
 * [Glide](https://github.com/bumptech/glide)
 * [FlycoBanner](https://github.com/H07000223/FlycoBanner_Master)
