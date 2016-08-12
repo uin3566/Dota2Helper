@@ -1,6 +1,7 @@
 package com.fangxu.dota2helper.ui.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -58,17 +59,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mZoomScrollViewEx.setZoomView(zoomView);
         mZoomScrollViewEx.setScrollContentView(contentView);
 
-        ProfileItemLayout toMyGitHub = ButterKnife.findById(contentView, R.id.pil_my_github);
-        ProfileItemLayout toMyProject = ButterKnife.findById(contentView, R.id.pil_my_project);
-        ProfileItemLayout toWatchedVideo = ButterKnife.findById(contentView, R.id.pil_watched_video);
-        ProfileItemLayout toCachedVideo = ButterKnife.findById(contentView, R.id.pil_cached_video);
-        ProfileItemLayout clearCache = ButterKnife.findById(contentView, R.id.pil_clear_cache);
-        clearCache.setOnClickListener(this);
-        toMyGitHub.setOnClickListener(this);
-        toMyProject.setOnClickListener(this);
-        toWatchedVideo.setOnClickListener(this);
-        toCachedVideo.setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_my_github).setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_my_project).setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_watched_video).setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_cached_video).setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_clear_cache).setOnClickListener(this);
+        ButterKnife.findById(contentView, R.id.pil_check_version).setOnClickListener(this);
 
+        TextView currentVersion = ButterKnife.findById(contentView, R.id.tv_current_version);
+        currentVersion.setText(getVersion());
         mCacheSize = ButterKnife.findById(contentView, R.id.tv_cached_size);
         mCacheSize.setText(DataClearManager.getApplicationDataSize(this));
 
@@ -91,12 +90,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
         mLastClickTime = System.currentTimeMillis();
         switch (view.getId()) {
-            case R.id.pil_my_github:
-                MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_GITHUB);
-                break;
-            case R.id.pil_my_project:
-                MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_PROJECT);
-                break;
             case R.id.pil_watched_video:
                 Intent intent = new Intent(this, WatchedVideoListActivity.class);
                 startActivity(intent);
@@ -110,12 +103,31 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 mCacheSize.setText(DataClearManager.getApplicationDataSize(this.getApplicationContext()));
                 SnackbarUtil.showSnack(view, R.string.data_cleared);
                 break;
+            case R.id.pil_check_version:
+                MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_UPDATE);
+                break;
+            case R.id.pil_my_github:
+                MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_GITHUB);
+                break;
+            case R.id.pil_my_project:
+                MyWebPageActivity.toMyPageActivity(this, MyWebPageActivity.MY_PROJECT);
+                break;
         }
     }
 
     @Override
     public void onBackPressed() {
         destroy();
+    }
+
+    private String getVersion() {
+        String versionName = "";
+        try {
+            versionName = "v" + getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
     }
 
     private void destroy() {

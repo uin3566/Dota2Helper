@@ -349,6 +349,10 @@ public class NewsDetailActivity extends BaseActivity {
         RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.newsDetailTaskId);
         if (mVideoMode) {
             mYoukuBasePlayerManager.onDestroy();
+        } else {
+            if (mWebView != null) {
+                mWebView.destroy();
+            }
         }
         super.onDestroy();
     }

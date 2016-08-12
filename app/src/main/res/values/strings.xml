@@ -47,8 +47,11 @@
     <string name="watch_video_history">观看记录</string>
     <string name="cached_video">缓存视频</string>
     <string name="clear_cache">清空缓存</string>
+    <string name="check_version">检查更新</string>
     <string name="my_github">个人主页</string>
     <string name="my_project_mainpage">项目主页</string>
+    <string name="my_update">检查更新</string>
+    <string name="my_update_url">http://fir.im/dota2helper</string>
     <string name="my_github_url">https://github.com/uin3566</string>
     <string name="my_project_mainpage_url">https://github.com/uin3566/Dota2Helper</string>
 

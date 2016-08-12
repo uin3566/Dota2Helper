@@ -44,6 +44,26 @@
 
     <View
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.5dp" />
+
+    <com.fangxu.dota2helper.ui.widget.ProfileItemLayout
+        android:id="@+id/pil_check_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:pil_text="@string/check_version">
+
+        <TextView
+            android:id="@+id/tv_current_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/profile_sub_view_marginRight" />
+
+    </com.fangxu.dota2helper.ui.widget.ProfileItemLayout>
+
+    <View
+        android:layout_width="match_parent"
         android:layout_height="@dimen/base_margin" />
 
     <com.fangxu.dota2helper.ui.widget.ProfileItemLayout

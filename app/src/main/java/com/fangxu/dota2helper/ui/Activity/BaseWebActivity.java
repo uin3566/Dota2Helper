@@ -1,7 +1,10 @@
 package com.fangxu.dota2helper.ui.Activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -47,6 +50,15 @@ public class BaseWebActivity extends BaseActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+            }
+        });
+
+        mWebView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String s, String s1, String s2, String s3, long l) {
+                Uri uri = Uri.parse(s);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
     }

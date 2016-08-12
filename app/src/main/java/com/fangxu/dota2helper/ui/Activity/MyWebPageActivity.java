@@ -14,9 +14,10 @@ public class MyWebPageActivity extends BaseWebActivity {
     public static final String TYPE = "com.fangxu.dota2helper.TYPE";
     public static final int MY_GITHUB = 0;
     public static final int MY_PROJECT = 1;
+    public static final int MY_UPDATE = 2;
 
     public static void toMyPageActivity(Context activity, int type) {
-        if (type != MY_GITHUB && type != MY_PROJECT) {
+        if (type != MY_GITHUB && type != MY_PROJECT && type != MY_UPDATE) {
             return;
         }
         Intent intent = new Intent(activity, MyWebPageActivity.class);
@@ -43,6 +44,9 @@ public class MyWebPageActivity extends BaseWebActivity {
         } else if (type == MY_PROJECT) {
             url = getResources().getString(R.string.my_project_mainpage_url);
             setToolBarTitle(R.string.my_project_mainpage);
+        } else if (type == MY_UPDATE) {
+            url = getResources().getString(R.string.my_update_url);
+            setToolBarTitle(R.string.my_update);
         }
         mWebView.loadUrl(url);
     }
