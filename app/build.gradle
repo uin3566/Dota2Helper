@@ -31,7 +31,7 @@ repositories {
 }
 
 ext {
-    supportVersion = '23.1.1'
+    supportVersion = '23.2.1'
     retrofit2Version = '2.0.2'
     rxjavaVersion = '1.1.0'
     leakcannaryVertion = '1.4-beta2'
