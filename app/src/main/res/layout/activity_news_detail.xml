@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/toolbar"
         layout="@layout/layout_toolbar" />
 
     <ViewStub
