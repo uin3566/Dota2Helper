@@ -7,7 +7,7 @@
 
 ## App下载
 [下载地址](http://fir.im/dota2helper)  
-![image](/screenshots/download.png)
+![image](/screenshots/download_img.png)
 
 ## 描述
 App数据均来源于网络，接口都由自己写的后台提供，后台在[这儿](https://github.com/uin3566/Dota2Server)，使用python编写，由爬虫进程与服务进程组成，部署在百度BAE平台，爬虫每隔一段时间爬取最新的资讯，视频，攻略，更新数据并存入数据库，服务进程等待客户端请求，当有客户端请求时，去数据库取数据并转换成json格式返回给客户端。  
