@@ -676,7 +676,7 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
                                     try {
                                         DisposableStatsUtils.disposeSU(mediaPlayerDelegate.videoInfo, currentPosition);
                                     } catch (Exception e) {
-                                        Toast.makeText(youkuContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(youkuContext, e.getMessage(), Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
                                     }
                                 }
