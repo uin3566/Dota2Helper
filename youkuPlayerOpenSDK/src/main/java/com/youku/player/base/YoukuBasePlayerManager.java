@@ -37,6 +37,7 @@ import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.baseproject.image.ImageResizer;
 import com.baseproject.utils.Logger;
@@ -662,36 +663,41 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
 			mediaPlayerDelegate.mediaPlayer
 					.setOnADCountListener(new OnADCountListener() {
 
-						@Override
-						public void onCountUpdate(final int count) {
+                        @Override
+                        public void onCountUpdate(final int count) {
 
-							position = mediaPlayerDelegate.getCurrentPosition();
-							final int currentPosition = mediaPlayerDelegate.getCurrentPosition() / 1000;
-							getBaseActivity().runOnUiThread(new Runnable() {
-								public void run() {
-									mPluginADPlay.notifyUpdate(count);
-									mYoukuPlayerView.resizeMediaPlayer(false);
+                            position = mediaPlayerDelegate.getCurrentPosition();
+                            final int currentPosition = mediaPlayerDelegate.getCurrentPosition() / 1000;
+                            getBaseActivity().runOnUiThread(new Runnable() {
+                                public void run() {
+                                    mPluginADPlay.notifyUpdate(count);
+                                    mYoukuPlayerView.resizeMediaPlayer(false);
 
-									DisposableStatsUtils.disposeSU(mediaPlayerDelegate.videoInfo, currentPosition);
-								}
-							});
+                                    try {
+                                        DisposableStatsUtils.disposeSU(mediaPlayerDelegate.videoInfo, currentPosition);
+                                    } catch (Exception e) {
+                                        Toast.makeText(youkuContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
 
-						}
-					});
+                        }
+                    });
 			mediaPlayerDelegate.mediaPlayer
 					.setOnNetworkSpeedListener(new OnNetworkSpeedListener() {
 
-						@Override
-						public void onSpeedUpdate(final int count) {
-							if (null != pluginManager) {
-								getBaseActivity().runOnUiThread(new Runnable() {
-									public void run() {
-										pluginManager.onNetSpeedChange(count);
-									}
-								});
-							}
-						}
-					});
+                        @Override
+                        public void onSpeedUpdate(final int count) {
+                            if (null != pluginManager) {
+                                getBaseActivity().runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        pluginManager.onNetSpeedChange(count);
+                                    }
+                                });
+                            }
+                        }
+                    });
 		}
 		mediaPlayerDelegate.mediaPlayer
 				.setOnRealVideoStartListener(new OnRealVideoStartListener() {
@@ -837,33 +843,33 @@ public abstract class YoukuBasePlayerManager extends IBasePlayerManager implemen
 				});
 		mediaPlayerDelegate.mediaPlayer
 				.setOnVideoIndexUpdateListener(new OnVideoIndexUpdateListener() {
-					
-					@Override
-					public void onVideoIndexUpdate(int currentIndex, int ip) {
-						Logger.d("PlayFlow", "onVideoIndexUpdate:"
-								+ currentIndex + "  " + ip);
-						if (mediaPlayerDelegate != null
-								&& mediaPlayerDelegate.videoInfo != null)
-							Track.onVideoIndexUpdate(getBaseActivity(),
-									currentIndex, ip,
-									mediaPlayerDelegate.videoInfo
-											.getCurrentQuality());
-					}
-				});
+
+                    @Override
+                    public void onVideoIndexUpdate(int currentIndex, int ip) {
+                        Logger.d("PlayFlow", "onVideoIndexUpdate:"
+                                + currentIndex + "  " + ip);
+                        if (mediaPlayerDelegate != null
+                                && mediaPlayerDelegate.videoInfo != null)
+                            Track.onVideoIndexUpdate(getBaseActivity(),
+                                    currentIndex, ip,
+                                    mediaPlayerDelegate.videoInfo
+                                            .getCurrentQuality());
+                    }
+                });
 		mediaPlayerDelegate.mediaPlayer
 				.setOnHwDecodeErrorListener(new OnHwDecodeErrorListener() {
 
-					@Override
-					public void OnHwDecodeError() {
-						Logger.d("PlayFlow", "OnHwDecodeError");
+                    @Override
+                    public void OnHwDecodeError() {
+                        Logger.d("PlayFlow", "OnHwDecodeError");
 //						DisposableHttpTask task = new DisposableHttpTask(
 //								URLContainer.getHwErrorUrl());
 //						task.setRequestMethod(DisposableHttpTask.METHOD_POST);
 //						task.start();
-						MediaPlayerConfiguration.getInstance()
-						.setUseHardwareDecode(false);
-					}
-				});
+                        MediaPlayerConfiguration.getInstance()
+                                .setUseHardwareDecode(false);
+                    }
+                });
 	}
 
 	protected void sentonVVBegin() {
