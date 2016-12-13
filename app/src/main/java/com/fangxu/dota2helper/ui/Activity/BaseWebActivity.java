@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.fangxu.dota2helper.R;
@@ -19,12 +21,16 @@ import butterknife.Bind;
  * Created by Administrator on 2016/6/28.
  */
 public class BaseWebActivity extends BaseActivity {
-    @Bind(R.id.webview)
-    WebView mWebView;
+    @Bind(R.id.webview_container)
+    FrameLayout mWebViewContainer;
     @Bind(R.id.webview_progressbar)
     ProgressBar mProgressBar;
 
+    protected WebView mWebView;
+
     protected void configWebView() {
+        mWebView = new WebView(getApplicationContext());
+        mWebViewContainer.addView(mWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("UTF-8");
@@ -76,7 +82,9 @@ public class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        mWebViewContainer.removeAllViews();
         mWebView.destroy();
+        mWebView = null;
         super.onDestroy();
     }
 

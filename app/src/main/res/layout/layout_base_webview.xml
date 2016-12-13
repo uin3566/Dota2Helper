@@ -14,8 +14,8 @@
         android:max="100"
         android:progressDrawable="@drawable/webview_progress_bar"/>
 
-    <WebView
-        android:id="@+id/webview"
+    <FrameLayout
+        android:id="@+id/webview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

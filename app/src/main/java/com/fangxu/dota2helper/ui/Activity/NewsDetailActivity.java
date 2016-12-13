@@ -48,6 +48,7 @@ public class NewsDetailActivity extends BaseActivity {
     public static final String VIDEO_DESCRIPTION = "video_description";
     public static final String VIDEO_BACKGROUND = "video_background";
 
+    private FrameLayout mWebViewContainer;
     private WebView mWebView;
     private ProgressBar mProgressBar;
 
@@ -207,7 +208,9 @@ public class NewsDetailActivity extends BaseActivity {
 
     private void findWebViews() {
         mProgressBar = ButterKnife.findById(this, R.id.webview_progressbar);
-        mWebView = ButterKnife.findById(this, R.id.webview);
+        mWebViewContainer = ButterKnife.findById(this, R.id.webview_container);
+        mWebView = new WebView(getApplicationContext());
+        mWebViewContainer.addView(mWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     private void loadWeb(String html) {
@@ -350,8 +353,10 @@ public class NewsDetailActivity extends BaseActivity {
         if (mVideoMode) {
             mYoukuBasePlayerManager.onDestroy();
         } else {
+            mWebViewContainer.removeAllViews();
             if (mWebView != null) {
                 mWebView.destroy();
+                mWebView = null;
             }
         }
         super.onDestroy();
