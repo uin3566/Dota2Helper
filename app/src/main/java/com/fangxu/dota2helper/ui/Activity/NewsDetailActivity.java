@@ -119,7 +119,7 @@ public class NewsDetailActivity extends BaseActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ToastUtil.showToast(context, "error");
+                        ToastUtil.showToast(context, throwable.getMessage());
                     }
                 }));
     }
@@ -351,9 +351,13 @@ public class NewsDetailActivity extends BaseActivity {
     protected void onDestroy() {
         RxCenter.INSTANCE.removeCompositeSubscription(TaskIds.newsDetailTaskId);
         if (mVideoMode) {
-            mYoukuBasePlayerManager.onDestroy();
+            if (mYoukuBasePlayerManager != null) {
+                mYoukuBasePlayerManager.onDestroy();
+            }
         } else {
-            mWebViewContainer.removeAllViews();
+            if (mWebViewContainer != null) {
+                mWebViewContainer.removeAllViews();
+            }
             if (mWebView != null) {
                 mWebView.destroy();
                 mWebView = null;
