@@ -35,8 +35,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.rv_drawer_recycler)
     RecyclerView mRecyclerView;
 
-    private Fragment mCurrentShowFragment = null;
-
     private int mCurrentDrawerPos = 0;
     private long firstBackTime = 0;
 
@@ -96,7 +94,7 @@ public class MainActivity extends BaseActivity {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 String tag = mFragmentNameMap.get(NavUtil.categoryList[position]);
                 Fragment fragment = getFragmentByName(tag);
-                showFragment(mCurrentShowFragment, fragment, tag);
+                showFragment(fragment, tag);
             }
         });
         mRecyclerView.setAdapter(drawerAdapter);
@@ -104,7 +102,7 @@ public class MainActivity extends BaseActivity {
         initFragmentNameMap();
         String tag = mFragmentNameMap.get(NavUtil.categoryList[0]);
         Fragment fragment = getFragmentByName(tag);
-        showFragment(mCurrentShowFragment, fragment, tag);
+        showFragment(fragment, tag);
     }
 
     @OnClick(R.id.ll_drawer_profile)
@@ -139,23 +137,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void showFragment(Fragment from, Fragment to, String tag) {
+    private void showFragment(Fragment fragmentToShow, String tag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (from == null) {
-            if (to.isAdded()) {
-                transaction.show(to).commit();
-            } else {
-                transaction.add(R.id.fl_content, to, tag).commit();
-            }
-        } else {
-            if (to.isAdded()) {
-                transaction.hide(from).show(to).commit();
-            } else {
-                transaction.hide(from).add(R.id.fl_content, to, tag).commit();
+        for (int i = 0; i < NavUtil.categoryList.length; i++) {
+            String name = mFragmentNameMap.get(NavUtil.categoryList[i]);
+            Fragment fragment = getFragmentByName(name);
+            if (fragment != fragmentToShow && fragment.isAdded()) {
+                transaction.hide(fragment);
             }
         }
-        mCurrentShowFragment = to;
-        if (mCurrentShowFragment instanceof NewsFragment) {
+        if (fragmentToShow.isAdded()) {
+            transaction.show(fragmentToShow).commit();
+        } else {
+            transaction.add(R.id.fl_content, fragmentToShow, tag).commit();
+        }
+        if (fragmentToShow instanceof NewsFragment) {
             RxBus.getDefault().post(new NewsFragmentSelectionEvent(true));
         } else {
             RxBus.getDefault().post(new NewsFragmentSelectionEvent(false));
